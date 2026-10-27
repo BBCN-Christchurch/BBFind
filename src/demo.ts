@@ -1,0 +1,108 @@
+import { emptyListing, type Listing } from "./domain";
+// Fictional examples: no real organisations, contact details or schedules are asserted.
+const make = (id: string, data: Partial<Listing>): Listing => ({
+  ...emptyListing,
+  id,
+  ...data,
+});
+export const demoListings: Listing[] = [
+  make("demo-garden", {
+    name: "The neighbourhood garden",
+    summary: "A little fresh air. A few new friends. Something good growing.",
+    description:
+      "A fictional example of a community garden listing. Discover how a local growing group could share its working bees, seasonal workshops and opportunities to lend a hand. All experience levels would be welcome.",
+    type: "activity",
+    categories: [
+      "Community Groups and Special Interests",
+      "Recreation and Hobbies",
+    ],
+    suburb: "Bryndwr",
+    times: "Example: Saturday mornings",
+    cost: "Example: Free to join",
+    ageGroups: "All ages",
+    accessible: true,
+    accessibility: "Example: Level paths and raised garden beds.",
+    illustration: "garden",
+    featured: true,
+  }),
+  make("demo-art", {
+    name: "Make a little something",
+    summary: "Find your creative spark in a friendly, relaxed art group.",
+    description:
+      "A fictional example of a creative programme. An organisation could use this space to introduce painting, crafts and other ways to make something together. This is demonstration content, not an available programme.",
+    type: "programme",
+    categories: ["Arts, Heritage and Culture", "Education and Learning"],
+    suburb: "Burnside",
+    times: "Example: Wednesday afternoons",
+    cost: "Example: Materials contribution",
+    ageGroups: "Adults",
+    illustration: "art",
+    featured: true,
+  }),
+  make("demo-walk", {
+    name: "A walk & a good conversation",
+    summary: "Explore the neighbourhood, stretch your legs and connect.",
+    description:
+      "A fictional example of a neighbourhood walking activity. Organisers could describe meeting places, pace and accessible route options. Contact details and actual meeting times will appear only when a real listing has been approved.",
+    type: "activity",
+    categories: ["Sports and Exercise", "Health and Wellbeing"],
+    suburb: "Burnside",
+    times: "Example: Weekday mornings",
+    cost: "Example: Free",
+    ageGroups: "Adults and older people",
+    illustration: "walk",
+    featured: true,
+  }),
+  make("demo-hall", {
+    name: "A space to bring people together",
+    summary: "A bright, flexible community hall for your next gathering.",
+    description:
+      "A fictional example of a venue for hire. This listing demonstrates capacity, facilities, room layouts and gallery support. It is not a real venue and cannot be booked.",
+    type: "venue",
+    categories: ["Venues and Facilities"],
+    suburb: "Bryndwr",
+    capacity: 100,
+    roomType: "Community hall",
+    kitchen: true,
+    accessible: true,
+    wifi: true,
+    parking: true,
+    toilets: true,
+    av: true,
+    outdoor: true,
+    facilities: "Example: Tables, chairs, projector and an outdoor courtyard.",
+    spaces: "Example: Main hall — 100 people\nMeeting room — 15 people",
+    suitableFor: "Workshops, community gatherings, celebrations",
+    cost: "Example: From $25 per hour",
+    price: 25,
+    availability: "Example: Weekdays and weekends by arrangement",
+    illustration: "hall",
+    featured: true,
+  }),
+  make("demo-family", {
+    name: "Little people, big adventures",
+    summary: "Play, discover and meet other families close to home.",
+    description:
+      "A fictional example of a family programme, showing how parent organisations can publish individual activities with their own information and images. This is not a real programme.",
+    type: "programme",
+    categories: ["Children, Youth and Families"],
+    suburb: "Bishopdale",
+    ageGroups: "Under 5s and their caregivers",
+    cost: "Example: Gold coin contribution",
+    illustration: "family",
+  }),
+  make("demo-support", {
+    name: "A friendly place to start",
+    summary: "Community connections and a helping hand when you need one.",
+    description:
+      "A fictional example of a local support service. An approved real listing could explain available services, how to make contact and any eligibility information. This demonstration does not provide advice or support.",
+    type: "service",
+    categories: [
+      "Government and Community Support",
+      "Health and Welfare Services",
+    ],
+    suburb: "Harewood",
+    illustration: "support",
+    accessible: true,
+  }),
+];
