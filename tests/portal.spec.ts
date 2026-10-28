@@ -174,7 +174,7 @@ test("owner creates a draft then submits without private contact defaults", asyn
   page,
 }) => {
   const requests = await fixture(page, {});
-  await page.goto("http://127.0.0.1:5174/dashboard");
+  await page.goto("http://127.0.0.1:5184/dashboard");
   await expect(
     page.getByRole("heading", { name: "Our test organisation" }),
   ).toBeVisible();
@@ -228,7 +228,7 @@ test("admin compares content and approves the reviewed proposal", async ({
       },
     ],
   });
-  await page.goto("http://127.0.0.1:5174/admin");
+  await page.goto("http://127.0.0.1:5184/admin");
   await page.getByRole("button", { name: "Review listing & images" }).click();
   await expect(page.getByText("CURRENT PUBLIC CONTENT")).toBeVisible();
   await expect(page.getByText("PROPOSED CONTENT")).toBeVisible();
@@ -245,7 +245,7 @@ test("approved gallery opens and closes with keyboard focus restored", async ({
   page,
 }) => {
   await fixture(page, { publicOnly: true, gallery: true });
-  await page.goto(`http://127.0.0.1:5174/listing/${id}`);
+  await page.goto(`http://127.0.0.1:5184/listing/${id}`);
   const opener = page.getByRole("button", {
     name: "Enlarge A community hall: A room with space to connect",
   });

@@ -14,7 +14,7 @@ A React/TypeScript community directory for BBCN, serving Burnside, Bryndwr and t
 
 **No audit or revision-history feature:** each listing/image retains only its current approved content and one proposed change. Pending changes never replace approved public content automatically. This follows the user's update to the original brief.
 
-This is an implementation for local validation and connection to BBCN-owned services. Hosted Supabase credentials, production email delivery and live deployments have not been configured or verified. Complete the release checklist in DEPLOYMENT.md before accepting real registrations. BBCN’s public mark and brand green are incorporated as documented in BRANDING.md; the directory illustrations and BBFind identity remain original designs.
+This is an implementation for local validation and connection to BBCN-owned services. The hosted Supabase database and functions are installed and their public-access/authentication gates verified. Production email, the account portal and public site deployment remain pending; see DEPLOYMENT_STATUS.md. Complete the release checklist in DEPLOYMENT.md before accepting real registrations. BBCN’s public mark and brand green are incorporated as documented in BRANDING.md; the directory illustrations and BBFind identity remain original designs.
 
 ## Local development
 
@@ -69,7 +69,9 @@ If Chromium is already installed, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/c
 
 ## Handover
 
-- [Supabase setup: start here](SUPABASE_SETUP.md)
+- [Current hosted deployment status](DEPLOYMENT_STATUS.md)
+- [Email setup: next step](EMAIL_SETUP.md)
+- [Supabase setup reference](SUPABASE_SETUP.md)
 - [Live setup steps](LIVE_SETUP.md)
 - [Database and access controls](DATABASE.md)
 - [Administrator setup](ADMIN_SETUP.md)

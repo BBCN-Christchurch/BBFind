@@ -43,6 +43,14 @@ try {
       if (settings.ok) {
         const data = await settings.json();
         console.log(
+          "Public signup:",
+          data.disable_signup === true
+            ? "closed (pre-launch)"
+            : data.disable_signup === false
+              ? "enabled"
+              : "check Supabase Authentication settings",
+        );
+        console.log(
           "Email verification required:",
           data.mailer_autoconfirm === false
             ? "yes"

@@ -2,7 +2,7 @@
 
 **Start with [SUPABASE_SETUP.md](SUPABASE_SETUP.md)** for the exact dashboard steps, activation of Codex variables, and the choice of agent-assisted or manual installation.
 
-The application and its local service tests are prepared. These steps establish BBCN's own hosting/account configuration; no live registration or production email delivery is claimed yet.
+The hosted Supabase database and functions are now installed: see [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md). BBCN has DNS access and can now follow [EMAIL_SETUP.md](EMAIL_SETUP.md) to configure a free sending provider. Live registration and production email delivery are not yet claimed operational.
 
 ## 1. Supabase project
 

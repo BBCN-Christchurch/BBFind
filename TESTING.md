@@ -18,7 +18,7 @@ The browser workflow verifies real sign-in, listing creation, private image uplo
 
 ## Remaining live checks
 
-- A BBCN-owned hosted Supabase project and authorised deployment access are still required. Hosted verification/reset delivery and application notifications need an actual configured free SMTP/email provider and sending domain.
+- The hosted Supabase database/functions and public security gates are now installed and verified. Hosted verification/reset delivery and application notifications still need a configured free SMTP/email provider and sending domain.
 - Local Edge Runtime compatibility is verified; measure representative image workloads under the hosted Free plan's actual CPU/memory enforcement before launch.
 - GitHub source/CI publication and Pages/portal deployment are tracked separately; a local pass does not prove a GitHub run or live website passed.
 - A production backup/export/restore drill and BBCN's privacy contact, region and retention decisions remain release requirements.
@@ -31,3 +31,9 @@ See LIVE_SETUP.md and DEPLOYMENT.md before opening real registrations.
 The user confirmed that the URL/key were entered in Codex environment settings. Neither variable was injected into the actual running shell when checked; `npm run setup:check` correctly returned an unavailable-configuration result without displaying values. The improved guide explains saving/activating the existing bindings rather than duplicating them. A personal management-token requirement is saved for optional agent-assisted installation; no hosted schema or account settings were changed.
 
 The read-only checker is also exercised against the compact real-service stack. Public-key configuration safety is enforced at build and runtime; mock browser fixtures use clearly synthetic publishable-key syntax.
+
+## Hosted setup validation (28 October, after settings publication)
+
+The Supabase public configuration and management access became available. A read-only inspection found an empty, healthy BBFind project. The initial schema was installed transactionally and recorded, Auth minimum length raised to 12 with verification retained, public signup closed for pre-launch setup, and both functions deployed ACTIVE. Public directory/category reads, private-table denials, SQL privilege checks and unauthenticated/origin/method function gates passed. No real email, account creation or authenticated hosted image upload was attempted; SMTP and the portal are still pending. See DEPLOYMENT_STATUS.md for scope and EMAIL_SETUP.md for the next prerequisite.
+
+Browser contract tests explicitly clear inherited live client configuration, use separate ports 5183/5184, and never reuse a development server. The real-service UI harness also forces its local origin/base path. This keeps local tests on fixtures/temporary services when the cloud environment has live Supabase variables.

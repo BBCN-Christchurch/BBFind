@@ -1,6 +1,6 @@
 # Deployment and release checklist
 
-For the first Supabase connection, use [SUPABASE_SETUP.md](SUPABASE_SETUP.md). This document is the later deployment/reference checklist.
+The hosted schema and functions are installed; see [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md). The next step is [EMAIL_SETUP.md](EMAIL_SETUP.md). For the installation reference, use [SUPABASE_SETUP.md](SUPABASE_SETUP.md).
 
 ## Configuration and hosting
 

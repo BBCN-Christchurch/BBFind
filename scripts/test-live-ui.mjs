@@ -19,6 +19,9 @@ export async function testLiveUI(config, owner, admin, check, imageBytes) {
         VITE_SUPABASE_URL: config.API_URL,
         VITE_SUPABASE_ANON_KEY: config.ANON_KEY,
         VITE_ENABLE_ACCOUNTS: "true",
+        VITE_ACCOUNT_PORTAL_URL: "",
+        VITE_BASE_PATH: "/",
+        VITE_SITE_URL: "",
       },
     },
   );

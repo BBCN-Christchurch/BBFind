@@ -1,5 +1,7 @@
 # Supabase setup — start here
 
+**Update, 28 October:** the settings are now active and the hosted database/functions have been installed. See [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md). Do not rerun the initial migration. The next step is [EMAIL_SETUP.md](EMAIL_SETUP.md).
+
 You have already registered with Supabase and added the public URL/key in **Codex environment settings**. Keep those existing entries; do not add duplicates.
 
 There are three separate things:
