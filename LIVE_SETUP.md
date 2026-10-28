@@ -1,5 +1,7 @@
 # Connect BBCN's live services
 
+**Start with [SUPABASE_SETUP.md](SUPABASE_SETUP.md)** for the exact dashboard steps, activation of Codex variables, and the choice of agent-assisted or manual installation.
+
 The application and its local service tests are prepared. These steps establish BBCN's own hosting/account configuration; no live registration or production email delivery is claimed yet.
 
 ## 1. Supabase project

@@ -14,7 +14,8 @@
     "test:backend": "node scripts/test-backend.mjs",
     "test:sql": "bash scripts/test-sql.sh",
     "test:integration": "node scripts/test-local-stack.mjs",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"supabase/functions/**/*.{ts,json}\" \"scripts/*.mjs\" \"tests/**/*.{ts,mjs,yml}\" \"*.json\" \"*.ts\" \".github/workflows/*.yml\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"supabase/functions/**/*.{ts,json}\" \"scripts/*.mjs\" \"tests/**/*.{ts,mjs,yml}\" \"*.json\" \"*.ts\" \".github/workflows/*.yml\"",
+    "setup:check": "node --use-env-proxy --env-file-if-exists=.env scripts/check-supabase.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.3.0",

@@ -1,5 +1,7 @@
 # Deployment and release checklist
 
+For the first Supabase connection, use [SUPABASE_SETUP.md](SUPABASE_SETUP.md). This document is the later deployment/reference checklist.
+
 ## Configuration and hosting
 
 The same Vite codebase builds a public directory and a separate account portal. GitHub Pages hosts public browsing only; its workflow forces `VITE_ENABLE_ACCOUNTS=false`. Use a separately hosted free static portal (Cloudflare Pages is the proposed option) for password/account/admin transactions, following GitHub Pages guidance. BBCN must authorise/connect the hosting accounts; no deployment has been performed from this workspace.

@@ -224,6 +224,16 @@ try {
     },
     90,
   );
+  await exec(process.execPath, ["scripts/check-supabase.mjs"], {
+    env: {
+      ...process.env,
+      VITE_SUPABASE_URL: "http://127.0.0.1:55421",
+      VITE_SUPABASE_ANON_KEY: anon,
+    },
+  });
+  console.log(
+    "Read-only Supabase setup checker passed against the local service API.",
+  );
   await new Promise((resolve, reject) => {
     const p = spawn(process.execPath, ["scripts/test-backend.mjs"], {
       stdio: "inherit",

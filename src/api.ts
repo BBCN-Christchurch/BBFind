@@ -7,11 +7,16 @@ import type {
   ManagedListing,
 } from "./domain";
 import { demoListings } from "./demo";
-const url = import.meta.env.VITE_SUPABASE_URL,
-  key = import.meta.env.VITE_SUPABASE_ANON_KEY;
-export const configured = Boolean(url && key);
-export const db = configured
-  ? createClient(url, key, { auth: { detectSessionInUrl: true } })
+import { publicSupabaseConfig } from "./supabase-config";
+const connection = publicSupabaseConfig(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY,
+);
+export const configured = connection.configured;
+export const db = connection.configured
+  ? createClient(connection.url, connection.key, {
+      auth: { detectSessionInUrl: true },
+    })
   : null;
 export const accountsEnabled = import.meta.env.VITE_ENABLE_ACCOUNTS === "true";
 export const portalUrl = import.meta.env.VITE_ACCOUNT_PORTAL_URL as

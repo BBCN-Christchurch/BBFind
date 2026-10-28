@@ -31,6 +31,7 @@ Without environment variables the directory uses fictional examples. Real listin
 cp .env.example .env
 # Edit only the public client variables; never put privileged keys in VITE_*.
 npm run dev
+npm run setup:check
 npm run build
 npm run preview
 ```
@@ -68,6 +69,7 @@ If Chromium is already installed, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/c
 
 ## Handover
 
+- [Supabase setup: start here](SUPABASE_SETUP.md)
 - [Live setup steps](LIVE_SETUP.md)
 - [Database and access controls](DATABASE.md)
 - [Administrator setup](ADMIN_SETUP.md)
