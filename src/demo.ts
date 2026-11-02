@@ -364,4 +364,121 @@ export const demoListings: Listing[] = [
     sourceUrl: church,
     demoImages: [churchPhoto],
   }),
+  make("demo-elim-burnside", {
+    name: "Elim Church — Burnside",
+    organisation_name: "Elim Church Christchurch",
+    type: "organisation",
+    suburb: "Burnside",
+    address: "193 Grahams Road, Christchurch",
+    publicPhone: "03 358 4486",
+    summary:
+      "Elim Church Christchurch's Burnside campus, welcoming people of different backgrounds and stages of life.",
+    description:
+      "Elim Church Christchurch is one church community across Belfast, Burnside and the city. Its official Burnside campus page lists Sunday worship at 193 Grahams Road, with a babies room and programmes for preschool, primary, intermediate and high-school ages. Check the campus page for current services and programme arrangements.",
+    categories: [
+      "Churches and Faith Communities",
+      "Community Groups and Special Interests",
+    ],
+    times:
+      "The Burnside campus lists a Sunday service at 10am. Confirm current services and children's programme arrangements with the church.",
+    website: "https://www.elimchristchurch.org/location-burnside",
+    sourceUrl: "https://www.elimchristchurch.org/location-burnside",
+    demoImages: [
+      image(
+        "demo/elim-christchurch-logo.png",
+        "Elim Church Christchurch logo",
+        "The official Elim Church logo published on the Christchurch church website.",
+        "Logo published by Elim Church Christchurch.",
+        "https://www.elimchristchurch.org/",
+        "logo",
+        true,
+      ),
+    ],
+  }),
+  make("demo-burnside-tennis", {
+    name: "Burnside Park Tennis Club",
+    type: "organisation",
+    suburb: "Burnside",
+    address: "336 Avonhead Road, Burnside, Christchurch 8053",
+    summary:
+      "Tennis and pickleball in Burnside Park, with senior and junior membership, social play and coaching.",
+    description:
+      "Burnside Park Tennis Club's official club site describes ten tennis courts with hard-court and astroturf surfaces, floodlights for club-night play and four pickleball courts. It welcomes senior and junior members and offers organised play and group or private coaching. Access is via the driveway at 336 Avonhead Road; use the club's official site for current memberships, casual play and booking arrangements.",
+    categories: ["Sports and Exercise", "Recreation and Hobbies"],
+    cost: "Membership, casual-play and coaching charges vary; check the club's current information.",
+    website: "https://clubspark.kiwi/BurnsideParkTennisClub",
+    sourceUrl: "https://clubspark.kiwi/BurnsideParkTennisClub",
+    demoImages: [
+      image(
+        "demo/burnside-tennis-logo.png",
+        "Burnside Park Tennis Club logo",
+        "The club's official logo from its ClubSpark website.",
+        "Logo: Burnside Park Tennis Club.",
+        "https://clubspark.kiwi/BurnsideParkTennisClub",
+        "logo",
+      ),
+    ],
+  }),
+  make("demo-plunket-fendalton", {
+    name: "Whānau Āwhina Plunket — Fendalton Clinic",
+    organisation_name: "Whānau Āwhina Plunket",
+    type: "service",
+    suburb: "Fendalton",
+    address: "183 Fendalton Road, Fendalton, Christchurch",
+    publicPhone: "0800 184 803",
+    publicEmail: "southern.region@plunket.org.nz",
+    summary:
+      "A nearby Plunket clinic offering appointments and a monthly drop-in for families with young children.",
+    description:
+      "Plunket's official finder lists the Fendalton clinic at 183 Fendalton Road. It publishes a monthly drop-in clinic as well as appointments, flat/ramp access and street parking. Families in Burnside and Bryndwr can contact Plunket to find the appropriate clinic or service for them. The clinic page also lists PlunketLine, 0800 933 922, for round-the-clock advice and support.",
+    categories: ["Children, Youth and Families", "Health and Welfare Services"],
+    times:
+      "Published drop-in: second Monday of the month, 9:30am–noon, or by appointment. Check the official page before attending; public holiday closures apply.",
+    ageGroups: "Families and whānau with young children",
+    accessibility: "The clinic lists flat/ramp access and street parking only.",
+    accessible: true,
+    website:
+      "https://www.plunket.org.nz/plunket-near-me/fendalton-plunket-clinic/",
+    sourceUrl:
+      "https://www.plunket.org.nz/plunket-near-me/fendalton-plunket-clinic/",
+    demoImages: [
+      image(
+        "demo/plunket-logo.png",
+        "Emblem used on the Whānau Āwhina Plunket website",
+        "Emblem published on Plunket's official website.",
+        "Emblem: Whānau Āwhina Plunket, from its official website assets.",
+        "https://www.plunket.org.nz/",
+        "logo",
+      ),
+    ],
+  }),
+  make("demo-kendal-medical", {
+    name: "Kendal Medical Centre",
+    type: "business",
+    suburb: "Burnside",
+    address: "66 Kendal Avenue, Burnside, Christchurch",
+    publicPhone: "03 358 8266",
+    summary:
+      "A locally owned general practice on Kendal Avenue offering GP and nurse services for local families.",
+    description:
+      "Kendal Medical Centre describes itself as a small, owner-operated general practice in Burnside, beside Kendal Pharmacy at 66 Kendal Avenue. Its published services include general practice and nurse care, skin checks and travel consultations. The practice publishes local enrolment criteria and a current fees page; contact reception to check eligibility, appointment availability and charges. Use the practice's official contact and patient-portal routes for medical enquiries.",
+    categories: [
+      "Local Businesses and Services",
+      "Health and Welfare Services",
+    ],
+    times:
+      "Monday–Friday, 8:30am–5:30pm. Saturday morning hours vary by season; confirm current opening times with the practice.",
+    cost: "Consultation and service fees apply. See the practice's current fees page.",
+    website: "https://www.kendalmedical.co.nz/",
+    sourceUrl: "https://www.kendalmedical.co.nz/",
+    demoImages: [
+      image(
+        "demo/kendal-medical-website.jpg",
+        "Foxglove flowers and a bee from Kendal Medical Centre's website",
+        "Illustrative flower photograph used on the practice website.",
+        "Image published on Kendal Medical Centre's official website.",
+        "https://www.kendalmedical.co.nz/",
+      ),
+    ],
+  }),
 ];

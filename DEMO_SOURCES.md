@@ -19,6 +19,10 @@ Checked on **3 November 2026**. These are editorial sample listings for the `dem
 | Aurora Centre (rates/capacity left unspecified) | https://www.burnside.school.nz/about-the-aurora-centre/ |
 | Specialist Music Programme | https://www.burnside.school.nz/specialist-music-programme/ |
 | Wairarapa Cobham Intermediate | https://www.cobham.school.nz/ |
+| Elim Church — Burnside (193 Grahams Road, Sunday 10am) | https://www.elimchristchurch.org/location-burnside |
+| Burnside Park Tennis Club | https://clubspark.kiwi/BurnsideParkTennisClub and https://clubspark.kiwi/BurnsideParkTennisClub/Contact |
+| Whānau Āwhina Plunket — Fendalton Clinic | https://www.plunket.org.nz/plunket-near-me/fendalton-plunket-clinic/ |
+| Kendal Medical Centre (business) | https://www.kendalmedical.co.nz/ and https://www.kendalmedical.co.nz/contact/ |
 
 Public office contact details are included only where published on these sites. Personal contacts from account registration and personal mobile numbers were not used. Published times and fees can change; listing pages link to the current source. A zero venue rate/capacity represents unspecified information, never free hire or zero capacity. Only the two programmes explicitly described as free are marked Free.
 
@@ -39,6 +43,10 @@ Copyright and trademarks remain with the respective owners. Source attribution d
 | `public/demo/burnside-high-logo.svg` | https://www.burnside.school.nz/wp-content/themes/burnside/assets/img/watermark.svg |
 | `public/demo/aurora-exterior.png` | https://www.burnside.school.nz/wp-content/uploads/2025/05/aurora_center-1.png |
 | `public/branding/bbcn-logo.png` | Official BBCN mark, documented in BRANDING.md; https://bbcn.org.nz/ |
+| `public/demo/elim-christchurch-logo.png` | https://static.wixstatic.com/media/833054_8026d36f355749cebd8bf0c8d0135abb~mv2.png |
+| `public/demo/burnside-tennis-logo.png` | https://clubspark.kiwi/Library/BurnsideParkTennisClub?command=Proxy&lang=en&type=Favicons&currentFolder=%2F&hash=485835458b6bbb2eb3d04adc91271c3ec3184f21&fileName=BPTC%20Logo%20PNG.png |
+| `public/demo/kendal-medical-website.jpg` | https://www.kendalmedical.co.nz/wp-content/uploads/2025/06/foxandbee.jpg |
+| `public/demo/plunket-logo.png` | https://www.plunket.org.nz/_resources/themes/plunket/assets/plunket-logo-static.png |
 
 The large duplicate St Timothy's exterior and a navigation-arrow SVG were excluded. The retained church photograph is credited as a venue photograph, not a programme-session photograph. No photos of identifiable children were selected.
 
@@ -49,3 +57,13 @@ The large duplicate St Timothy's exterior and a navigation-arrow SVG were exclud
 `dev:app` is retained for the existing isolated browser fixtures; it must not be used with live service settings for a sample demo. Local real-service tests use disposable credentials and services. Do not run migrations, email configuration scripts or hosted administrative commands against production from this demo task.
 
 Cloudflare can build a preview of `demo`; its production branch remains `main`. The GitHub public-site workflow is guarded against dispatching this demo branch to the production Pages site. No real organisation account, image record or listing was created by this work.
+
+## Additional sample notes
+
+The Plunket listing uses the officially listed nearby **Fendalton clinic**, with
+its actual Fendalton address and suburb, rather than asserting an unverified
+Burnside clinic. Kendal Medical is explicitly a **business**, under Local
+Businesses and Services and Health and Welfare Services. Its flower image is the
+illustrative photograph used on the practice website; it is not presented as the
+clinic premises. Elim, the tennis club and Plunket use official website branding.
+No unknown membership, consultation or clinic charge is labelled Free.

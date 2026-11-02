@@ -1,6 +1,6 @@
 # BBFind — your community, connected
 
-**Demo branch:** this version uses 13 sample listings based on official public
+**Demo branch:** this version uses 17 sample listings based on official public
 information about Burnside and Bryndwr organisations, with locally stored real
 venue photos, logos and programme artwork. See [DEMO_SOURCES.md](DEMO_SOURCES.md)
 for sources, image credits and scope. It is not an approved live directory.

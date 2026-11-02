@@ -62,7 +62,7 @@ test("free-only search combines with other filters and survives refresh", async 
   await expect(page.locator(".listing-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Clear all filters" }).click();
   await expect(page.getByLabel("Free only", { exact: true })).not.toBeChecked();
-  await expect(page.locator(".listing-card")).toHaveCount(13);
+  await expect(page.locator(".listing-card")).toHaveCount(17);
 });
 test("venue filters combine and clear", async ({ page }) => {
   await page.goto("/venues");
@@ -167,4 +167,29 @@ test("keyboard skip link reaches main content", async ({ page }) => {
   ).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("#main")).toBeFocused();
+});
+test("requested community samples are searchable and Kendal Medical is a business", async ({
+  page,
+}) => {
+  for (const [query, name] of [
+    ["Elim", "Elim Church — Burnside"],
+    ["Burnside Park Tennis", "Burnside Park Tennis Club"],
+    ["Plunket", "Whānau Āwhina Plunket — Fendalton Clinic"],
+    ["Kendal Medical", "Kendal Medical Centre"],
+  ]) {
+    await page.goto(`/find?q=${encodeURIComponent(query)}`);
+    await expect(
+      page.getByRole("heading", { name, exact: true }),
+    ).toBeVisible();
+    await expect(page.locator(".listing-card")).toHaveCount(1);
+  }
+  await page.goto("/find?category=Local%20Businesses%20and%20Services");
+  await expect(page.locator(".listing-card")).toHaveCount(1);
+  await expect(page.locator(".card-type")).toHaveText("business");
+  await page
+    .getByRole("link", { name: "Kendal Medical Centre", exact: true })
+    .click();
+  await expect(
+    page.getByRole("link", { name: "View the official information" }),
+  ).toHaveAttribute("href", "https://www.kendalmedical.co.nz/");
 });
