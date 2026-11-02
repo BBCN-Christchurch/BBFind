@@ -1,5 +1,20 @@
 # Validation record — updated 2 November 2026
 
+## Demo branch — 3 November 2026
+
+The community demo uses 13 source-linked samples and local, credited images.
+Its default build/dev launcher ignores inherited production client settings and
+removes privileged mail/management bindings from child processes. A browser smoke
+check observed zero remote service requests while browsing the sample directory,
+venue photos and disabled registration page. The built bundle was checked for
+absence of the inherited Supabase URL, public key and account-portal URL.
+
+The browser suite has 42 desktop/mobile checks on this branch, including real local
+venue-image loading, source credits and keyboard lightbox navigation. Connected
+owner/admin contracts still use explicit local fixtures, not production data.
+The unit suite also checks public provenance and the presence of each image asset.
+The main release's validation record follows below.
+
 | Check | Result and scope |
 | --- | --- |
 | Dependency install / build | Frozen installation, TypeScript and production build passed. |

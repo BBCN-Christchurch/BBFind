@@ -317,7 +317,8 @@ export default function App() {
         <div className="demo-banner">
           <span className="demo-dot" /> Demonstration directory{" "}
           <span>
-            — listings are fictional examples, not real services or venues.
+            — real community examples from public sources, for demonstration
+            only.
           </span>
         </div>
       )}
@@ -591,7 +592,7 @@ function Home() {
               <p>
                 {configured
                   ? "Meet the people and places making our community a little brighter."
-                  : "A glimpse of what your directory could look like. All examples below are fictional."}
+                  : "Explore sample listings based on real Burnside and Bryndwr organisations. Check current details with each organisation."}
               </p>
             </div>
             <Link className="arrow-link" to="/find">
@@ -690,6 +691,7 @@ function Home() {
   );
 }
 export function ListingCard({ item }: { item: Listing }) {
+  const demoImage = !configured ? item.demoImages?.[0] : undefined;
   const [cover, setCover] = useState("");
   useEffect(() => {
     let live = true;
@@ -715,8 +717,13 @@ export function ListingCard({ item }: { item: Listing }) {
         tabIndex={-1}
         aria-hidden="true"
       >
-        {cover ? (
-          <img src={cover} alt="" loading="lazy" />
+        {cover || demoImage ? (
+          <img
+            src={cover || `${import.meta.env.BASE_URL}${demoImage!.path}`}
+            alt=""
+            loading="lazy"
+            className={`${demoImage?.kind === "logo" || demoImage?.kind === "artwork" ? "demo-logo" : ""} ${demoImage?.dark ? "demo-logo-dark" : ""}`}
+          />
         ) : (
           <Illustration kind={item.illustration || "support"} />
         )}
@@ -745,7 +752,11 @@ export function ListingCard({ item }: { item: Listing }) {
         <div className="card-bottom">
           <span>{item.categories[0]}</span>
           {item.type === "venue" ? (
-            <span>{item.capacity} people</span>
+            <span>
+              {item.capacity
+                ? `${item.capacity} people`
+                : "Enquire for capacity"}
+            </span>
           ) : (
             <ArrowRight size={16} />
           )}
@@ -1073,8 +1084,11 @@ function ListingPage() {
               </span>
             )}
           </div>
-          {images.length ? (
-            <ImageGallery images={images} />
+          {images.length || (!configured && item.demoImages?.length) ? (
+            <ImageGallery
+              images={images}
+              demoImages={!configured ? item.demoImages : undefined}
+            />
           ) : (
             <div className="detail-illustration">
               <Illustration kind={item.illustration || "support"} />
@@ -1086,6 +1100,23 @@ function ListingPage() {
           )}
           <h2>A little about us</h2>
           <p className="preserve">{item.description}</p>
+          {!configured && item.sourceUrl && (
+            <div className="demo-source">
+              <strong>About this sample listing</strong>
+              <p>
+                Based on public information checked {item.sourceChecked}. It has
+                not been submitted or approved by the organisation or BBCN.
+                Please confirm current times, costs and availability directly.
+              </p>
+              <a
+                href={publicUrl(item.sourceUrl)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View the official information <ArrowUpRight size={15} />
+              </a>
+            </div>
+          )}
           {item.ageGroups && (
             <>
               <h3>Who it’s for</h3>
@@ -1097,7 +1128,12 @@ function ListingPage() {
               <h2>A space that fits</h2>
               <div className="facility-grid">
                 {[
-                  ["Capacity", `${item.capacity} people`],
+                  [
+                    "Capacity",
+                    item.capacity
+                      ? `${item.capacity} people`
+                      : "Please enquire",
+                  ],
                   ["Space", item.roomType],
                   ["Kitchen", item.kitchen ? "Available" : "Not specified"],
                   ["Accessible", item.accessible ? "Yes" : "Not specified"],
@@ -1218,8 +1254,8 @@ function ListingPage() {
             )}
           {!configured && (
             <Message>
-              This is a fictional example. No bookings, activities or contact
-              details are available.
+              Community sample listing. Check the organisation’s official
+              website for current information and enquiries.
             </Message>
           )}
           <button

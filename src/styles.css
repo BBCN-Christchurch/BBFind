@@ -1253,7 +1253,46 @@ footer {
   font-size: 0.72rem;
   font-weight: 700;
 }
+.card-visual img.demo-logo,
+.gallery-grid .demo-logo img {
+  object-fit: contain;
+  padding: 24px;
+  background: #fffefa;
+}
+.card-visual img.demo-logo-dark,
+.gallery-grid .demo-logo-dark img,
+.lightbox-image.demo-logo-dark {
+  background: #244b3e;
+}
+.gallery-credits {
+  margin: 12px 0 24px;
+}
+.gallery-credits p {
+  font-size: 0.76rem;
+  margin: 5px 0;
+}
+.gallery-credits a,
+.demo-source a {
+  color: var(--green);
+  text-decoration: underline;
+}
+.demo-source {
+  padding: 20px;
+  margin: 25px 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--cream);
+}
+.demo-source p {
+  font-size: 0.88rem;
+}
 .dashboard-heading {
+  .demo-source a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+  }
   display: flex;
   justify-content: space-between;
   align-items: center;

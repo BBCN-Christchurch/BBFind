@@ -1,11 +1,18 @@
 # BBFind — your community, connected
 
+**Demo branch:** this version uses 13 sample listings based on official public
+information about Burnside and Bryndwr organisations, with locally stored real
+venue photos, logos and programme artwork. See [DEMO_SOURCES.md](DEMO_SOURCES.md)
+for sources, image credits and scope. It is not an approved live directory.
+`npm run dev` and `npm run build` deliberately use sample data with accounts off,
+even if the host has production Supabase variables. Production remains on `main`.
+
 A React/TypeScript community directory for BBCN, serving Burnside, Bryndwr and the wider Christchurch community.
 
 ## What is built
 
 - Responsive public home, Find It search, categories, listing details, venue filters, Get Found, About and privacy pages.
-- Clearly labelled fictional examples when no backend is configured; no fake registration or booking actions.
+- Clearly labelled community samples with official source links; no fake registration or booking actions.
 - Supabase account registration, verified-email login, reset, private account settings, export/deletion requests and multiple listings per organisation.
 - Owner forms for organisations, programmes, activities, services, businesses and venues, including rooms, facilities and public contacts entered separately from registration contacts.
 - Admin review, request changes/reject/approve, organisation suspension, listing publication controls, featured/verified placement and category/location management.
@@ -27,7 +34,9 @@ npm ci
 npm run dev
 ```
 
-Without environment variables the directory uses fictional examples. Real listing data replaces all demo data when Supabase is configured; an API failure never silently substitutes sample listings.
+The default demo commands ignore connected-service variables and use local
+community samples. The isolated test fixture server uses `dev:app` with explicitly
+supplied temporary configuration. Do not connect the demo to production accounts.
 
 ```sh
 cp .env.example .env

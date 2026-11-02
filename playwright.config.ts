@@ -11,7 +11,7 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "npm run dev -- --port 5183 --strictPort",
+      command: "npm run dev:app -- --port 5183 --strictPort",
       url: "http://127.0.0.1:5183",
       reuseExistingServer: false,
       env: {
@@ -24,7 +24,7 @@ export default defineConfig({
       },
     },
     {
-      command: "npm run dev -- --port 5184 --strictPort",
+      command: "npm run dev:app -- --port 5184 --strictPort",
       url: "http://127.0.0.1:5184",
       reuseExistingServer: false,
       env: {

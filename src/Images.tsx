@@ -8,20 +8,33 @@ import {
   X,
 } from "lucide-react";
 import { imageUrl, ownerImages, proposeImage, rpc, uploadImage } from "./api";
-import { type ImageRecord, type ImageMeta, friendlyStatus } from "./domain";
+import {
+  type DemoImage,
+  type ImageRecord,
+  type ImageMeta,
+  friendlyStatus,
+  publicUrl,
+} from "./domain";
 import { Message } from "./App";
 export function StoredImage({
   path,
   alt,
   onClick,
+  local = false,
 }: {
   path: string;
   alt: string;
   onClick?: () => void;
+  local?: boolean;
 }) {
   const [url, setUrl] = useState(""),
     [error, setError] = useState(false);
   useEffect(() => {
+    setError(false);
+    if (local) {
+      setUrl(`${import.meta.env.BASE_URL}${path}`);
+      return;
+    }
     let active = true;
     void imageUrl(path)
       .then((u) => {
@@ -31,7 +44,7 @@ export function StoredImage({
     return () => {
       active = false;
     };
-  }, [path]);
+  }, [path, local]);
   if (error)
     return <span className="image-unavailable">Image unavailable</span>;
   return url ? (
@@ -42,12 +55,49 @@ export function StoredImage({
     </span>
   );
 }
-export function ImageGallery({ images }: { images: ImageRecord[] }) {
-  const sorted = [...images].sort(
+export function ImageGallery({
+  images,
+  demoImages = [],
+}: {
+  images: ImageRecord[];
+  demoImages?: DemoImage[];
+}) {
+  type GalleryImage = {
+    id: string;
+    alt: string;
+    caption: string;
+    detail: string;
+    thumbnail: string;
+    large: string;
+    local: boolean;
+    credit?: string;
+    sourceUrl?: string;
+    kind?: DemoImage["kind"];
+    dark?: boolean;
+  };
+  const approved = [...images].sort(
     (a, b) =>
       Number(b.published?.primary) - Number(a.published?.primary) ||
       (a.published?.position || 0) - (b.published?.position || 0),
   );
+  const sorted: GalleryImage[] = demoImages.length
+    ? demoImages.map((image) => ({
+        ...image,
+        id: image.path,
+        detail: image.path,
+        thumbnail: image.path,
+        large: image.path,
+        local: true,
+      }))
+    : approved.map((image) => ({
+        id: image.id,
+        alt: image.published?.alt || "",
+        caption: image.published?.caption || "",
+        detail: image.detail_path,
+        thumbnail: image.thumbnail_path,
+        large: image.large_path,
+        local: false,
+      }));
   const [current, setCurrent] = useState<number | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -59,19 +109,37 @@ export function ImageGallery({ images }: { images: ImageRecord[] }) {
       <div className="gallery-grid">
         {sorted.map((img, i) => (
           <button
-            className={i === 0 ? "gallery-featured" : ""}
+            className={`${i === 0 ? "gallery-featured" : ""} ${img.kind === "logo" || img.kind === "artwork" ? "demo-logo" : ""} ${img.dark ? "demo-logo-dark" : ""}`}
             key={img.id}
             onClick={() => setCurrent(i)}
-            aria-label={`Enlarge ${img.published?.alt || "image"}${img.published?.caption ? ": " + img.published.caption : ""}`}
+            aria-label={`Enlarge ${img.alt || "image"}${img.caption ? ": " + img.caption : ""}`}
           >
             <StoredImage
-              path={i === 0 ? img.detail_path : img.thumbnail_path}
-              alt={img.published?.alt || ""}
+              path={i === 0 ? img.detail : img.thumbnail}
+              alt={img.alt}
+              local={img.local}
             />
-            {img.published?.caption && <span>{img.published.caption}</span>}
+            {img.caption && <span>{img.caption}</span>}
           </button>
         ))}
       </div>
+      {demoImages.length > 0 && (
+        <div className="gallery-credits">
+          {demoImages.map((image) => (
+            <p key={image.path}>
+              {image.credit}{" "}
+              <a
+                href={publicUrl(image.sourceUrl)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Image source
+              </a>
+              .
+            </p>
+          ))}
+        </div>
+      )}
       <dialog
         className="lightbox"
         ref={dialog}
@@ -100,10 +168,13 @@ export function ImageGallery({ images }: { images: ImageRecord[] }) {
         </button>
         {current !== null && sorted[current] && (
           <>
-            <div className="lightbox-image">
+            <div
+              className={`lightbox-image ${sorted[current].dark ? "demo-logo-dark" : ""}`}
+            >
               <StoredImage
-                path={sorted[current].large_path}
-                alt={sorted[current].published?.alt || ""}
+                path={sorted[current].large}
+                alt={sorted[current].alt}
+                local={sorted[current].local}
               />
             </div>
             <div className="lightbox-caption">
@@ -117,7 +188,7 @@ export function ImageGallery({ images }: { images: ImageRecord[] }) {
                 <ChevronLeft />
               </button>
               <div>
-                <p>{sorted[current].published?.caption}</p>
+                <p>{sorted[current].caption}</p>
                 <small>
                   {current + 1} of {sorted.length}
                 </small>

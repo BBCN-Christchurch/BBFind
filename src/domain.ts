@@ -102,6 +102,15 @@ export function isFreeListing(
     (listing.type !== "venue" || listing.price === 0)
   );
 }
+export type DemoImage = {
+  path: string;
+  alt: string;
+  caption: string;
+  credit: string;
+  sourceUrl: string;
+  kind?: "logo" | "photo" | "artwork";
+  dark?: boolean;
+};
 export type Listing = ListingData & {
   id: string;
   organisation_id?: string;
@@ -109,6 +118,9 @@ export type Listing = ListingData & {
   verified?: boolean;
   illustration?: string;
   organisation_name?: string;
+  demoImages?: DemoImage[];
+  sourceUrl?: string;
+  sourceChecked?: string;
 };
 export type ImageRecord = {
   id: string;

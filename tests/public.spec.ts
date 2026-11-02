@@ -12,10 +12,10 @@ test("home connects search to matching listings", async ({ page }) => {
   await page.getByRole("searchbox").count();
   await page
     .getByLabel("Search organisations, activities or services")
-    .fill("garden");
+    .fill("nexus english");
   await page.getByRole("button", { name: "Find it", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: "The neighbourhood garden" }),
+    page.getByRole("heading", { name: "Nexus Free English Classes" }),
   ).toBeVisible();
   await expect(page.locator(".listing-card")).toHaveCount(1);
 });
@@ -24,13 +24,18 @@ test("category filters and listing detail work", async ({ page }) => {
   await page
     .getByLabel("Category", { exact: true })
     .selectOption("Arts, Heritage and Culture");
-  await expect(page.locator(".listing-card")).toHaveCount(1);
-  await page.getByRole("link", { name: "Make a little something" }).click();
+  await expect(page.locator(".listing-card")).toHaveCount(2);
+  await page
+    .getByRole("link", { name: "Specialist Music Programme", exact: true })
+    .click();
   await expect(
-    page.getByRole("heading", { name: "Make a little something", exact: true }),
+    page.getByRole("heading", {
+      name: "Specialist Music Programme",
+      exact: true,
+    }),
   ).toBeVisible();
   await expect(
-    page.getByText("This is a fictional example.", { exact: false }),
+    page.getByText("About this sample listing", { exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "A little about us" }),
@@ -43,41 +48,82 @@ test("free-only search combines with other filters and survives refresh", async 
   await page.getByLabel("Free only", { exact: true }).check();
   await expect(page.locator(".listing-card")).toHaveCount(2);
   await expect(page.locator(".free-label")).toHaveCount(2);
-  await page.getByLabel("Search the directory").fill("garden");
+  await page.getByLabel("Search the directory").fill("nexus english");
   await expect(page.locator(".listing-card")).toHaveCount(1);
   await page.reload();
   await expect(page.getByLabel("Free only", { exact: true })).toBeChecked();
-  await expect(page.getByLabel("Search the directory")).toHaveValue("garden");
+  await expect(page.getByLabel("Search the directory")).toHaveValue(
+    "nexus english",
+  );
   await expect(page.locator(".listing-card")).toHaveCount(1);
   await page
     .getByLabel("Neighbourhood", { exact: true })
-    .selectOption("Burnside");
+    .selectOption("Bryndwr");
   await expect(page.locator(".listing-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Clear all filters" }).click();
   await expect(page.getByLabel("Free only", { exact: true })).not.toBeChecked();
-  await expect(page.locator(".listing-card")).toHaveCount(6);
+  await expect(page.locator(".listing-card")).toHaveCount(13);
 });
 test("venue filters combine and clear", async ({ page }) => {
   await page.goto("/venues");
-  await expect(page.locator(".listing-card")).toHaveCount(1);
+  await expect(page.locator(".listing-card")).toHaveCount(3);
   await page.getByLabel("People to accommodate").fill("150");
   await expect(page.locator(".listing-card")).toHaveCount(0);
-  await page.getByLabel("People to accommodate").fill("50");
+  await page.getByLabel("People to accommodate").fill("30");
   await page.getByLabel("Kitchen facilities", { exact: true }).check();
   await expect(page.locator(".listing-card")).toHaveCount(1);
   await page.getByLabel("Maximum hourly price").fill("10");
   await expect(page.locator(".listing-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Clear all filters" }).click();
-  await expect(page.locator(".listing-card")).toHaveCount(1);
+  await expect(page.locator(".listing-card")).toHaveCount(3);
 });
 test("search handles a typo and a no-result query", async ({ page }) => {
-  await page.goto("/find?q=gardem");
+  await page.goto("/find?q=nexuz english");
   await expect(page.locator(".listing-card")).toHaveCount(1);
   await page.getByLabel("Search the directory").fill("nonexistentxyz");
   await expect(page.locator(".listing-card")).toHaveCount(0);
   await expect(
     page.getByRole("heading", { name: "A little room for discovery." }),
   ).toBeVisible();
+});
+test("real demo venue photos load locally with source credits and a keyboard gallery", async ({
+  page,
+}) => {
+  await page.goto("/listing/demo-aurora-centre");
+  const opener = page.getByRole("button", {
+    name: /^Enlarge Aurora Centre exterior/,
+  });
+  await expect(opener.locator("img")).toHaveAttribute(
+    "src",
+    "/demo/aurora-exterior.png",
+  );
+  await expect
+    .poll(() =>
+      opener
+        .locator("img")
+        .evaluate(
+          (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
+        ),
+    )
+    .toBe(true);
+  await expect(
+    page.getByRole("link", { name: "View the official information" }),
+  ).toHaveAttribute(
+    "href",
+    "https://www.burnside.school.nz/about-the-aurora-centre/",
+  );
+  await expect(
+    page.getByRole("link", { name: "Image source", exact: true }),
+  ).toHaveCount(2);
+  await opener.click();
+  await expect(
+    page.getByRole("dialog", { name: "Image gallery" }),
+  ).toBeVisible();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByRole("dialog").getByText("2 of 2")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await expect(opener).toBeFocused();
 });
 test("demo never pretends to accept registration", async ({ page }) => {
   await page.goto("/account?mode=register");
