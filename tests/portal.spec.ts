@@ -1,6 +1,6 @@
 // UI contract tests with mocked transport. SQL security is tested separately
 // against real PostgreSQL; these tests do not claim hosted Auth/Storage work.
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page, type Route } from "@playwright/test";
 import { emptyListing } from "../src/domain";
 import { Image } from "imagescript";
 const owner = "00000000-0000-4000-8000-000000000001",
@@ -20,11 +20,13 @@ async function fixture(
     publicOnly = false,
     gallery = false,
     items = [],
+    publicRows,
   }: {
     admin?: boolean;
     publicOnly?: boolean;
     gallery?: boolean;
     items?: any[];
+    publicRows?: any[];
   } = {},
 ) {
   const requests: { name: string; body: any }[] = [];
@@ -78,7 +80,7 @@ async function fixture(
       if (name === "is_admin") data = admin;
       else if (name === "directory_search")
         data = publicOnly
-          ? [
+          ? publicRows || [
               {
                 id,
                 data: content,
@@ -181,6 +183,9 @@ test("owner creates a draft then submits without private contact defaults", asyn
   await page
     .getByRole("button", { name: "Create a listing", exact: true })
     .click();
+  await expect(
+    page.getByRole("button", { name: "Save draft to add photos", exact: true }),
+  ).toBeVisible();
   await page
     .getByLabel("Listing name", { exact: true })
     .fill("Our local programme");
@@ -191,13 +196,79 @@ test("owner creates a draft then submits without private contact defaults", asyn
     .getByLabel("Full description")
     .fill("This programme is a friendly way to connect and learn together.");
   await page.getByLabel("Education and Learning", { exact: true }).check();
-  await page.getByRole("button", { name: "Save draft", exact: true }).click();
+  await page.getByRole("button", { name: "Free", exact: true }).click();
+  await expect(
+    page.getByLabel("Cost or membership information", { exact: true }),
+  ).toHaveValue("Free");
+  await page.getByRole("button", { name: "Free", exact: true }).click();
+  await expect(
+    page.getByLabel("Cost or membership information", { exact: true }),
+  ).toHaveValue("");
+  await page.getByRole("button", { name: "Free", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Save draft to add photos", exact: true })
+    .click();
   await expect(
     page.getByRole("heading", { name: "Photos & images" }),
   ).toBeVisible();
+  const imageInput = page.getByLabel("Image file", { exact: true });
+  const submit = page.getByRole("button", {
+    name: "Submit for review",
+    exact: true,
+  });
+  expect(
+    await imageInput.evaluate((element) => {
+      const button = [...document.querySelectorAll("button")].find((b) =>
+        b.textContent?.includes("Submit for review"),
+      )!;
+      return Boolean(
+        element.compareDocumentPosition(button) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+    }),
+  ).toBe(true);
+  expect(await page.locator("form form").count()).toBe(0);
+  await expect(submit).toHaveAttribute("form");
+  expect(
+    requests.find((r) => r.name === "save_listing")?.body.content.cost,
+  ).toBe("Free");
   expect(
     requests.find((r) => r.name === "save_listing")?.body.content.publicEmail,
   ).toBe("");
+  let imageRequest: Route | undefined;
+  await page.route(
+    "http://127.0.0.1:54321/functions/v1/process-image",
+    (route) => {
+      imageRequest = route;
+    },
+  );
+  await imageInput.setInputFiles({
+    name: "example-photo.png",
+    mimeType: "image/png",
+    buffer: Buffer.from(await new Image(300, 200).fill(0x789366ff).encode()),
+  });
+  await page
+    .getByLabel("Image description (alt text)", { exact: true })
+    .fill("A community test photo");
+  await page
+    .getByRole("button", { name: "Upload for review", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Finish uploading photos…", exact: true }),
+  ).toBeDisabled();
+  await expect.poll(() => Boolean(imageRequest)).toBe(true);
+  expect(requests.some((r) => r.name === "save_listing" && r.body.submit)).toBe(
+    false,
+  );
+  await imageRequest!.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ id: "processed-test-image" }),
+  });
+  await expect(
+    page.getByText(/Image uploaded privately and sent for review/),
+  ).toBeVisible();
+  await expect(submit).toBeEnabled();
   await page
     .getByRole("button", { name: "Submit for review", exact: true })
     .click();
@@ -208,6 +279,34 @@ test("owner creates a draft then submits without private contact defaults", asyn
   expect(
     requests.filter((r) => r.name === "save_listing").at(-1)?.body.submit,
   ).toBe(true);
+});
+test("free venues fit a maximum price without treating unknown prices as free", async ({
+  page,
+}) => {
+  const row = (id: string, name: string, cost: string, price: number) => ({
+    id,
+    data: { ...content, type: "venue", name, cost, price },
+    featured: false,
+    verified: false,
+    organisation_name: null,
+  });
+  await fixture(page, {
+    publicOnly: true,
+    publicRows: [
+      row("free-room", "Free community room", "Free", 0),
+      row("unknown-room", "Room with unknown cost", "", 0),
+      row("paid-room", "Paid community room", "$25 per hour", 25),
+    ],
+  });
+  await page.goto("http://127.0.0.1:5184/venues?price=0");
+  await expect(page.locator(".listing-card")).toHaveCount(1);
+  await expect(
+    page.getByRole("heading", { name: "Free community room" }),
+  ).toBeVisible();
+  await page.getByLabel("Maximum hourly price ($)").fill("25");
+  await expect(page.locator(".listing-card")).toHaveCount(2);
+  await page.getByLabel("Free only", { exact: true }).check();
+  await expect(page.locator(".listing-card")).toHaveCount(1);
 });
 test("admin compares content and approves the reviewed proposal", async ({
   page,

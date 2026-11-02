@@ -55,6 +55,7 @@ import {
 } from "./api";
 import {
   initialCategories,
+  isFreeListing,
   matchesSearch,
   publicUrl,
   suburbs,
@@ -732,6 +733,7 @@ export function ListingCard({ item }: { item: Listing }) {
               <CheckCircle2 size={13} /> Verified
             </span>
           )}
+          {isFreeListing(item) && <span className="free-label">Free</span>}
         </span>
         <h3>
           <Link to={`/listing/${item.id}`}>
@@ -804,6 +806,7 @@ function Directory({ venues = false }: { venues?: boolean }) {
         matchesSearch(l, q) &&
         (!category || l.categories.includes(category)) &&
         (!suburb || l.suburb === suburb) &&
+        (!params.get("free") || isFreeListing(l)) &&
         (!params.get("capacity") ||
           l.capacity >= Number(params.get("capacity"))) &&
         (!params.get("kitchen") || l.kitchen) &&
@@ -819,6 +822,7 @@ function Directory({ venues = false }: { venues?: boolean }) {
             .toLowerCase()
             .includes(params.get("use")!.toLowerCase())) &&
         (!params.get("price") ||
+          isFreeListing(l) ||
           (l.price > 0 && l.price <= Number(params.get("price")))),
     )
     .sort((a, b) =>
@@ -913,6 +917,14 @@ function Directory({ venues = false }: { venues?: boolean }) {
                 <option key={s}>{s}</option>
               ))}
             </select>
+          </label>
+          <label className="check-label">
+            <input
+              type="checkbox"
+              checked={Boolean(params.get("free"))}
+              onChange={(e) => set("free", e.target.checked ? "true" : "")}
+            />
+            Free only
           </label>
           {venues && (
             <>

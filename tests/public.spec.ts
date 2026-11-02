@@ -36,6 +36,27 @@ test("category filters and listing detail work", async ({ page }) => {
     page.getByRole("heading", { name: "A little about us" }),
   ).toBeVisible();
 });
+test("free-only search combines with other filters and survives refresh", async ({
+  page,
+}) => {
+  await page.goto("/find");
+  await page.getByLabel("Free only", { exact: true }).check();
+  await expect(page.locator(".listing-card")).toHaveCount(2);
+  await expect(page.locator(".free-label")).toHaveCount(2);
+  await page.getByLabel("Search the directory").fill("garden");
+  await expect(page.locator(".listing-card")).toHaveCount(1);
+  await page.reload();
+  await expect(page.getByLabel("Free only", { exact: true })).toBeChecked();
+  await expect(page.getByLabel("Search the directory")).toHaveValue("garden");
+  await expect(page.locator(".listing-card")).toHaveCount(1);
+  await page
+    .getByLabel("Neighbourhood", { exact: true })
+    .selectOption("Burnside");
+  await expect(page.locator(".listing-card")).toHaveCount(0);
+  await page.getByRole("button", { name: "Clear all filters" }).click();
+  await expect(page.getByLabel("Free only", { exact: true })).not.toBeChecked();
+  await expect(page.locator(".listing-card")).toHaveCount(6);
+});
 test("venue filters combine and clear", async ({ page }) => {
   await page.goto("/venues");
   await expect(page.locator(".listing-card")).toHaveCount(1);

@@ -140,16 +140,21 @@ export function ImageManager({
   listingId,
   admin = false,
   onChange,
+  onBusyChange,
 }: {
   listingId: string;
   admin?: boolean;
   onChange?: () => void;
+  onBusyChange?: (busy: boolean) => void;
 }) {
   const [images, setImages] = useState<ImageRecord[]>([]),
     [message, setMessage] = useState(""),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    onBusyChange?.(busy);
+  }, [busy, onBusyChange]);
   async function refresh() {
     try {
       setImages(await ownerImages(listingId));

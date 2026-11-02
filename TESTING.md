@@ -3,8 +3,8 @@
 | Check | Result and scope |
 | --- | --- |
 | Dependency install / build | Frozen installation, TypeScript and production build passed. |
-| Unit/media tests | 14 passed: search, URL/form validation, image dimensions and metadata removal, malformed images, multipart body limits, and rejection of privileged keys/insecure URLs in public configuration. |
-| Browser contract tests | 36 desktop/mobile tests passed, including submitted registration/reset notices, cleared private fields, error/retry states, verification resends, expired-link feedback and automated accessibility scans of the public pages and submitted notice. Portal/Auth contract tests use mocked transport. |
+| Unit/media tests | 15 passed: search, explicit Free classification versus unknown/conditional fees, URL/form validation, image dimensions and metadata removal, malformed images, multipart body limits, and rejection of privileged keys/insecure URLs in public configuration. |
+| Browser contract tests | 40 desktop/mobile tests passed, including photos before submission, preventing submission during uploads, Free selection and combined/persistent search filters, submitted registration/reset notices, cleared private fields, error/retry states, verification resends, expired-link feedback and automated accessibility scans of the public pages and submitted notice. Portal/Auth contract tests use mocked transport. |
 | SQL/RLS | 45 passed on PostgreSQL 17, using a disposable auth/storage schema harness. |
 | Actual Supabase service integration | 50 passed against PostgreSQL 17, GoTrue Auth, PostgREST, Storage, Edge Runtime and Mailpit. Includes actual HTTP/storage permissions, local verification/reset email delivery and owner/admin/visitor browser workflows with no API mocks. |
 | Dependency scanning | No vulnerabilities in the last successful audit; rerun with package-lock changes. |

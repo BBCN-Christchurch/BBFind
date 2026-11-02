@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { listingSchema, matchesSearch, publicUrl } from "./domain";
+import {
+  isFreeListing,
+  listingSchema,
+  matchesSearch,
+  publicUrl,
+} from "./domain";
 import { demoListings } from "./demo";
 describe("directory data and search", () => {
   it("validates complete sample listing shapes", () => {
@@ -25,5 +30,25 @@ describe("directory data and search", () => {
   it("only renders HTTP or HTTPS links", () => {
     expect(publicUrl("javascript:alert(1)")).toBeUndefined();
     expect(publicUrl("https://bbcn.org.nz/")).toBe("https://bbcn.org.nz/");
+  });
+  it("only classifies explicit free costs, never unknown fees or free trials", () => {
+    const listing = demoListings[0];
+    expect(isFreeListing({ ...listing, cost: " Free " })).toBe(true);
+    for (const cost of [
+      "",
+      "Free trial then $10",
+      "Free for members",
+      "Donation required",
+    ])
+      expect(isFreeListing({ ...listing, cost })).toBe(false);
+    expect(
+      isFreeListing({ ...listing, type: "venue", cost: "Free", price: 25 }),
+    ).toBe(false);
+    expect(
+      isFreeListing({ ...listing, type: "venue", cost: "Free", price: 0 }),
+    ).toBe(true);
+    expect(
+      isFreeListing({ ...listing, type: "venue", cost: "", price: 0 }),
+    ).toBe(false);
   });
 });

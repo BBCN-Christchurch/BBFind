@@ -94,6 +94,14 @@ export const listingSchema = z.object({
   spaces: z.string().max(3000),
 });
 export type ListingData = z.infer<typeof listingSchema>;
+export function isFreeListing(
+  listing: Pick<ListingData, "cost" | "type" | "price">,
+) {
+  return (
+    listing.cost.trim().toLowerCase() === "free" &&
+    (listing.type !== "venue" || listing.price === 0)
+  );
+}
 export type Listing = ListingData & {
   id: string;
   organisation_id?: string;

@@ -10,6 +10,8 @@ A React/TypeScript community directory for BBCN, serving Burnside, Bryndwr and t
 - Owner forms for organisations, programmes, activities, services, businesses and venues, including rooms, facilities and public contacts entered separately from registration contacts.
 - Admin review, request changes/reject/approve, organisation suspension, listing publication controls, featured/verified placement and category/location management.
 - Private image uploads, trusted metadata-stripping processing, thumbnails, featured images, captions, reordering, removal, individually reviewed replacements and accessible galleries.
+- Photos before final listing submission: new listings can save a draft to unlock uploads, then submit when ready. The final action waits for active uploads to finish.
+- A Free cost toggle, public Free badges and a shareable Free-only search filter. Only an explicit Free cost qualifies; unknown prices, conditional offers and paid venue rates do not. Cost changes use the existing listing approval process.
 - SQL access controls, tests, CI and an opt-in GitHub Pages deployment workflow.
 
 **No audit or revision-history feature:** each listing/image retains only its current approved content and one proposed change. Pending changes never replace approved public content automatically. This follows the user's update to the original brief.

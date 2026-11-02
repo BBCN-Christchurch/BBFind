@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowRight,
@@ -27,6 +27,7 @@ import {
 import {
   emptyListing,
   friendlyStatus,
+  isFreeListing,
   listingSchema,
   listingTypes,
   type ListingData,
@@ -702,18 +703,21 @@ export function ListingEditor({
   admin = false,
 }: {
   item?: ManagedListing;
-  onSaved: (id: string) => void;
+  onSaved: (id: string) => void | Promise<void>;
   onCancel: () => void;
   admin?: boolean;
 }) {
   const { categories, locations } = useApp();
+  const formId = useId();
+  const costId = `${formId}-cost`;
   const [data, setData] = useState<ListingData>({
       ...emptyListing,
       ...item?.proposed,
     }),
     [error, setError] = useState(""),
     [message, setMessage] = useState(""),
-    [busy, setBusy] = useState(false);
+    [busy, setBusy] = useState(false),
+    [imagesBusy, setImagesBusy] = useState(false);
   const locked = item?.status === "pending_review" && !admin;
   useEffect(() => {
     setData({ ...emptyListing, ...item?.proposed });
@@ -722,6 +726,7 @@ export function ListingEditor({
     setData((d) => ({ ...d, [name]: value }));
   }
   async function save(submit: boolean) {
+    if (busy || imagesBusy || locked) return;
     setError("");
     setMessage("");
     const parsed = listingSchema.safeParse(data);
@@ -736,7 +741,7 @@ export function ListingEditor({
     setBusy(true);
     try {
       const id = await saveListing(item?.id || null, parsed.data, submit);
-      onSaved(id);
+      await onSaved(id);
       setMessage(
         submit
           ? "Submitted to BBCN for review. Your current approved content is unchanged."
@@ -751,7 +756,12 @@ export function ListingEditor({
   const input = (
     name: keyof ListingData,
     label: string,
-    opts: { area?: boolean; type?: string; help?: string } = {},
+    opts: {
+      area?: boolean;
+      type?: string;
+      help?: string;
+      disabled?: boolean;
+    } = {},
   ) => (
     <label>
       {label}
@@ -764,6 +774,7 @@ export function ListingEditor({
       ) : (
         <input
           type={opts.type || "text"}
+          disabled={opts.disabled}
           value={String(data[name])}
           onChange={(e) =>
             field(
@@ -807,6 +818,7 @@ export function ListingEditor({
         </Message>
       )}
       <form
+        id={formId}
         onSubmit={(e) => {
           e.preventDefault();
           void save(true);
@@ -881,7 +893,35 @@ export function ListingEditor({
             {input("times", "Opening hours or meeting times", { area: true })}
             <div className="form-grid">
               {input("ageGroups", "Age groups catered for")}
-              {input("cost", "Cost or membership information")}
+              <div className="cost-field">
+                <label htmlFor={costId}>Cost or membership information</label>
+                <div className="cost-options">
+                  <input
+                    id={costId}
+                    value={data.cost}
+                    maxLength={300}
+                    onChange={(e) => field("cost", e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className={`button small ${isFreeListing(data) ? "" : "secondary"}`}
+                    aria-pressed={isFreeListing(data)}
+                    onClick={() =>
+                      setData((d) => ({
+                        ...d,
+                        cost: isFreeListing(d) ? "" : "Free",
+                        price: d.type === "venue" ? 0 : d.price,
+                      }))
+                    }
+                  >
+                    {isFreeListing(data) && <Check size={16} />} Free
+                  </button>
+                </div>
+                <small>
+                  Choose Free when there is no compulsory charge. Leave the cost
+                  blank if it is not yet known.
+                </small>
+              </div>
             </div>
             {input("accessibility", "Accessibility information", {
               area: true,
@@ -915,7 +955,13 @@ export function ListingEditor({
                 {input(
                   "price",
                   "Indicative hourly price ($, 0 if not supplied)",
-                  { type: "number" },
+                  {
+                    type: "number",
+                    disabled: isFreeListing(data),
+                    help: isFreeListing(data)
+                      ? "Free is selected. Clear it to enter a hire price."
+                      : undefined,
+                  },
                 )}
                 {input("bookingUrl", "Booking information link", {
                   type: "url",
@@ -956,29 +1002,62 @@ export function ListingEditor({
               })}
             </section>
           )}
-          <div className="form-actions">
-            <button
-              type="button"
-              className="button secondary"
-              onClick={() => void save(false)}
-            >
-              <Save size={17} />
-              Save draft
-            </button>
-            <button type="submit" className="button">
-              <Send size={17} />
-              {busy ? "Saving…" : "Submit for review"}
-            </button>
-          </div>
         </fieldset>
       </form>
       {item ? (
-        <ImageManager listingId={item.id} admin={false} />
+        <ImageManager
+          listingId={item.id}
+          admin={false}
+          onBusyChange={setImagesBusy}
+        />
       ) : (
-        <Message>
-          Save your listing first, then add its logo, primary image and gallery.
-        </Message>
+        <section className="image-manager">
+          <h2>Photos & images</h2>
+          <p>
+            Save a draft to add your logo, primary image and gallery before
+            submitting. Saving a draft does not publish your listing or send it
+            for review. Photos are optional.
+          </p>
+          <button
+            type="button"
+            className="button secondary"
+            disabled={busy}
+            onClick={() => void save(false)}
+          >
+            <Save size={17} /> Save draft to add photos
+          </button>
+        </section>
       )}
+      <div className="listing-submit-section">
+        <p>
+          When your listing and photos are ready, submit your listing for BBCN
+          review. Upload each selected photo before submitting; photos have
+          their own approval process.
+        </p>
+        <div className="form-actions">
+          <button
+            type="button"
+            className="button secondary"
+            disabled={busy || locked || imagesBusy}
+            onClick={() => void save(false)}
+          >
+            <Save size={17} /> Save draft
+          </button>
+          <button
+            type="submit"
+            form={formId}
+            className="button"
+            disabled={busy || locked || imagesBusy}
+          >
+            <Send size={17} />
+            {imagesBusy
+              ? "Finish uploading photos…"
+              : busy
+                ? "Saving…"
+                : "Submit for review"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

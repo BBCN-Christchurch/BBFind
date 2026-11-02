@@ -1213,6 +1213,46 @@ footer {
   margin-bottom: 0;
   font-size: 0.8rem;
 }
+.cost-field > label {
+  display: block;
+  margin-bottom: 8px;
+}
+.cost-options {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+.cost-options input {
+  min-width: 0;
+  flex: 1;
+}
+.cost-options .button {
+  flex-shrink: 0;
+}
+.cost-field small {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.listing-submit-section {
+  border-top: 1px solid var(--line);
+  margin-top: 30px;
+  padding-top: 20px;
+}
+.listing-submit-section .form-actions {
+  margin-bottom: 0;
+}
+.free-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--soft);
+  color: var(--green);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
 .dashboard-heading {
   display: flex;
   justify-content: space-between;
