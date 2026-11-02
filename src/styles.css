@@ -1153,6 +1153,66 @@ footer {
 .auth-switch .text-button {
   font-size: 0.8rem;
 }
+.email-submitted {
+  max-width: 720px;
+  padding-top: 60px;
+  padding-bottom: 70px;
+}
+.email-submitted-card {
+  padding: clamp(24px, 5vw, 48px);
+}
+.email-submitted-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 26px;
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--green);
+}
+.email-submitted h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 16px 0;
+}
+.email-submitted .lead {
+  font-size: 1.1rem;
+}
+.email-submitted-address {
+  color: var(--green);
+  overflow-wrap: anywhere;
+}
+.email-next-steps {
+  margin: 26px 0;
+  padding: 22px 22px 22px 42px;
+  border-radius: 10px;
+  background: var(--cream);
+  line-height: 1.65;
+}
+.email-next-steps li + li {
+  margin-top: 10px;
+}
+.email-next-steps li::marker {
+  color: var(--green);
+  font-weight: 700;
+}
+.email-delivery-help {
+  font-size: 0.9rem;
+}
+.email-submitted-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 28px 0;
+}
+.email-submitted-note {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  margin-bottom: 0;
+  font-size: 0.8rem;
+}
 .dashboard-heading {
   display: flex;
   justify-content: space-between;

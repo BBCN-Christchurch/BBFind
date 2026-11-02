@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowRight,
@@ -7,6 +7,7 @@ import {
   FilePlus2,
   LayoutDashboard,
   LogOut,
+  MailCheck,
   Save,
   Send,
   Settings,
@@ -33,13 +34,139 @@ import {
 } from "./domain";
 import { AccountLink, Message, useApp } from "./App";
 import { ImageManager } from "./Images";
+type EmailSubmission = {
+  kind: "registration" | "verification" | "reset";
+  email: string;
+};
+function emailRedirect(path: "dashboard" | "reset") {
+  return new URL(`${import.meta.env.BASE_URL}${path}`, location.origin).href;
+}
+function emailLinkProblem() {
+  const hash = new URLSearchParams(location.hash.slice(1));
+  const query = new URLSearchParams(location.search);
+  return [hash, query].some(
+    (params) => params.has("error") || params.has("error_code"),
+  )
+    ? "This email link is invalid or has expired. Try signing in below. If your email is not confirmed, request a new verification email."
+    : "";
+}
+function EmailSubmitted({
+  submission,
+  busy,
+  cooldown,
+  error,
+  onResend,
+  onSignIn,
+}: {
+  submission: EmailSubmission;
+  busy: boolean;
+  cooldown: number;
+  error: string;
+  onResend: () => void;
+  onSignIn: () => void;
+}) {
+  const heading = useRef<HTMLHeadingElement>(null);
+  const reset = submission.kind === "reset";
+  useEffect(() => {
+    heading.current?.focus();
+  }, []);
+  return (
+    <section className="container page email-submitted">
+      <div className="form-card email-submitted-card">
+        <span className="email-submitted-icon" aria-hidden="true">
+          <MailCheck size={32} />
+        </span>
+        <span className="eyebrow">
+          {reset ? "PASSWORD RESET REQUESTED" : "ONE MORE STEP TO GET STARTED"}
+        </span>
+        <h1 ref={heading} tabIndex={-1}>
+          Check your inbox.
+        </h1>
+        <p className="lead">
+          {reset
+            ? "Your password reset request has been submitted."
+            : submission.kind === "registration"
+              ? "Your registration request has been submitted."
+              : "Your verification email request has been submitted."}
+        </p>
+        <p>
+          {reset
+            ? "If an account is associated with this email, we’ll send password reset instructions to"
+            : "Check for an email from BBFind / BBCN at"}{" "}
+          <strong className="email-submitted-address">
+            {submission.email}
+          </strong>
+          .
+        </p>
+        <ol className="email-next-steps">
+          <li>Open the latest email from BBFind / BBCN.</li>
+          <li>
+            {reset
+              ? "Select Reset password and choose a new, unique password."
+              : "Select Confirm email address to verify your account."}
+          </li>
+          <li>
+            {reset
+              ? "Return to your organisation dashboard."
+              : "Sign in to start adding your organisation’s listings."}
+          </li>
+        </ol>
+        <p className="email-delivery-help">
+          Allow a few minutes and check your spam or junk folder. Use the newest
+          email: links are time-limited and can only be used once.
+          {!reset &&
+            " If you already have an account, sign in or use Forgot your password."}
+        </p>
+        {error && <Message error>{error}</Message>}
+        <div className="email-submitted-actions">
+          <button className="button" onClick={onSignIn}>
+            Back to sign in <ArrowRight size={17} />
+          </button>
+          <button
+            className="text-button"
+            onClick={onResend}
+            disabled={busy || cooldown > 0}
+          >
+            {busy
+              ? "Sending…"
+              : cooldown > 0
+                ? `Send again in ${cooldown}s`
+                : "Send another email"}
+          </button>
+        </div>
+        <p className="email-submitted-note">
+          Your registration details are private. Listings and photographs are
+          reviewed by BBCN before publication.
+        </p>
+      </div>
+    </section>
+  );
+}
 export function AuthPage() {
   const { auth } = useApp();
   const [params, setParams] = useSearchParams();
   const mode = params.get("mode") || "login";
   const [busy, setBusy] = useState(false),
-    [error, setError] = useState(""),
-    [message, setMessage] = useState("");
+    [error, setError] = useState(emailLinkProblem),
+    [submission, setSubmission] = useState<EmailSubmission | null>(null),
+    [verificationEmail, setVerificationEmail] = useState(""),
+    [resendAt, setResendAt] = useState(0),
+    [now, setNow] = useState(Date.now);
+  const cooldown = Math.max(0, Math.ceil((resendAt - now) / 1000));
+  useEffect(() => {
+    if (!resendAt) return;
+    const timer = window.setInterval(() => {
+      const current = Date.now();
+      setNow(current);
+      if (current >= resendAt) window.clearInterval(timer);
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [resendAt]);
+  function startEmailCooldown() {
+    const current = Date.now();
+    setNow(current);
+    setResendAt(current + 60_000);
+  }
   const navigate = useNavigate();
   if (!configured || !accountsEnabled)
     return (
@@ -79,21 +206,19 @@ export function AuthPage() {
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!db) return;
-    const f = new FormData(e.currentTarget),
+    const form = e.currentTarget,
+      f = new FormData(form),
       email = String(f.get("email"));
     setBusy(true);
     setError("");
-    setMessage("");
+    setVerificationEmail("");
     try {
       if (mode === "register") {
         const { error } = await db.auth.signUp({
           email,
           password: String(f.get("password")),
           options: {
-            emailRedirectTo: new URL(
-              `${import.meta.env.BASE_URL}dashboard`,
-              location.origin,
-            ).href,
+            emailRedirectTo: emailRedirect("dashboard"),
             data: {
               organisation_name: f.get("organisation"),
               contact_name: f.get("contact"),
@@ -102,20 +227,17 @@ export function AuthPage() {
           },
         });
         if (error) throw error;
-        setMessage(
-          "Check your email to verify your account before signing in. If an account already exists, use sign in or reset your password.",
-        );
+        form.reset();
+        setSubmission({ kind: "registration", email });
+        startEmailCooldown();
       } else if (mode === "reset") {
         const { error } = await db.auth.resetPasswordForEmail(email, {
-          redirectTo: new URL(
-            `${import.meta.env.BASE_URL}reset`,
-            location.origin,
-          ).href,
+          redirectTo: emailRedirect("reset"),
         });
         if (error) throw error;
-        setMessage(
-          "If an account exists for this email, you’ll receive a password reset link.",
-        );
+        form.reset();
+        setSubmission({ kind: "reset", email });
+        startEmailCooldown();
       } else {
         const { error } = await db.auth.signInWithPassword({
           email,
@@ -125,16 +247,63 @@ export function AuthPage() {
         navigate("/dashboard");
       }
     } catch (e) {
-      setError((e as Error).message);
+      if ((e as { code?: string }).code === "email_not_confirmed") {
+        setVerificationEmail(email);
+        setError(
+          "Confirm your email address before signing in. Use the latest verification email or request a new one below.",
+        );
+      } else if ((e as { code?: string }).code === "signup_disabled") {
+        setError("Registration is not open yet. Please try again later.");
+      } else setError((e as Error).message);
     } finally {
       setBusy(false);
     }
   }
   function switchMode(value: string) {
     setError("");
-    setMessage("");
+    setSubmission(null);
+    setVerificationEmail("");
     setParams({ mode: value });
   }
+  async function sendAgain() {
+    const email = submission?.email || verificationEmail;
+    if (!db || !email || busy || cooldown > 0) return;
+    setBusy(true);
+    setError("");
+    try {
+      const { error } =
+        submission?.kind === "reset"
+          ? await db.auth.resetPasswordForEmail(email, {
+              redirectTo: emailRedirect("reset"),
+            })
+          : await db.auth.resend({
+              type: "signup",
+              email,
+              options: { emailRedirectTo: emailRedirect("dashboard") },
+            });
+      if (error) throw error;
+      setSubmission({
+        kind: submission?.kind === "reset" ? "reset" : "verification",
+        email,
+      });
+      startEmailCooldown();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  if (submission)
+    return (
+      <EmailSubmitted
+        submission={submission}
+        busy={busy}
+        cooldown={cooldown}
+        error={error}
+        onResend={() => void sendAgain()}
+        onSignIn={() => switchMode("login")}
+      />
+    );
   return (
     <section className="container page auth-layout">
       <div>
@@ -170,7 +339,21 @@ export function AuthPage() {
               : "Organisation sign in"}
         </h2>
         {error && <Message error>{error}</Message>}
-        {message && <Message>{message}</Message>}
+        {verificationEmail && (
+          <p>
+            <button
+              className="text-button"
+              disabled={busy || cooldown > 0}
+              onClick={() => void sendAgain()}
+            >
+              {busy
+                ? "Sending…"
+                : cooldown > 0
+                  ? `Send again in ${cooldown}s`
+                  : "Send a new verification email"}
+            </button>
+          </p>
+        )}
         <form onSubmit={submit} className="stack-form">
           {mode === "register" && (
             <>
