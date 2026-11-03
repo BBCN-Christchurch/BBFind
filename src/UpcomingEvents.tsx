@@ -75,7 +75,10 @@ export function UpcomingEvents({ listings }: { listings: Listing[] }) {
             <h2 id={heading}>Coming up locally</h2>
             <p>Something to look forward to. Discover what’s happening next.</p>
           </div>
-          <Link to="/events" className="arrow-link">
+          <Link
+            to={`/events?period=custom&from=${today}`}
+            className="arrow-link"
+          >
             View all events <ArrowRight size={18} />
           </Link>
         </div>

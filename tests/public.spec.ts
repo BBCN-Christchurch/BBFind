@@ -199,7 +199,9 @@ test("feature pages have clear identities and Get Found follows Venues", async (
   await page
     .getByRole("link", { name: "View all events", exact: true })
     .click();
-  await expect(page).toHaveURL(/\/events$/);
+  await expect(page).toHaveURL(
+    /\/events\?period=custom&from=\d{4}-\d{2}-\d{2}$/,
+  );
 });
 
 test("mobile filters collapse and result navigation preserves search and scroll", async ({

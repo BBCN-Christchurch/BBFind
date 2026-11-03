@@ -3,7 +3,7 @@
 | Check | Result and scope |
 | --- | --- |
 | Dependency install / build | Frozen installation, TypeScript and production build passed. |
-| Unit/media tests | 20 passed: search, explicit Free classification versus unknown/conditional fees, URL/form validation, image dimensions and metadata removal, malformed images, multipart body limits, and rejection of privileged keys/insecure URLs in public configuration. |
+| Unit/media tests | 21 passed: search, explicit Free classification versus unknown/conditional fees, URL/form validation, image dimensions and metadata removal, malformed images, multipart body limits, and rejection of privileged keys/insecure URLs in public configuration. |
 | Browser contract tests | 72 desktop/mobile tests passed, including the three-card listing chooser, tailored event/venue forms without Find Me categories, prominent Free selection, return-to-form sign-in and draft/submit flows, distinct feature-page identities, navigation order, home carousel date order and keyboard controls, populated-carousel accessibility, event creation, chronological/ongoing/date-range filtering, structured ages, priority neighbourhoods and immediate category management refresh, as well as photos before submission, preventing submission during uploads, Free selection and combined/persistent search filters, submitted registration/reset notices, cleared private fields, error/retry states, verification resends, expired-link feedback and automated accessibility scans of the public pages and submitted notice. Portal/Auth contract tests use mocked transport. |
 | SQL/RLS | 74 passed on PostgreSQL 17, using a disposable auth/storage schema harness. |
 | Actual Supabase service integration | 50 passed against PostgreSQL 17, GoTrue Auth, PostgREST, Storage, Edge Runtime and Mailpit. Includes actual HTTP/storage permissions, local verification/reset email delivery and owner/admin/visitor browser workflows with no API mocks. |
@@ -58,3 +58,10 @@ Removed All from public age filters and listing-form choices. Any age remains
 the unrestricted search option. Existing All-tagged records remain compatible;
 old age=All links normalise to an unrestricted search, and older all-age listings
 show the individual groups selected when edited. The same update is on demo.
+
+## Calendar presets — 4 November 2026
+
+Added NZ-calendar This Week, This Month (default), Next Month and Custom filters.
+Custom alone reveals the date inputs. Unit checks cover Monday/Sunday boundaries,
+leap years, December/January and daylight saving; browser coverage includes range
+overlap, conditional controls, combined filters and legacy date links.

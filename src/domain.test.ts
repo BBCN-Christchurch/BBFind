@@ -10,9 +10,39 @@ import {
   matchesAge,
   validDate,
   localToday,
+  eventDateRange,
 } from "./domain";
 import { demoListings } from "./demo";
 describe("directory data and search", () => {
+  it("calculates calendar week/month presets across leap years, year changes and NZ daylight saving", () => {
+    expect(eventDateRange("week", "2026-11-04")).toEqual({
+      from: "2026-11-02",
+      to: "2026-11-08",
+    });
+    expect(eventDateRange("week", "2026-12-31")).toEqual({
+      from: "2026-12-28",
+      to: "2027-01-03",
+    });
+    expect(eventDateRange("week", "2026-09-27")).toEqual({
+      from: "2026-09-21",
+      to: "2026-09-27",
+    });
+    expect(eventDateRange("month", "2028-02-29")).toEqual({
+      from: "2028-02-01",
+      to: "2028-02-29",
+    });
+    expect(eventDateRange("next-month", "2026-12-31")).toEqual({
+      from: "2027-01-01",
+      to: "2027-01-31",
+    });
+    expect(
+      eventDateRange("custom", "2026-11-04", "2026-12-01", "2027-02-28"),
+    ).toEqual({ from: "2026-12-01", to: "2027-02-28" });
+    expect(eventDateRange("custom", "2026-11-04")).toEqual({
+      from: "",
+      to: "",
+    });
+  });
   it("preserves legacy listings and requires real, ordered event dates", () => {
     const legacy = { ...demoListings[0] } as Record<string, unknown>;
     delete legacy.suitableAges;
