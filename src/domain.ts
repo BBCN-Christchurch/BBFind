@@ -117,10 +117,7 @@ export const listingSchema = z
       .min(20, "Tell visitors a little more (at least 20 characters).")
       .max(10000),
     type: z.enum(listingTypes),
-    categories: z
-      .array(z.string().min(1).max(150))
-      .min(1, "Choose a category.")
-      .max(10),
+    categories: z.array(z.string().min(1).max(150)).max(10),
     suburb: z.string().trim().min(2).max(100),
     address: z.string().max(300),
     website: safeUrl,
@@ -158,6 +155,12 @@ export const listingSchema = z
     spaces: z.string().max(3000),
   })
   .superRefine((data, ctx) => {
+    if (!["event", "venue"].includes(data.type) && !data.categories.length)
+      ctx.addIssue({
+        code: "custom",
+        path: ["categories"],
+        message: "Choose a category.",
+      });
     if (data.type === "event" && !data.eventStartDate)
       ctx.addIssue({
         code: "custom",

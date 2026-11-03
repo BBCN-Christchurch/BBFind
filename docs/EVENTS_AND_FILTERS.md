@@ -74,3 +74,29 @@ keyboard arrows when its track is focused, and normal tab navigation to event
 links. It does not autoplay and respects reduced motion. Past events and private
 proposals are excluded; with no published upcoming events it shows an honest
 empty state and a link to the calendar.
+
+## Tailored listing creation
+
+Get Found and Dashboard → Create a listing offer three cards: Find Me (activities
+and programmes), Events, and Venues for Hire. The dedicated forms are available
+at `/dashboard/new/activity`, `/dashboard/new/event`, and `/dashboard/new/venue`;
+`/dashboard/new` is the chooser. Signing in from a selected form returns to that
+form. Each card and form uses the corresponding green, plum or warm venue theme.
+
+Find Me offers organisation, programme, activity, service and business subtypes
+and requires interest categories. Events ask for dates, location/online joining
+details, suitable ages, entry cost and a booking link. Venues ask for location,
+hire price, booking details, rooms, capacities, layouts, facilities and access.
+Events and venues do not require Find Me categories; their public pages omit the
+interest-category filter, and venues omit the age filter. Existing saved
+category associations and other hidden legacy information are preserved on edit.
+
+Free is a large explicit toggle with an explanation of what no charge means for
+each listing family. Selecting it sets cost to Free; for venues it also resets
+the hourly price to zero and disables that price until Free is cleared.
+Photographs remain before final submission and are moderated separately.
+
+Apply additive migration `202611030002_listing_workflow.sql` before deploying
+these forms. It relaxes only the category minimum for event and venue content;
+all other validation, ownership and approval checks remain in place. Do not
+reapply earlier migrations or alter existing listing content during installation.

@@ -83,7 +83,25 @@ async function fixture(
     try {
       body = req.postDataJSON() || {};
     } catch {}
-    if (path.includes("/rpc/")) {
+    if (path.endsWith("/auth/v1/token")) {
+      const access_token = `${btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }))}.${btoa(JSON.stringify({ sub: owner, role: "authenticated", exp: Math.floor(Date.now() / 1000) + 3600 }))}.fixture`;
+      data = {
+        access_token,
+        refresh_token: "fixture-refresh",
+        expires_in: 3600,
+        token_type: "bearer",
+        user: {
+          id: owner,
+          email: "private-owner@example.test",
+          aud: "authenticated",
+          role: "authenticated",
+          email_confirmed_at: "2026-10-27T00:00:00Z",
+          app_metadata: { provider: "email" },
+          user_metadata: {},
+          created_at: "2026-10-27T00:00:00Z",
+        },
+      };
+    } else if (path.includes("/rpc/")) {
       const name = path.split("/").pop()!;
       requests.push({ name, body });
       if (name === "is_admin") data = admin;
@@ -208,6 +226,12 @@ test("owner creates a draft then submits without private contact defaults", asyn
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Create a listing", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "What would you like to list?" }),
+  ).toBeVisible();
+  await page
+    .getByRole("link", { name: /List an activity or programme/ })
     .click();
   await expect(
     page.getByRole("button", { name: "Save draft to add photos", exact: true }),
@@ -503,10 +527,19 @@ test("owner adds an event with structured ages and a draft for photos", async ({
 }) => {
   const requests = await fixture(page);
   await page.goto("http://127.0.0.1:5184/dashboard");
-  await page.getByRole("button", { name: "Add an event", exact: true }).click();
-  await expect(page.getByLabel("Listing type")).toHaveValue("event");
   await page
-    .getByLabel("Listing name", { exact: true })
+    .getByRole("button", { name: "Create a listing", exact: true })
+    .click();
+  await page.getByRole("link", { name: /List an event/ }).click();
+  await expect(
+    page.getByRole("heading", { name: "Create an event listing" }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Listing type")).toHaveCount(0);
+  await expect(
+    page.getByLabel("Education and Learning", { exact: true }),
+  ).toHaveCount(0);
+  await page
+    .getByLabel("Event name", { exact: true })
     .fill("Our community event");
   await page
     .getByLabel("Short introduction")
@@ -514,7 +547,6 @@ test("owner adds an event with structured ages and a draft for photos", async ({
   await page
     .getByLabel("Full description")
     .fill("Join our community for an afternoon of music and activities.");
-  await page.getByLabel("Education and Learning", { exact: true }).check();
   await page
     .getByRole("button", { name: "Save draft to add photos", exact: true })
     .click();
@@ -542,6 +574,7 @@ test("owner adds an event with structured ages and a draft for photos", async ({
   expect(saves.map((r) => r.body.submit)).toEqual([false, true]);
   expect(saves[1].body.content).toMatchObject({
     type: "event",
+    categories: [],
     eventStartDate: "2028-02-29",
     eventEndDate: "2028-03-01",
     suitableAges: ["Family", "0-5"],
@@ -668,4 +701,142 @@ test("home event carousel highlights approved upcoming events in date order with
   await expect(
     page.getByRole("heading", { name: "Upcoming gathering 1", exact: true }),
   ).toBeVisible();
+});
+
+test("three-card chooser leads to a tailored hire form and prominent Free choice", async ({
+  page,
+}) => {
+  const requests = await fixture(page);
+  await page.goto("http://127.0.0.1:5184/dashboard/new");
+  await expect(page.locator(".listing-choice")).toHaveCount(3);
+  const chooserScan = await new AxeBuilder({ page })
+    .include(".listing-chooser")
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(chooserScan.violations.map((v) => v.id)).toEqual([]);
+  await page
+    .getByRole("link", { name: /List a facility or room for hire/ })
+    .click();
+  await expect(page).toHaveURL(/\/dashboard\/new\/venue$/);
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Create a facility or room listing" }),
+  ).toBeVisible();
+  await expect(page.locator(".listing-editor")).toHaveClass(
+    /listing-theme-venue/,
+  );
+  await expect(page.getByLabel("Listing type")).toHaveCount(0);
+  await expect(
+    page.getByLabel("Education and Learning", { exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("group", { name: "Suitable Ages", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByLabel("Event start date", { exact: true }),
+  ).toHaveCount(0);
+  await page
+    .getByLabel("Facility / room name", { exact: true })
+    .fill("Our community hall");
+  await page
+    .getByLabel("Short introduction")
+    .fill("A useful local room for meetings and celebrations.");
+  await page
+    .getByLabel("Full description")
+    .fill(
+      "Our hall offers flexible layouts and facilities for community gatherings.",
+    );
+  await page.getByLabel("Room / facility type").fill("Community hall");
+  await page.getByLabel("Maximum capacity").fill("80");
+  await page.getByLabel("Kitchen", { exact: true }).check();
+  const free = page.getByRole("button", { name: "Free", exact: true });
+  await expect(free).toHaveClass(/free-choice/);
+  await free.click();
+  await expect(free).toHaveAttribute("aria-pressed", "true");
+  await expect(
+    page.getByLabel("Hire cost information", { exact: true }),
+  ).toHaveValue("Free");
+  await expect(
+    page.getByLabel("Indicative hourly price", { exact: false }),
+  ).toBeDisabled();
+  const formScan = await new AxeBuilder({ page })
+    .include(".listing-editor")
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(
+    formScan.violations.map((v) => ({
+      id: v.id,
+      targets: v.nodes.map((n) => n.target),
+    })),
+  ).toEqual([]);
+  await page
+    .getByRole("button", { name: "Save draft to add photos", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Photos & images" }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Submit for review", exact: true })
+    .click();
+  await expect(
+    page.getByText("Awaiting review", { exact: true }),
+  ).toBeVisible();
+  const saved = requests.filter((r) => r.name === "save_listing");
+  expect(saved[1].body.content).toMatchObject({
+    type: "venue",
+    categories: [],
+    suitableAges: [],
+    capacity: 80,
+    roomType: "Community hall",
+    kitchen: true,
+    cost: "Free",
+    price: 0,
+  });
+});
+
+test("Get Found selection survives sign-in and opens the plum event form", async ({
+  page,
+}) => {
+  await fixture(page, { publicOnly: true });
+  await page.goto("http://127.0.0.1:5184/get-found");
+  await page.getByRole("link", { name: /List an event/ }).click();
+  await expect(
+    page.getByRole("heading", { name: "Organisation sign in" }),
+  ).toBeVisible();
+  await page
+    .getByLabel("Email address", { exact: false })
+    .fill("private-owner@example.test");
+  await page
+    .getByLabel("Password", { exact: true })
+    .fill("Test-password-2026!");
+  await page.getByRole("button", { name: "Sign in", exact: true }).click();
+  await expect(page).toHaveURL(/\/dashboard\/new\/event$/);
+  await expect(
+    page.getByRole("heading", { name: "Create an event listing" }),
+  ).toBeVisible();
+  await expect(page.locator(".listing-editor")).toHaveClass(
+    /listing-theme-event/,
+  );
+  await expect(
+    page.getByLabel("Education and Learning", { exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByLabel("Ticket or booking link (optional)"),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Free", exact: true }).click();
+  const scan = await new AxeBuilder({ page })
+    .include(".listing-editor")
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(
+    scan.violations.map((v) => ({
+      id: v.id,
+      targets: v.nodes.map((n) => n.target),
+    })),
+  ).toEqual([]);
+  await page
+    .getByRole("button", { name: "Choose another listing type", exact: false })
+    .click();
+  await expect(page).toHaveURL(/\/dashboard\/new$/);
+  await expect(page.locator(".listing-choice")).toHaveCount(3);
 });

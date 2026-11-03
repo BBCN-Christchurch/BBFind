@@ -1,10 +1,18 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import {
   ArrowRight,
   ArrowUpRight,
   Check,
   FilePlus2,
+  Building2,
+  CalendarDays,
+  Gift,
   LayoutDashboard,
   LogOut,
   MailCheck,
@@ -146,6 +154,7 @@ function EmailSubmitted({
   );
 }
 export function AuthPage() {
+  const location = useLocation();
   const { auth } = useApp();
   const [params, setParams] = useSearchParams();
   const mode = params.get("mode") || "login";
@@ -247,7 +256,13 @@ export function AuthPage() {
           password: String(f.get("password")),
         });
         if (error) throw error;
-        navigate("/dashboard");
+        navigate(
+          /^\/dashboard\/new(?:\/(activity|event|venue))?\/?$/.test(
+            location.pathname,
+          )
+            ? location.pathname
+            : "/dashboard",
+        );
       }
     } catch (e) {
       if ((e as { code?: string }).code === "email_not_confirmed") {
@@ -511,12 +526,84 @@ export function ResetPassword() {
     </section>
   );
 }
+
+export function ListingChooser({ dashboard = false }: { dashboard?: boolean }) {
+  return (
+    <section
+      className="listing-chooser"
+      aria-labelledby="listing-choice-heading"
+    >
+      {dashboard && (
+        <Link to="/dashboard" className="text-button">
+          ← Back to your listings
+        </Link>
+      )}
+      <span className="eyebrow">START WITH WHAT YOU WANT TO SHARE</span>
+      <h2 id="listing-choice-heading">What would you like to list?</h2>
+      <p>
+        Choose one option. We’ll ask for the information that matters for your
+        listing.
+      </p>
+      <div className="listing-choice-grid">
+        {[
+          {
+            kind: "activity",
+            label: "Find Me",
+            name: "List an activity or programme",
+            description:
+              "Regular activities, programmes, organisations, services and local businesses.",
+            Icon: Users,
+          },
+          {
+            kind: "event",
+            label: "Events",
+            name: "List an event",
+            description:
+              "A dated gathering, celebration, workshop or special occasion.",
+            Icon: CalendarDays,
+          },
+          {
+            kind: "venue",
+            label: "Venues for Hire",
+            name: "List a facility or room for hire",
+            description:
+              "Rooms, halls and other spaces available for people to book.",
+            Icon: Building2,
+          },
+        ].map(({ kind, label, name, description, Icon }) => (
+          <AccountLink
+            key={kind}
+            path={`/dashboard/new/${kind}`}
+            className={`listing-choice listing-theme-${kind}`}
+          >
+            <span className="choice-icon">
+              <Icon size={32} />
+            </span>
+            <span className="listing-family">{label}</span>
+            <h3>{name}</h3>
+            <p>{description}</p>
+            <span className="choice-action">
+              Create a listing <ArrowRight size={19} />
+            </span>
+          </AccountLink>
+        ))}
+      </div>
+      <p className="help">
+        You can save a draft, add photos and submit for BBCN review. Nothing
+        becomes public until approved.
+      </p>
+    </section>
+  );
+}
 export function Dashboard() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const creation = /^\/dashboard\/new(?:\/(activity|event|venue))?\/?$/.exec(
+    location.pathname,
+  );
   const { auth, refreshAuth, refreshListings } = useApp();
   const [items, setItems] = useState<ManagedListing[]>([]),
-    [selected, setSelected] = useState<
-      ManagedListing | "new" | "new-event" | null
-    >(null),
+    [selected, setSelected] = useState<ManagedListing | null>(null),
     [tab, setTab] = useState("listings"),
     [error, setError] = useState(""),
     [loading, setLoading] = useState(true);
@@ -566,6 +653,7 @@ export function Dashboard() {
           onClick={() => {
             setTab("listings");
             setSelected(null);
+            navigate("/dashboard");
           }}
         >
           <LayoutDashboard size={17} />
@@ -576,6 +664,7 @@ export function Dashboard() {
           onClick={() => {
             setTab("settings");
             setSelected(null);
+            navigate("/dashboard");
           }}
         >
           <Settings size={17} />
@@ -590,16 +679,23 @@ export function Dashboard() {
       </div>
       {tab === "settings" ? (
         <AccountSettings account={auth.account} />
-      ) : selected ? (
+      ) : creation && !creation[1] ? (
+        <ListingChooser dashboard />
+      ) : creation?.[1] || selected ? (
         <ListingEditor
-          item={typeof selected === "string" ? undefined : selected}
-          initialType={selected === "new-event" ? "event" : "organisation"}
-          onCancel={() => setSelected(null)}
+          key={creation?.[1] || selected?.id}
+          item={creation ? undefined : selected || undefined}
+          initialType={(creation?.[1] || "activity") as ListingData["type"]}
+          onCancel={() => {
+            setSelected(null);
+            navigate(creation ? "/dashboard/new" : "/dashboard");
+          }}
           onSaved={async (id) => {
             await refresh();
             await refreshListings();
             const rows = await managedListings();
             setSelected(rows.find((i) => i.id === id) || null);
+            if (creation) navigate("/dashboard", { replace: true });
           }}
         />
       ) : (
@@ -627,15 +723,11 @@ export function Dashboard() {
             <h2>Your listings</h2>
             <div className="button-row">
               <button
-                className="button secondary"
-                onClick={() => setSelected("new-event")}
-                disabled={!auth.account || auth.account.suspended}
-              >
-                Add an event
-              </button>
-              <button
                 className="button"
-                onClick={() => setSelected("new")}
+                onClick={() => {
+                  setSelected(null);
+                  navigate("/dashboard/new");
+                }}
                 disabled={!auth.account || auth.account.suspended}
               >
                 <FilePlus2 size={17} />
@@ -653,7 +745,13 @@ export function Dashboard() {
                 Add your organisation, a programme, an event, a service or a
                 venue. You can save a draft before submitting.
               </p>
-              <button className="button" onClick={() => setSelected("new")}>
+              <button
+                className="button"
+                onClick={() => {
+                  setSelected(null);
+                  navigate("/dashboard/new");
+                }}
+              >
                 Create your first listing <ArrowRight size={16} />
               </button>
             </div>
@@ -735,6 +833,20 @@ export function ListingEditor({
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false),
     [imagesBusy, setImagesBusy] = useState(false);
+  const kind =
+    data.type === "event"
+      ? "event"
+      : data.type === "venue"
+        ? "venue"
+        : "activity";
+  const title =
+    kind === "event"
+      ? "event"
+      : kind === "venue"
+        ? "facility or room"
+        : "Find Me";
+  const Icon =
+    kind === "event" ? CalendarDays : kind === "venue" ? Building2 : Users;
   const locked = item?.status === "pending_review" && !admin;
   useEffect(() => {
     setData({ ...emptyListing, type: initialType, ...item?.proposed });
@@ -807,17 +919,36 @@ export function ListingEditor({
     </label>
   );
   return (
-    <div>
+    <div className={`listing-editor listing-theme-${kind}`}>
       <button className="text-button back-link" onClick={onCancel}>
-        ← Back to listings
+        {item ? "← Back to listings" : "← Choose another listing type"}
       </button>
-      <div className="section-heading">
+      <div className="section-heading listing-editor-heading">
         <div>
-          <h2>{item ? "Manage your listing" : "Create a listing"}</h2>
+          <span className="listing-family">
+            <Icon size={22} />
+            {kind === "event"
+              ? "Events"
+              : kind === "venue"
+                ? "Venues for Hire"
+                : "Find Me · Activities & programmes"}
+          </span>
+          <h2>
+            {item
+              ? `Manage your ${title} listing`
+              : `Create ${kind === "event" ? "an" : "a"} ${title} listing`}
+          </h2>
           <p>
-            Tell your community what you do. Public contact details are optional
-            and separate from your private registration.
+            {kind === "event"
+              ? "Share a dated occasion: tell people when it happens, where to go and how to attend."
+              : kind === "venue"
+                ? "Help people picture your space, explore its facilities and arrange a booking."
+                : "Help people find your regular activities, programmes, organisation or services."}
           </p>
+          <small>
+            Public contact details are optional and separate from your private
+            registration.
+          </small>
         </div>
         {item && (
           <span className={`status ${item.status}`}>
@@ -845,58 +976,75 @@ export function ListingEditor({
           <section className="form-section">
             <h3>The basics</h3>
             <div className="form-grid">
-              <label>
-                Listing type
-                <select
-                  value={data.type}
-                  onChange={(e) =>
-                    field("type", e.target.value as ListingData["type"])
-                  }
-                >
-                  {listingTypes.map((t) => (
-                    <option key={t} value={t}>
-                      {t === "venue"
-                        ? "Venue for hire"
-                        : t[0].toUpperCase() + t.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              {input("name", "Listing name")}
+              {(kind === "activity" || admin) && (
+                <label>
+                  Listing type
+                  <select
+                    value={data.type}
+                    onChange={(e) =>
+                      field("type", e.target.value as ListingData["type"])
+                    }
+                  >
+                    {listingTypes
+                      .filter((t) => admin || !["event", "venue"].includes(t))
+                      .map((t) => (
+                        <option key={t} value={t}>
+                          {t === "venue"
+                            ? "Venue for hire"
+                            : t[0].toUpperCase() + t.slice(1)}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+              )}
+              {input(
+                "name",
+                kind === "event"
+                  ? "Event name"
+                  : kind === "venue"
+                    ? "Facility / room name"
+                    : "Listing name",
+              )}
             </div>
-            <p className="help">
-              Choose Event for a dated occasion shown on the Events page, or
-              Activity / Programme for regular ongoing listings.
-            </p>
             {input("summary", "Short introduction (10–220 characters)")}
             {input("description", "Full description", { area: true })}
-            <fieldset>
-              <legend>
-                Categories <small>Select up to 10</small>
-              </legend>
-              <div className="category-checks">
-                {[...new Set([...categories, ...data.categories])].map((c) => (
-                  <label key={c} className="check-label">
-                    <input
-                      type="checkbox"
-                      checked={data.categories.includes(c)}
-                      onChange={(e) =>
-                        field(
-                          "categories",
-                          e.target.checked
-                            ? [...data.categories, c]
-                            : data.categories.filter((v) => v !== c),
-                        )
-                      }
-                    />
-                    {c}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
+            {kind === "activity" && (
+              <fieldset>
+                <legend>
+                  Categories <small>Select up to 10</small>
+                </legend>
+                <div className="category-checks">
+                  {[...new Set([...categories, ...data.categories])].map(
+                    (c) => (
+                      <label key={c} className="check-label">
+                        <input
+                          type="checkbox"
+                          checked={data.categories.includes(c)}
+                          onChange={(e) =>
+                            field(
+                              "categories",
+                              e.target.checked
+                                ? [...data.categories, c]
+                                : data.categories.filter((v) => v !== c),
+                            )
+                          }
+                        />
+                        {c}
+                      </label>
+                    ),
+                  )}
+                </div>
+              </fieldset>
+            )}
           </section>
           <section className="form-section">
-            <h3>Where & when</h3>
+            <h3>
+              {kind === "event"
+                ? "When & where"
+                : kind === "venue"
+                  ? "Location & access"
+                  : "Where & when"}
+            </h3>
             <PriorityNeighbourhoods
               locations={locations}
               value={data.suburb}
@@ -914,7 +1062,16 @@ export function ListingEditor({
                   />
                 </select>
               </label>
-              {input("address", "Public address")}
+              {input(
+                "address",
+                kind === "event" ? "Venue / event location" : "Public address",
+                {
+                  help:
+                    kind === "event"
+                      ? "Venue name and address, or details of how to join online."
+                      : undefined,
+                },
+              )}
             </div>
             {data.type === "event" && (
               <>
@@ -948,81 +1105,136 @@ export function ListingEditor({
                 </p>
               </>
             )}
-            {input(
-              "times",
-              data.type === "event"
-                ? "Event times and arrival information"
-                : "Opening hours or meeting times",
-              { area: true },
-            )}
-            <fieldset>
-              <legend>Suitable Ages</legend>
-              <p className="help">
-                Choose all that apply. Select All only when suitable for every
-                age.
-              </p>
-              <div className="category-checks">
-                {suitableAges.map((age) => (
-                  <label key={age} className="check-label">
-                    <input
-                      type="checkbox"
-                      checked={data.suitableAges.includes(age)}
-                      onChange={(e) =>
-                        field(
-                          "suitableAges",
-                          e.target.checked
-                            ? age === "All"
-                              ? ["All"]
-                              : [
-                                  ...data.suitableAges.filter(
-                                    (a) => a !== "All",
-                                  ),
-                                  age,
-                                ]
-                            : data.suitableAges.filter((a) => a !== age),
-                        )
-                      }
-                    />
-                    {age}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-            <div className="form-grid">
-              {input("ageGroups", "Additional age information (optional)")}
-              <div className="cost-field">
-                <label htmlFor={costId}>Cost or membership information</label>
-                <div className="cost-options">
-                  <input
-                    id={costId}
-                    value={data.cost}
-                    maxLength={300}
-                    onChange={(e) => field("cost", e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className={`button small ${isFreeListing(data) ? "" : "secondary"}`}
-                    aria-pressed={isFreeListing(data)}
-                    onClick={() =>
-                      setData((d) => ({
-                        ...d,
-                        cost: isFreeListing(d) ? "" : "Free",
-                        price: d.type === "venue" ? 0 : d.price,
-                      }))
-                    }
-                  >
-                    {isFreeListing(data) && <Check size={16} />} Free
-                  </button>
+            {kind !== "venue" && (
+              <>
+                {input(
+                  "times",
+                  data.type === "event"
+                    ? "Event times and arrival information"
+                    : "Opening hours or meeting times",
+                  { area: true },
+                )}
+                <fieldset>
+                  <legend>Suitable Ages</legend>
+                  <p className="help">
+                    Choose all that apply. Select All only when suitable for
+                    every age.
+                  </p>
+                  <div className="category-checks">
+                    {suitableAges.map((age) => (
+                      <label key={age} className="check-label">
+                        <input
+                          type="checkbox"
+                          checked={data.suitableAges.includes(age)}
+                          onChange={(e) =>
+                            field(
+                              "suitableAges",
+                              e.target.checked
+                                ? age === "All"
+                                  ? ["All"]
+                                  : [
+                                      ...data.suitableAges.filter(
+                                        (a) => a !== "All",
+                                      ),
+                                      age,
+                                    ]
+                                : data.suitableAges.filter((a) => a !== age),
+                            )
+                          }
+                        />
+                        {age}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                <div className="form-grid">
+                  {input("ageGroups", "Additional age information (optional)")}
                 </div>
-                <small>
-                  Choose Free when there is no compulsory charge. Leave the cost
-                  blank if it is not yet known.
-                </small>
-              </div>
-            </div>
+              </>
+            )}
             {input("accessibility", "Accessibility information", {
               area: true,
             })}
+          </section>
+          <section className="form-section listing-cost-section">
+            <h3>
+              {kind === "event"
+                ? "Tickets & entry"
+                : kind === "venue"
+                  ? "Hire costs & bookings"
+                  : "Cost & membership"}
+            </h3>
+            <div className="cost-field">
+              <div className="cost-options">
+                <button
+                  type="button"
+                  className={`free-choice ${isFreeListing(data) ? "is-free" : ""}`}
+                  aria-label="Free"
+                  aria-pressed={isFreeListing(data)}
+                  onClick={() =>
+                    setData((d) => ({
+                      ...d,
+                      cost: isFreeListing(d) ? "" : "Free",
+                      price: d.type === "venue" ? 0 : d.price,
+                    }))
+                  }
+                >
+                  {isFreeListing(data) ? (
+                    <Check size={27} />
+                  ) : (
+                    <Gift size={27} />
+                  )}
+                  <span>
+                    <strong>Free</strong>
+                    <small>
+                      {kind === "event"
+                        ? "No compulsory entry or ticket charge"
+                        : kind === "venue"
+                          ? "No compulsory hire charge"
+                          : "No compulsory participation or membership charge"}
+                    </small>
+                  </span>
+                </button>
+              </div>
+              <label htmlFor={costId}>
+                {kind === "event"
+                  ? "Ticket or entry cost"
+                  : kind === "venue"
+                    ? "Hire cost information"
+                    : "Cost or membership information"}
+              </label>
+              <input
+                id={costId}
+                value={data.cost}
+                maxLength={300}
+                onChange={(e) => field("cost", e.target.value)}
+                placeholder={
+                  kind === "venue"
+                    ? "e.g. hourly rate, bond and any extra charges"
+                    : "e.g. price, concessions or optional donations"
+                }
+              />
+              <small>
+                Choose Free when there is no compulsory charge. Leave the cost
+                blank if it is not yet known.
+              </small>
+            </div>
+            {kind === "venue" &&
+              input("price", "Indicative hourly price ($, 0 if not supplied)", {
+                type: "number",
+                disabled: isFreeListing(data),
+                help: isFreeListing(data)
+                  ? "Free is selected. Clear it to enter a hire price."
+                  : undefined,
+              })}
+            {kind !== "activity" &&
+              input(
+                "bookingUrl",
+                kind === "event"
+                  ? "Ticket or booking link (optional)"
+                  : "Booking information link",
+                { type: "url" },
+              )}
           </section>
           <section className="form-section">
             <h3>Public contact details</h3>
@@ -1049,20 +1261,6 @@ export function ListingEditor({
               <div className="form-grid">
                 {input("capacity", "Maximum capacity", { type: "number" })}
                 {input("roomType", "Room / facility type")}
-                {input(
-                  "price",
-                  "Indicative hourly price ($, 0 if not supplied)",
-                  {
-                    type: "number",
-                    disabled: isFreeListing(data),
-                    help: isFreeListing(data)
-                      ? "Free is selected. Clear it to enter a hire price."
-                      : undefined,
-                  },
-                )}
-                {input("bookingUrl", "Booking information link", {
-                  type: "url",
-                })}
               </div>
               <div className="category-checks">
                 {(

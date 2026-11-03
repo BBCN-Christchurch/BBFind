@@ -49,3 +49,16 @@ verified owner/admin permissions and the existing review workflow.
 Local verification passed: 17 unit tests, 57 SQL/RLS checks, 46 desktop/mobile
 browser tests (including automated accessibility scans), and 50 actual-service
 integration checks. This update does not change the separate `demo` branch.
+
+## Tailored listing workflow — 3 November 2026
+
+Installed additive migration `202611030002_listing_workflow.sql` and recorded its
+standard Supabase migration history. Events and venues may now have no Find Me
+interest categories. The two existing listing records were retained, their
+proposals still validate, and anonymous listing writes remain denied. No listing,
+account, image or taxonomy content was changed by installation.
+
+The three-card chooser and dedicated activity/event/venue forms passed 54 local
+desktop/mobile browser checks, 18 unit checks, 62 SQL permission/moderation checks,
+and 50 actual-service integration checks. Existing organisation, programme,
+activity, service and business types remain available under Find Me.

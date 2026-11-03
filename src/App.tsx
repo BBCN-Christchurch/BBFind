@@ -68,7 +68,7 @@ import {
   type ImageRecord,
 } from "./domain";
 import { Illustration, Neighbourhood } from "./Illustration";
-import { AuthPage, Dashboard, ResetPassword } from "./Accounts";
+import { AuthPage, Dashboard, ResetPassword, ListingChooser } from "./Accounts";
 import { Admin } from "./Admin";
 import { ImageGallery } from "./Images";
 import { NeighbourhoodOptions, PriorityNeighbourhoods } from "./Neighbourhood";
@@ -842,7 +842,14 @@ export function ListingCard({
           </div>
         )}
         <div className="card-bottom">
-          <span>{item.categories[0]}</span>
+          <span>
+            {item.categories[0] ||
+              (item.type === "event"
+                ? "Community event"
+                : item.type === "venue"
+                  ? "Room or facility for hire"
+                  : "Find Me")}
+          </span>
           {item.type === "venue" ? (
             <span>{item.capacity} people</span>
           ) : (
@@ -1080,19 +1087,21 @@ function Directory({
                 ? "Find your space"
                 : "Find a good fit"}
           </h2>
-          <label>
-            Category
-            <select
-              aria-label="Category"
-              value={category}
-              onChange={(e) => set("category", e.target.value)}
-            >
-              <option value="">All categories</option>
-              {availableCategories.map((c) => (
-                <option key={c}>{c}</option>
-              ))}
-            </select>
-          </label>
+          {!events && !venues && (
+            <label>
+              Category
+              <select
+                aria-label="Category"
+                value={category}
+                onChange={(e) => set("category", e.target.value)}
+              >
+                <option value="">All categories</option>
+                {availableCategories.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+            </label>
+          )}
           <PriorityNeighbourhoods
             locations={availableLocations}
             value={suburb}
@@ -1109,19 +1118,21 @@ function Directory({
               <NeighbourhoodOptions locations={availableLocations} />
             </select>
           </label>
-          <label>
-            Suitable Ages
-            <select
-              aria-label="Suitable Ages"
-              value={params.get("age") || ""}
-              onChange={(e) => set("age", e.target.value)}
-            >
-              <option value="">Any age</option>
-              {suitableAges.map((age) => (
-                <option key={age}>{age}</option>
-              ))}
-            </select>
-          </label>
+          {!venues && (
+            <label>
+              Suitable Ages
+              <select
+                aria-label="Suitable Ages"
+                value={params.get("age") || ""}
+                onChange={(e) => set("age", e.target.value)}
+              >
+                <option value="">Any age</option>
+                {suitableAges.map((age) => (
+                  <option key={age}>{age}</option>
+                ))}
+              </select>
+            </label>
+          )}
           {events && (
             <>
               <label>
@@ -1576,6 +1587,9 @@ function GetFound() {
           </AccountLink>
         </div>
       </section>
+      <div className="container page">
+        <ListingChooser />
+      </div>
       <section className="container page narrow">
         <h2>One account. All your possibilities.</h2>
         <p>

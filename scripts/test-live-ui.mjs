@@ -95,6 +95,9 @@ export async function testLiveUI(config, owner, admin, check, imageBytes) {
       .getByRole("button", { name: "Create a listing", exact: true })
       .click();
     await page
+      .getByRole("link", { name: /List an activity or programme/ })
+      .click();
+    await page
       .getByLabel("Listing name", { exact: true })
       .fill("A programme from the live browser");
     await page

@@ -37,6 +37,22 @@ describe("directory data and search", () => {
     ).toBe(false);
     expect(validDate(localToday())).toBe(true);
   });
+  it("requires interest categories only for Find Me listings", () => {
+    const base = { ...demoListings[0], categories: [] };
+    expect(listingSchema.safeParse({ ...base, type: "activity" }).success).toBe(
+      false,
+    );
+    expect(listingSchema.safeParse({ ...base, type: "venue" }).success).toBe(
+      true,
+    );
+    expect(
+      listingSchema.safeParse({
+        ...base,
+        type: "event",
+        eventStartDate: "2028-03-01",
+      }).success,
+    ).toBe(true);
+  });
   it("filters explicit ages and treats All as suitable for every age", () => {
     expect(matchesAge({ suitableAges: [] }, "Adult")).toBe(false);
     expect(matchesAge({ suitableAges: ["All"] }, "Senior")).toBe(true);
