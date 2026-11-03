@@ -1,0 +1,220 @@
+/* Feature content uses these shared tokens; the BBCN header/footer keep their brand palette.
+   Images retain their original colours, and error/warning colours retain their meaning. */
+.feature-theme {
+  --feature-ink: #244b3e;
+  --feature-text: #293e35;
+  --feature-muted: #56684f;
+  --feature-soft: #edf2e6;
+  --feature-line: #b8c9ac;
+  --feature-hover: #355e4d;
+  --feature-focus: #416b50;
+  --feature-overlay: #244b3ed9;
+  --feature-shadow: #244b3e14;
+  --green: var(--feature-ink);
+  --muted: var(--feature-muted);
+  --line: var(--feature-line);
+  --soft: var(--feature-soft);
+  --listing-ink: var(--feature-ink);
+  --listing-soft: var(--feature-soft);
+  --listing-line: var(--feature-line);
+  color: var(--feature-text);
+}
+.feature-theme-event {
+  --feature-ink: #51374f;
+  --feature-text: #463446;
+  --feature-muted: #735e70;
+  --feature-soft: #f6edf3;
+  --feature-line: #c7aabb;
+  --feature-hover: #684b65;
+  --feature-focus: #92627e;
+  --feature-overlay: #51374fd9;
+  --feature-shadow: #51374f14;
+}
+.feature-theme-venue {
+  --feature-ink: #62442e;
+  --feature-text: #49392b;
+  --feature-muted: #765d48;
+  --feature-soft: #f8ecdd;
+  --feature-line: #cfb28e;
+  --feature-hover: #795638;
+  --feature-focus: #956a3d;
+  --feature-overlay: #62442ed9;
+  --feature-shadow: #62442e14;
+}
+.feature-theme .text-button,
+.feature-theme .eyebrow,
+.feature-theme .breadcrumb,
+.feature-theme .verified,
+.feature-theme .card-body h3 svg,
+.feature-theme .event-date,
+.feature-theme .sort-label,
+.feature-theme .arrow-link {
+  color: var(--feature-ink);
+}
+.feature-theme .location-label,
+.feature-theme .card-bottom,
+.feature-theme .help,
+.feature-theme label small {
+  color: var(--feature-muted);
+}
+.feature-theme .card-bottom,
+.feature-theme .listing-card,
+.feature-theme .facility-grid > div {
+  border-color: var(--feature-line);
+}
+.feature-theme .button:not(.danger) {
+  background: var(--feature-ink);
+  border-color: var(--feature-ink);
+  color: #fffdfa;
+}
+.feature-theme .button:not(.secondary):not(.danger):hover {
+  background: var(--feature-hover);
+}
+.feature-theme .button.secondary {
+  background: transparent;
+  color: var(--feature-ink);
+  border-color: var(--feature-line);
+}
+.feature-theme .button.secondary:hover {
+  background: var(--feature-soft);
+}
+.feature-theme input,
+.feature-theme select,
+.feature-theme textarea {
+  color: var(--feature-text);
+  border-color: var(--feature-line);
+  accent-color: var(--feature-ink);
+}
+.feature-theme :is(button, a, input, select, textarea):focus-visible {
+  outline-color: var(--feature-focus);
+}
+.feature-theme [aria-invalid="true"] {
+  border-color: #a3472c;
+}
+.feature-theme .priority-neighbourhoods,
+.feature-theme .filter-chip,
+.feature-theme .tags > *,
+.feature-theme .free-label,
+.feature-theme .card-type,
+.feature-theme .contact-panel,
+.feature-theme .event-date-panel,
+.feature-theme .category-checks,
+.feature-theme .message:not(.error) {
+  color: var(--feature-ink);
+  background: var(--feature-soft);
+  border-color: var(--feature-line);
+}
+.feature-theme .priority-neighbourhoods small,
+.feature-theme .priority-neighbourhoods button {
+  color: var(--feature-ink);
+  border-color: var(--feature-ink);
+}
+.feature-theme .priority-neighbourhoods button.active {
+  background: var(--feature-ink);
+  color: #fffdfa;
+}
+.feature-theme .empty {
+  background: var(--feature-soft);
+  border-color: var(--feature-line);
+}
+.feature-theme .empty > svg,
+.feature-theme .detail-illustration > span {
+  color: var(--feature-muted);
+}
+.feature-theme .listing-preview,
+.feature-theme.workflow-dialog,
+.feature-theme .image-manager,
+.feature-theme .managed-image {
+  color: var(--feature-text);
+  border-color: var(--feature-line);
+}
+.feature-theme .listing-preview h2,
+.feature-theme .preview-title,
+.feature-theme .listing-preview .review-data dt {
+  color: var(--feature-ink);
+}
+.feature-theme .free-choice small,
+.feature-theme .free-choice.is-free small {
+  color: inherit;
+}
+/* Hero contrast must stay light against the dark event background. */
+.feature-theme.intro-events {
+  color: #fffaf4;
+}
+.feature-theme.intro-events .eyebrow,
+.feature-theme.intro-events .breadcrumb {
+  color: #f2e4ed;
+}
+.feature-theme.intro-events .search-box {
+  color: var(--feature-ink);
+}
+.feature-theme-venue .venue-facts span {
+  color: var(--feature-ink);
+  background: var(--feature-soft);
+}
+.feature-theme-event.workflow-dialog::backdrop {
+  background: #281d2ab3;
+}
+.feature-theme-venue.workflow-dialog::backdrop {
+  background: #2b2118b3;
+}
+.nav a[href$="/events"].active::after {
+  background: #51374f;
+}
+.nav a[href$="/venues"].active::after {
+  background: #62442e;
+}
+.listing-card.feature-theme {
+  border-color: var(--feature-line);
+}
+.feature-theme .status.published,
+.feature-theme .status.approved,
+.feature-theme .published-label {
+  color: var(--feature-ink);
+  background: var(--feature-soft);
+}
+.feature-theme .lightbox-close {
+  background: var(--feature-ink) !important;
+}
+.feature-theme-event .lightbox {
+  background: #291f2c;
+}
+.feature-theme-event .lightbox::backdrop {
+  background: #211623e8;
+}
+.feature-theme-venue .lightbox {
+  background: #2b2118;
+}
+.feature-theme-venue .lightbox::backdrop {
+  background: #241b14e8;
+}
+
+.feature-theme .search-box {
+  border-color: var(--feature-line);
+  box-shadow: 0 5px 20px var(--feature-shadow);
+}
+.feature-theme .search-box > svg,
+.feature-theme .review-data dt {
+  color: var(--feature-muted);
+}
+.feature-theme input::placeholder,
+.feature-theme textarea::placeholder {
+  color: var(--feature-muted);
+  opacity: 1;
+}
+.feature-theme .upload-form {
+  background: var(--feature-soft);
+  border-color: var(--feature-line);
+}
+.feature-theme .card-visual,
+.feature-theme .gallery-grid > button {
+  background: var(--feature-soft);
+}
+.feature-theme .gallery-grid > button > span:not(.image-loading) {
+  background: var(--feature-overlay);
+  color: #fffdfa;
+}
+.listing-card.feature-theme:hover,
+.listing-choice.feature-theme:hover {
+  box-shadow: 0 10px 22px var(--feature-shadow);
+}

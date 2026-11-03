@@ -34,3 +34,50 @@ No account was created, no email was sent, and no hosted listing/image content w
 6. **Operations:** complete the privacy contact/retention decisions and production backup/restore drill. Keep credentials out of source and public build variables.
 
 SUPABASE_SETUP.md remains the installation reference. Do not rerun the initial migration: it is now installed and recorded.
+
+## Events and filters update — 3 November 2026
+
+Applied additive migration `202611030001_events_ages.sql` to the existing BBFind
+project and recorded it in Supabase migration history. It replaces validation
+and listing-save functions, allows events with real ordered dates and structured
+age choices, and permits existing listings to retain retired taxonomy terms.
+The two existing listing records were retained; no listing, account, image,
+category or location content was created, renamed or deleted by this migration.
+Anonymous listing-write access remains denied; authenticated saves still require
+verified owner/admin permissions and the existing review workflow.
+
+Local verification passed: 17 unit tests, 57 SQL/RLS checks, 46 desktop/mobile
+browser tests (including automated accessibility scans), and 50 actual-service
+integration checks. This update does not change the separate `demo` branch.
+
+## Tailored listing workflow — 3 November 2026
+
+Installed additive migration `202611030002_listing_workflow.sql` and recorded its
+standard Supabase migration history. Events and venues may now have no Find Me
+interest categories. The two existing listing records were retained, their
+proposals still validate, and anonymous listing writes remain denied. No listing,
+account, image or taxonomy content was changed by installation.
+
+The three-card chooser and dedicated activity/event/venue forms passed 54 local
+desktop/mobile browser checks, 18 unit checks, 62 SQL permission/moderation checks,
+and 50 actual-service integration checks. Existing organisation, programme,
+activity, service and business types remain available under Find Me.
+
+## Approved workflow improvements — 3 November 2026
+
+Installed `202611030003_workflow_improvements.sql` on the original BBFind project
+and recorded migration history. It adds private incomplete-draft validation,
+retains strict submission/approval validation, and records only the current
+photo-review request time. Existing queued photos receive their creation time as
+a fallback. Completed review clears that current timestamp.
+
+The two existing listing records were retained, their published content still
+validates, and anonymous listing writes/draft-helper execution remain denied.
+No account, listing text, photograph or category content was created or replaced.
+No audit or revision-history feature was added.
+
+Validation passed locally: 20 unit checks, 74 SQL/RLS checks, 66 desktop/mobile
+browser checks and 50 actual-service integration checks. The real-service browser
+flow saves an incomplete draft and uploads a private image before completing and
+submitting it. See docs/WORKFLOW_IMPROVEMENTS.md for the approved-item mapping;
+suggestions 4 and 10 remain pending.

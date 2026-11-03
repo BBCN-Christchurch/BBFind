@@ -3,6 +3,7 @@ import {
   useContext,
   useEffect,
   useRef,
+  useId,
   useState,
   type FormEvent,
   type ReactNode,
@@ -15,6 +16,7 @@ import {
   useLocation,
   useNavigate,
   useSearchParams,
+  ScrollRestoration,
 } from "react-router-dom";
 import {
   ArrowRight,
@@ -41,6 +43,7 @@ import {
   CheckCircle2,
   Filter,
   SlidersHorizontal,
+  CalendarDays,
 } from "lucide-react";
 import {
   accountsEnabled,
@@ -55,7 +58,13 @@ import {
 } from "./api";
 import {
   initialCategories,
+  suitableAges,
+  matchesAge,
+  localToday,
+  formatEventDate,
   isFreeListing,
+  venuePriceLabel,
+  listingAction,
   matchesSearch,
   publicUrl,
   suburbs,
@@ -63,14 +72,17 @@ import {
   type ImageRecord,
 } from "./domain";
 import { Illustration, Neighbourhood } from "./Illustration";
-import { AuthPage, Dashboard, ResetPassword } from "./Accounts";
+import { AuthPage, Dashboard, ResetPassword, ListingChooser } from "./Accounts";
 import { Admin } from "./Admin";
 import { ImageGallery } from "./Images";
+import { NeighbourhoodOptions, PriorityNeighbourhoods } from "./Neighbourhood";
+import { UpcomingEvents } from "./UpcomingEvents";
 export const AppContext = createContext<{
   auth: SessionContext;
   refreshAuth: () => Promise<void>;
   listings: Listing[];
   refreshListings: () => Promise<void>;
+  refreshTaxonomy: () => Promise<void>;
   categories: string[];
   locations: string[];
 }>({
@@ -78,6 +90,7 @@ export const AppContext = createContext<{
   refreshAuth: async () => {},
   listings: [],
   refreshListings: async () => {},
+  refreshTaxonomy: async () => {},
   categories: initialCategories,
   locations: suburbs,
 });
@@ -157,6 +170,17 @@ export default function App() {
       setLoading(false);
     }
   }
+  async function refreshTaxonomy() {
+    if (!db) return;
+    const [c, l] = await Promise.all([
+      db.from("categories").select("name").eq("active", true).order("name"),
+      db.from("locations").select("name").eq("active", true).order("name"),
+    ]);
+    if (c.error) throw c.error;
+    if (l.error) throw l.error;
+    setCategories(c.data.map((v) => v.name));
+    setLocations(l.data.map((v) => v.name));
+  }
   async function refreshAuth() {
     if (!db) return;
     const {
@@ -171,18 +195,11 @@ export default function App() {
     const { data } = db.auth.onAuthStateChange(() => {
       setTimeout(() => void refreshAuth().catch((e) => setError(e.message)), 0);
     });
-    void Promise.all([
-      db.from("categories").select("name").eq("active", true).order("name"),
-      db.from("locations").select("name").eq("active", true).order("name"),
-    ]).then(([c, l]) => {
-      if (c.data) setCategories(c.data.map((v) => v.name));
-      if (l.data) setLocations(l.data.map((v) => v.name));
-    });
+    void refreshTaxonomy().catch((e) => setError(e.message));
     return () => data.subscription.unsubscribe();
   }, []);
   useEffect(() => {
     setMobile(false);
-    window.scrollTo(0, 0);
     const detail = listings.find(
       (i) => location.pathname === `/listing/${i.id}`,
     );
@@ -190,7 +207,7 @@ export default function App() {
       ? `${detail.name} — BBFind`
       : location.pathname === "/"
         ? "BBFind — Your community, connected."
-        : `${location.pathname.startsWith("/venues") ? "Venues for hire" : location.pathname.startsWith("/dashboard") ? "Your organisation" : location.pathname.startsWith("/admin") ? "BBCN administration" : "Community directory"} — BBFind`;
+        : `${location.pathname.startsWith("/events") ? "Community events" : location.pathname.startsWith("/venues") ? "Venues for hire" : location.pathname.startsWith("/dashboard") ? "Your organisation" : location.pathname.startsWith("/admin") ? "BBCN administration" : "Community directory"} — BBFind`;
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute(
       "content",
@@ -218,13 +235,26 @@ export default function App() {
       script.textContent = JSON.stringify({
         "@context": "https://schema.org",
         "@type":
-          detail.type === "venue"
-            ? "Place"
-            : detail.type === "business"
-              ? "LocalBusiness"
-              : detail.type === "organisation"
-                ? "Organization"
-                : "Service",
+          detail.type === "event"
+            ? "Event"
+            : detail.type === "venue"
+              ? "Place"
+              : detail.type === "business"
+                ? "LocalBusiness"
+                : detail.type === "organisation"
+                  ? "Organization"
+                  : "Service",
+        ...(detail.type === "event"
+          ? {
+              startDate: detail.eventStartDate,
+              ...(detail.eventEndDate ? { endDate: detail.eventEndDate } : {}),
+              location: {
+                "@type": "Place",
+                name: detail.address || detail.suburb,
+                address: detail.address || detail.suburb,
+              },
+            }
+          : {}),
         name: detail.name,
         description: detail.summary,
         ...(site ? { url: site + location.pathname } : {}),
@@ -262,9 +292,25 @@ export default function App() {
         refreshListings,
         categories,
         locations,
+        refreshTaxonomy,
       }}
     >
-      <a className="skip" href="#main">
+      <ScrollRestoration
+        getKey={(loc) =>
+          /^\/(find|events|venues)$/.test(loc.pathname)
+            ? loc.pathname + loc.search
+            : loc.key
+        }
+      />
+      <a
+        className="skip"
+        href="#main"
+        onClick={(event) => {
+          event.preventDefault();
+          document.getElementById("main")?.focus();
+          document.getElementById("main")?.scrollIntoView();
+        }}
+      >
         Skip to content
       </a>
       <div className="topline">
@@ -300,8 +346,11 @@ export default function App() {
               Home
             </NavLink>
             <NavLink to="/find">Find It</NavLink>
-            <NavLink to="/get-found">Get Found</NavLink>
+            <NavLink to="/events">Events</NavLink>
             <NavLink to="/venues">Venues for Hire</NavLink>
+            <NavLink to="/get-found">
+              Get Found <span className="nav-action-hint">· Add a listing</span>
+            </NavLink>
             <NavLink to="/about">About</NavLink>
           </nav>
           <AccountLink
@@ -343,8 +392,9 @@ export default function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/find" element={<Directory />} />
-            <Route path="/venues" element={<Directory venues />} />
+            <Route path="/find" element={<Directory key="find" />} />
+            <Route path="/events" element={<Directory key="events" events />} />
+            <Route path="/venues" element={<Directory key="venues" venues />} />
             <Route path="/listing/:id" element={<ListingPage />} />
             <Route path="/get-found" element={<GetFound />} />
             <Route path="/about" element={<About />} />
@@ -397,6 +447,7 @@ export default function App() {
           <div>
             <strong>Find your community</strong>
             <Link to="/find">Explore the directory</Link>
+            <Link to="/events">Community events</Link>
             <Link to="/venues">Venues for hire</Link>
             <Link to="/get-found">Add your organisation</Link>
           </div>
@@ -505,8 +556,17 @@ const categoryTiles = [
   },
 ];
 function Home() {
-  const { listings } = useApp();
-  const featured = listings.filter((l) => l.featured).slice(0, 3);
+  const { listings, categories } = useApp();
+  const regularListings = listings.filter((l) => l.type !== "event");
+  const featured = regularListings.filter((l) => l.featured).slice(0, 3);
+  const homeCategories = [
+    ...new Set([
+      ...categoryTiles
+        .map((tile) => tile.value)
+        .filter((value) => categories.includes(value)),
+      ...categories,
+    ]),
+  ].slice(0, 6);
   return (
     <>
       <section className="hero">
@@ -555,6 +615,7 @@ function Home() {
           </div>
         </div>
       </section>
+      <UpcomingEvents listings={listings} />
       <section className="section categories-section">
         <div className="container">
           <div className="section-heading">
@@ -567,19 +628,30 @@ function Home() {
             </Link>
           </div>
           <div className="category-grid">
-            {categoryTiles.map(({ name, value, icon: Icon, color }) => (
-              <Link
-                className="category-tile"
-                to={`/find?category=${encodeURIComponent(value)}`}
-                key={value}
-              >
-                <span className={`category-icon ${color}`}>
-                  <Icon size={25} strokeWidth={1.6} />
-                </span>
-                <span>{name}</span>
-                <ArrowUpRight size={17} />
-              </Link>
-            ))}
+            {homeCategories.map((value) => {
+              const {
+                name,
+                icon: Icon,
+                color,
+              } = categoryTiles.find((t) => t.value === value) || {
+                name: value,
+                icon: Users,
+                color: "green",
+              };
+              return (
+                <Link
+                  className="category-tile"
+                  to={`/find?category=${encodeURIComponent(value)}`}
+                  key={value}
+                >
+                  <span className={`category-icon ${color}`}>
+                    <Icon size={25} strokeWidth={1.6} />
+                  </span>
+                  <span>{name}</span>
+                  <ArrowUpRight size={17} />
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -600,9 +672,11 @@ function Home() {
             </Link>
           </div>
           <div className="listing-grid">
-            {(featured.length ? featured : listings.slice(0, 3)).map((item) => (
-              <ListingCard key={item.id} item={item} />
-            ))}
+            {(featured.length ? featured : regularListings.slice(0, 3)).map(
+              (item) => (
+                <ListingCard key={item.id} item={item} />
+              ),
+            )}
           </div>
           {!listings.length && <Empty />}
         </div>
@@ -629,7 +703,7 @@ function Home() {
         </ButtonLink>
       </section>
       <section className="section">
-        <div className="container venue-teaser">
+        <div className="container venue-teaser feature-theme feature-theme-venue">
           <div className="venue-art">
             <Illustration kind="hall" />
             <span className="little-tag">
@@ -690,7 +764,19 @@ function Home() {
     </>
   );
 }
-export function ListingCard({ item }: { item: Listing }) {
+export function ListingCard({
+  item,
+  agenda = false,
+  venueDetails = false,
+}: {
+  item: Listing;
+  agenda?: boolean;
+  venueDetails?: boolean;
+}) {
+  const location = useLocation();
+  const backState = /^\/(find|events|venues)$/.test(location.pathname)
+    ? { from: location.pathname + location.search }
+    : undefined;
   const demoImage = !configured ? item.demoImages?.[0] : undefined;
   const [cover, setCover] = useState("");
   useEffect(() => {
@@ -710,9 +796,23 @@ export function ListingCard({ item }: { item: Listing }) {
     };
   }, [item.id]);
   return (
-    <article className="listing-card">
+    <article
+      className={`listing-card feature-theme feature-theme-${item.type === "event" ? "event" : item.type === "venue" ? "venue" : "activity"}${agenda ? " agenda-card" : ""}`}
+    >
+      {agenda && (
+        <div className="agenda-date" aria-hidden="true">
+          <span>
+            {new Intl.DateTimeFormat("en-NZ", {
+              month: "short",
+              timeZone: "Pacific/Auckland",
+            }).format(new Date(`${item.eventStartDate}T00:00:00Z`))}
+          </span>
+          <strong>{item.eventStartDate.slice(8)}</strong>
+        </div>
+      )}
       <Link
         to={`/listing/${item.id}`}
+        state={backState}
         className="card-visual"
         tabIndex={-1}
         aria-hidden="true"
@@ -742,20 +842,53 @@ export function ListingCard({ item }: { item: Listing }) {
           )}
           {isFreeListing(item) && <span className="free-label">Free</span>}
         </span>
+        {item.type === "event" && (
+          <p className="event-date">
+            <Clock size={15} />
+            <time dateTime={item.eventStartDate}>
+              {formatEventDate(item.eventStartDate)}
+            </time>
+            {item.eventEndDate && item.eventEndDate !== item.eventStartDate && (
+              <> – {formatEventDate(item.eventEndDate)}</>
+            )}
+          </p>
+        )}
         <h3>
-          <Link to={`/listing/${item.id}`}>
+          <Link to={`/listing/${item.id}`} state={backState}>
             {item.name}
             <ArrowUpRight size={19} />
           </Link>
         </h3>
         <p>{item.summary}</p>
+        {venueDetails && (
+          <div className="venue-facts">
+            <span>
+              <Building2 size={14} />
+              {item.roomType || "Space for hire"}
+            </span>
+            {item.kitchen && <span>Kitchen</span>}
+            {item.accessible && (
+              <span>
+                <Accessibility size={14} />
+                Accessible
+              </span>
+            )}
+          </div>
+        )}
         <div className="card-bottom">
-          <span>{item.categories[0]}</span>
+          <span>
+            {item.categories[0] ||
+              (item.type === "event"
+                ? "Community event"
+                : item.type === "venue"
+                  ? "Room or facility for hire"
+                  : "Find Me")}
+          </span>
           {item.type === "venue" ? (
             <span>
-              {item.capacity
+              {item.capacity > 0
                 ? `${item.capacity} people`
-                : "Enquire for capacity"}
+                : "Capacity not supplied"}
             </span>
           ) : (
             <ArrowRight size={16} />
@@ -779,9 +912,36 @@ function Empty() {
     </div>
   );
 }
-function Directory({ venues = false }: { venues?: boolean }) {
+function Directory({
+  venues = false,
+  events = false,
+}: {
+  venues?: boolean;
+  events?: boolean;
+}) {
   const { listings, categories, locations } = useApp();
   const [urlParams, setParams] = useSearchParams();
+  const directoryLocation = useLocation();
+  const [filtersOpen, setFiltersOpen] = useState(() => {
+    try {
+      return (
+        sessionStorage.getItem(
+          `bbfind-filters:${directoryLocation.pathname}`,
+        ) === "open"
+      );
+    } catch {
+      return false;
+    }
+  });
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(
+        `bbfind-filters:${directoryLocation.pathname}`,
+        filtersOpen ? "open" : "closed",
+      );
+    } catch {}
+  }, [filtersOpen, directoryLocation.pathname]);
+  const filterId = useId();
   const [params, setLocalParams] = useState(urlParams);
   const currentFilters = useRef(urlParams);
   const requested = useRef<string | null>(null);
@@ -799,7 +959,7 @@ function Directory({ venues = false }: { venues?: boolean }) {
     currentFilters.current = next;
     requested.current = next.toString();
     setLocalParams(next);
-    setParams(next);
+    setParams(next, { replace: true, preventScrollReset: true });
   };
   const set = (key: string, value: string) => {
     const next = new URLSearchParams(currentFilters.current);
@@ -810,10 +970,30 @@ function Directory({ venues = false }: { venues?: boolean }) {
     category = params.get("category") || "",
     suburb = params.get("suburb") || "",
     sort = params.get("sort") || "recommended";
+  const availableCategories = [
+    ...new Set([...categories, ...listings.flatMap((l) => l.categories)]),
+  ].sort((a, b) => a.localeCompare(b));
+  const availableLocations = [
+    ...new Set([...locations, ...listings.map((l) => l.suburb)]),
+  ];
+  const today = localToday();
   const filtered = listings
     .filter(
       (l) =>
-        (!venues || l.type === "venue") &&
+        (events
+          ? l.type === "event" && Boolean(l.eventStartDate)
+          : venues
+            ? l.type === "venue"
+            : l.type !== "event") &&
+        matchesAge(l, params.get("age") || "") &&
+        (!events ||
+          (((params.get("period") || "upcoming") === "all" ||
+            (params.get("period") === "past"
+              ? (l.eventEndDate || l.eventStartDate) < today
+              : (l.eventEndDate || l.eventStartDate) >= today)) &&
+            (!params.get("from") ||
+              (l.eventEndDate || l.eventStartDate) >= params.get("from")!) &&
+            (!params.get("to") || l.eventStartDate <= params.get("to")!))) &&
         matchesSearch(l, q) &&
         (!category || l.categories.includes(category)) &&
         (!suburb || l.suburb === suburb) &&
@@ -837,194 +1017,402 @@ function Directory({ venues = false }: { venues?: boolean }) {
           (l.price > 0 && l.price <= Number(params.get("price")))),
     )
     .sort((a, b) =>
-      sort === "name"
-        ? a.name.localeCompare(b.name)
-        : sort === "capacity"
-          ? a.capacity - b.capacity
-          : Number(b.featured) - Number(a.featured) ||
-            a.name.localeCompare(b.name),
+      events
+        ? a.eventStartDate.localeCompare(b.eventStartDate) ||
+          a.name.localeCompare(b.name)
+        : sort === "name"
+          ? a.name.localeCompare(b.name)
+          : sort === "capacity"
+            ? a.capacity - b.capacity
+            : Number(b.featured) - Number(a.featured) ||
+              a.name.localeCompare(b.name),
     );
   return (
     <>
-      <section className="page-intro">
+      <section
+        className={`page-intro feature-intro feature-theme feature-theme-${events ? "event" : venues ? "venue" : "activity"} ${events ? "intro-events" : venues ? "intro-venues" : "intro-find"}`}
+      >
         <div className="container">
           <div className="breadcrumb">
             <Link to="/">Home</Link>
             <ChevronRight size={12} />
-            {venues ? "Venues for hire" : "Find It"}
+            {events ? "Events" : venues ? "Venues for hire" : "Find It"}
           </div>
-          <span className="eyebrow">
-            {venues
-              ? "A SPACE FOR EVERY OCCASION"
-              : "A WORLD OF LOCAL POSSIBILITIES"}
-          </span>
-          <h1>
-            {venues ? "Bring people together." : "Find your kind of community."}
-          </h1>
-          <p>
-            {venues
-              ? "Discover local rooms, halls and spaces for your next gathering."
-              : "People, places and possibilities. There’s something here for you."}
-          </p>
-          <form
-            className="search-box"
-            role="search"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <Search size={21} />
-            <label className="sr-only" htmlFor="directory-search">
-              Search the directory
-            </label>
-            <input
-              id="directory-search"
-              value={q}
-              placeholder={
-                venues
-                  ? "Search venues, facilities or activities…"
-                  : "Search names, interests, activities…"
-              }
-              onChange={(e) => set("q", e.target.value)}
-            />
-            {q && (
-              <button
-                type="button"
-                className="icon-button"
-                aria-label="Clear search"
-                onClick={() => set("q", "")}
+          <div className="feature-intro-grid">
+            <div className="feature-intro-copy">
+              <span className="feature-label">
+                {events ? (
+                  <CalendarDays size={19} />
+                ) : venues ? (
+                  <Building2 size={19} />
+                ) : (
+                  <Users size={19} />
+                )}
+                {events ? "Events" : venues ? "Venues for Hire" : "Find It"}
+              </span>
+              <span className="eyebrow">
+                {events
+                  ? "WHAT’S HAPPENING LOCALLY"
+                  : venues
+                    ? "A SPACE FOR EVERY OCCASION"
+                    : "A WORLD OF LOCAL POSSIBILITIES"}
+              </span>
+              <h1>
+                {events
+                  ? "Your community calendar."
+                  : venues
+                    ? "Bring people together."
+                    : "Find your kind of community."}
+              </h1>
+              <p>
+                {events
+                  ? "Discover upcoming events in calendar date order, from local gatherings to special occasions."
+                  : venues
+                    ? "Discover local rooms, halls and spaces for your next gathering."
+                    : "People, places and possibilities. There’s something here for you."}
+              </p>
+              <form
+                className="search-box"
+                role="search"
+                onSubmit={(e) => e.preventDefault()}
               >
-                <X size={18} />
-              </button>
-            )}
-          </form>
+                <Search size={21} />
+                <label className="sr-only" htmlFor="directory-search">
+                  Search the directory
+                </label>
+                <input
+                  id="directory-search"
+                  value={q}
+                  placeholder={
+                    events
+                      ? "Search events, names or interests…"
+                      : venues
+                        ? "Search venues, facilities or activities…"
+                        : "Search names, interests, activities…"
+                  }
+                  onChange={(e) => set("q", e.target.value)}
+                />
+                {q && (
+                  <button
+                    type="button"
+                    className="icon-button"
+                    aria-label="Clear search"
+                    onClick={() => set("q", "")}
+                  >
+                    <X size={18} />
+                  </button>
+                )}
+              </form>
+            </div>
+            <div className="feature-art" aria-hidden="true">
+              {events ? (
+                <div className="calendar-art">
+                  <span>THE COMMUNITY CALENDAR</span>
+                  <CalendarDays size={112} strokeWidth={1} />
+                  <strong>
+                    Make a date
+                    <br />
+                    with your community.
+                  </strong>
+                </div>
+              ) : venues ? (
+                <>
+                  <Illustration kind="hall" />
+                  <span className="feature-art-note">
+                    ROOMS · HALLS · MEETING SPACES
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Illustration kind="garden" />
+                  <span className="feature-art-note">
+                    PEOPLE · ACTIVITIES · SERVICES
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </section>
-      <section className="container directory-layout">
-        <aside className="filters">
-          <h2>
-            <SlidersHorizontal size={18} /> Find a good fit
-          </h2>
-          <label>
-            Category
-            <select
-              aria-label="Category"
-              value={category}
-              onChange={(e) => set("category", e.target.value)}
-            >
-              <option value="">All categories</option>
-              {categories.map((c) => (
-                <option key={c}>{c}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Neighbourhood
-            <select
-              aria-label="Neighbourhood"
+      <section
+        className={`container directory-layout feature-theme feature-theme-${events ? "event" : venues ? "venue" : "activity"} ${events ? "directory-events" : venues ? "directory-venues" : "directory-find"}`}
+      >
+        <div className="filter-column">
+          <button
+            type="button"
+            className="button secondary mobile-filter-toggle"
+            aria-expanded={filtersOpen}
+            aria-controls={filterId}
+            onClick={() => setFiltersOpen(!filtersOpen)}
+          >
+            Filters {params.size > 0 && `(${params.size})`}
+          </button>
+          <aside
+            id={filterId}
+            className={`filters ${filtersOpen ? "filters-open" : "filters-collapsed"}`}
+          >
+            <h2>
+              <SlidersHorizontal size={18} />{" "}
+              {events
+                ? "Plan your visit"
+                : venues
+                  ? "Find your space"
+                  : "Find a good fit"}
+            </h2>
+            {!events && !venues && (
+              <label>
+                Category
+                <select
+                  aria-label="Category"
+                  value={category}
+                  onChange={(e) => set("category", e.target.value)}
+                >
+                  <option value="">All categories</option>
+                  {availableCategories.map((c) => (
+                    <option key={c}>{c}</option>
+                  ))}
+                </select>
+              </label>
+            )}
+            <PriorityNeighbourhoods
+              locations={availableLocations}
               value={suburb}
-              onChange={(e) => set("suburb", e.target.value)}
-            >
-              <option value="">All neighbourhoods</option>
-              {locations.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
-          </label>
-          <label className="check-label">
-            <input
-              type="checkbox"
-              checked={Boolean(params.get("free"))}
-              onChange={(e) => set("free", e.target.checked ? "true" : "")}
+              onChange={(v) => set("suburb", v)}
             />
-            Free only
-          </label>
-          {venues && (
-            <>
+            <label>
+              Neighbourhood
+              <select
+                aria-label="Neighbourhood"
+                value={suburb}
+                onChange={(e) => set("suburb", e.target.value)}
+              >
+                <option value="">All neighbourhoods</option>
+                <NeighbourhoodOptions locations={availableLocations} />
+              </select>
+            </label>
+            {!venues && (
               <label>
-                People to accommodate
-                <input
-                  type="number"
-                  min="0"
-                  value={params.get("capacity") || ""}
-                  onChange={(e) => set("capacity", e.target.value)}
-                  placeholder="Any capacity"
-                />
+                Suitable Ages
+                <select
+                  aria-label="Suitable Ages"
+                  value={params.get("age") || ""}
+                  onChange={(e) => set("age", e.target.value)}
+                >
+                  <option value="">Any age</option>
+                  {suitableAges.map((age) => (
+                    <option key={age}>{age}</option>
+                  ))}
+                </select>
               </label>
-              <label>
-                Room type
-                <input
-                  value={params.get("room") || ""}
-                  onChange={(e) => set("room", e.target.value)}
-                  placeholder="e.g. hall, meeting room"
-                />
-              </label>
-              <label>
-                Suitable activity
-                <input
-                  value={params.get("use") || ""}
-                  onChange={(e) => set("use", e.target.value)}
-                  placeholder="e.g. workshop"
-                />
-              </label>
-              <label>
-                Maximum hourly price ($)
-                <input
-                  type="number"
-                  min="0"
-                  value={params.get("price") || ""}
-                  onChange={(e) => set("price", e.target.value)}
-                  placeholder="Any price"
-                />
-              </label>
-              {[
-                ["kitchen", "Kitchen facilities"],
-                ["accessible", "Accessible venue"],
-                ["indoor", "Indoor space"],
-                ["outdoor", "Outdoor space"],
-              ].map(([k, label]) => (
-                <label key={k} className="check-label">
-                  <input
-                    type="checkbox"
-                    checked={Boolean(params.get(k))}
-                    onChange={(e) => set(k, e.target.checked ? "true" : "")}
-                  />
-                  {label}
+            )}
+            {events && (
+              <>
+                <label>
+                  Show events
+                  <select
+                    aria-label="Show events"
+                    value={params.get("period") || "upcoming"}
+                    onChange={(e) => set("period", e.target.value)}
+                  >
+                    <option value="upcoming">Upcoming & ongoing</option>
+                    <option value="all">All dates</option>
+                    <option value="past">Past events</option>
+                  </select>
                 </label>
-              ))}
-            </>
-          )}
-          {params.size > 0 && (
-            <button
-              className="text-button"
-              onClick={() => update(new URLSearchParams())}
-            >
-              Clear all filters <X size={13} />
-            </button>
-          )}
-        </aside>
+                <label>
+                  From date
+                  <input
+                    type="date"
+                    value={params.get("from") || ""}
+                    onChange={(e) => set("from", e.target.value)}
+                  />
+                </label>
+                <label>
+                  To date
+                  <input
+                    type="date"
+                    min={params.get("from") || undefined}
+                    value={params.get("to") || ""}
+                    onChange={(e) => set("to", e.target.value)}
+                  />
+                </label>
+              </>
+            )}
+            <label className="check-label">
+              <input
+                type="checkbox"
+                checked={Boolean(params.get("free"))}
+                onChange={(e) => set("free", e.target.checked ? "true" : "")}
+              />
+              Free only
+            </label>
+            {venues && (
+              <>
+                <label>
+                  People to accommodate
+                  <input
+                    type="number"
+                    min="0"
+                    value={params.get("capacity") || ""}
+                    onChange={(e) => set("capacity", e.target.value)}
+                    placeholder="Any capacity"
+                  />
+                </label>
+                <label>
+                  Room type
+                  <input
+                    value={params.get("room") || ""}
+                    onChange={(e) => set("room", e.target.value)}
+                    placeholder="e.g. hall, meeting room"
+                  />
+                </label>
+                <label>
+                  Suitable activity
+                  <input
+                    value={params.get("use") || ""}
+                    onChange={(e) => set("use", e.target.value)}
+                    placeholder="e.g. workshop"
+                  />
+                </label>
+                <label>
+                  Maximum hourly price ($)
+                  <input
+                    type="number"
+                    min="0"
+                    value={params.get("price") || ""}
+                    onChange={(e) => set("price", e.target.value)}
+                    placeholder="Any price"
+                  />
+                </label>
+                {[
+                  ["kitchen", "Kitchen facilities"],
+                  ["accessible", "Accessible venue"],
+                  ["indoor", "Indoor space"],
+                  ["outdoor", "Outdoor space"],
+                ].map(([k, label]) => (
+                  <label key={k} className="check-label">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(params.get(k))}
+                      onChange={(e) => set(k, e.target.checked ? "true" : "")}
+                    />
+                    {label}
+                  </label>
+                ))}
+              </>
+            )}
+            {params.size > 0 && (
+              <button
+                className="text-button"
+                onClick={() => update(new URLSearchParams())}
+              >
+                Clear all filters <X size={13} />
+              </button>
+            )}
+          </aside>
+        </div>
         <div>
+          {!!params.size && (
+            <div className="active-filters" aria-label="Selected filters">
+              {[...params].map(([key, value]) => (
+                <button
+                  key={key}
+                  type="button"
+                  className="filter-chip"
+                  onClick={() => set(key, "")}
+                  aria-label={`Remove ${key === "q" ? "search" : key} filter`}
+                >
+                  {(
+                    {
+                      q: "Search",
+                      category: "Category",
+                      suburb: "Neighbourhood",
+                      age: "Age",
+                      free: "Free",
+                      capacity: "Capacity",
+                      price: "Max hourly price",
+                      from: "From",
+                      to: "To",
+                      period: "Dates",
+                      room: "Room",
+                      use: "Use",
+                    } as Record<string, string>
+                  )[key] || key}
+                  : {value === "true" ? "Yes" : value} <X size={12} />
+                </button>
+              ))}
+              <button
+                className="text-button"
+                onClick={() => update(new URLSearchParams())}
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
           <div className="results-toolbar">
             <span>
               <strong>{filtered.length}</strong>{" "}
-              {filtered.length === 1 ? "possibility" : "possibilities"} to
-              explore
+              {events
+                ? filtered.length === 1
+                  ? "event"
+                  : "events"
+                : venues
+                  ? filtered.length === 1
+                    ? "venue"
+                    : "venues"
+                  : filtered.length === 1
+                    ? "possibility"
+                    : "possibilities"}{" "}
+              to explore
             </span>
-            <label className="sort-label">
-              Sort by
-              <select
-                value={sort}
-                onChange={(e) => set("sort", e.target.value)}
-              >
-                <option value="recommended">Recommended</option>
-                <option value="name">Name A–Z</option>
-                {venues && <option value="capacity">Capacity</option>}
-              </select>
-            </label>
+            {events ? (
+              <span className="help">Event date · earliest first</span>
+            ) : (
+              <label className="sort-label">
+                Sort by
+                <select
+                  value={sort}
+                  onChange={(e) => set("sort", e.target.value)}
+                >
+                  <option value="recommended">Recommended</option>
+                  <option value="name">Name A–Z</option>
+                  {venues && <option value="capacity">Capacity</option>}
+                </select>
+              </label>
+            )}
           </div>
-          <div className="listing-grid two">
-            {filtered.map((item) => (
-              <ListingCard item={item} key={item.id} />
-            ))}
-          </div>
+          {events ? (
+            <div className="event-agenda">
+              {filtered.map((item, index) => {
+                const month = item.eventStartDate.slice(0, 7);
+                const firstOfMonth =
+                  index === 0 ||
+                  filtered[index - 1].eventStartDate.slice(0, 7) !== month;
+                return (
+                  <div key={item.id}>
+                    {firstOfMonth && (
+                      <h2 className="agenda-month">
+                        {new Intl.DateTimeFormat("en-NZ", {
+                          month: "long",
+                          year: "numeric",
+                          timeZone: "Pacific/Auckland",
+                        }).format(new Date(`${item.eventStartDate}T00:00:00Z`))}
+                      </h2>
+                    )}
+                    <ListingCard item={item} agenda />
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div
+              className={`listing-grid two${venues ? " venue-results" : ""}`}
+            >
+              {filtered.map((item) => (
+                <ListingCard item={item} key={item.id} venueDetails={venues} />
+              ))}
+            </div>
+          )}
           {!filtered.length && <Empty />}
         </div>
       </section>
@@ -1057,10 +1445,33 @@ function ListingPage() {
         <ButtonLink to="/find">Back to the directory</ButtonLink>
       </div>
     );
+  const fallback =
+    item.type === "event"
+      ? "/events"
+      : item.type === "venue"
+        ? "/venues"
+        : "/find";
+  const back =
+    typeof location.state?.from === "string" &&
+    /^\/(find|events|venues)(\?|$)/.test(location.state.from)
+      ? location.state.from
+      : fallback;
+  const primary = listingAction(item);
   return (
-    <div className="container page">
+    <div
+      className={`container page feature-theme feature-theme-${item.type === "event" ? "event" : item.type === "venue" ? "venue" : "activity"}`}
+    >
+      <Link className="text-button back-link" to={back}>
+        ← Back to results
+      </Link>
       <div className="breadcrumb">
-        <Link to="/find">Find It</Link>
+        <Link to={fallback}>
+          {item.type === "event"
+            ? "Events"
+            : item.type === "venue"
+              ? "Venues for Hire"
+              : "Find It"}
+        </Link>
         <ChevronRight size={12} />
         {item.name}
       </div>
@@ -1074,7 +1485,10 @@ function ListingPage() {
           <p className="lead">{item.summary}</p>
           <div className="tags">
             {item.categories.map((c) => (
-              <Link key={c} to={`/find?category=${encodeURIComponent(c)}`}>
+              <Link
+                key={c}
+                to={`${item.type === "event" ? "/events" : "/find"}?category=${encodeURIComponent(c)}`}
+              >
                 {c}
               </Link>
             ))}
@@ -1098,7 +1512,33 @@ function ListingPage() {
           {imageError && (
             <Message error>Could not load gallery: {imageError}</Message>
           )}
-          <h2>A little about us</h2>
+          {item.type === "event" && (
+            <section className="event-date-panel">
+              <h2>When it’s happening</h2>
+              <p>
+                <time dateTime={item.eventStartDate}>
+                  {formatEventDate(item.eventStartDate)}
+                </time>
+                {item.eventEndDate &&
+                  item.eventEndDate !== item.eventStartDate && (
+                    <>
+                      {" "}
+                      –{" "}
+                      <time dateTime={item.eventEndDate}>
+                        {formatEventDate(item.eventEndDate)}
+                      </time>
+                    </>
+                  )}
+              </p>
+              <small>
+                Dates and times are local to New Zealand. Check with the
+                organiser before attending.
+              </small>
+            </section>
+          )}
+          <h2>
+            {item.type === "event" ? "About this event" : "A little about us"}
+          </h2>
           <p className="preserve">{item.description}</p>
           {!configured && item.sourceUrl && (
             <div className="demo-source">
@@ -1117,6 +1557,12 @@ function ListingPage() {
               </a>
             </div>
           )}
+          {!!item.suitableAges?.length && (
+            <>
+              <h3>Suitable ages</h3>
+              <p>{item.suitableAges.join(", ")}</p>
+            </>
+          )}
           {item.ageGroups && (
             <>
               <h3>Who it’s for</h3>
@@ -1130,9 +1576,9 @@ function ListingPage() {
                 {[
                   [
                     "Capacity",
-                    item.capacity
+                    item.capacity > 0
                       ? `${item.capacity} people`
-                      : "Please enquire",
+                      : "Capacity not supplied",
                   ],
                   ["Space", item.roomType],
                   ["Kitchen", item.kitchen ? "Available" : "Not specified"],
@@ -1178,6 +1624,17 @@ function ListingPage() {
         <aside className="contact-panel">
           <span className="eyebrow">MAKE A CONNECTION</span>
           <h2>Good to know</h2>
+          {primary && (
+            <a
+              className="button listing-primary-action"
+              href={primary.href}
+              {...(primary.href.startsWith("http")
+                ? { target: "_blank", rel: "noreferrer" }
+                : {})}
+            >
+              {primary.label} <ArrowUpRight size={16} />
+            </a>
+          )}
           {item.organisation_name && <p>Part of {item.organisation_name}</p>}
           {item.address && (
             <p>
@@ -1191,10 +1648,10 @@ function ListingPage() {
               {item.times}
             </p>
           )}
-          {item.cost && (
+          {(item.cost || item.type === "venue") && (
             <p>
               <Heart size={18} />
-              {item.cost}
+              {item.type === "venue" ? venuePriceLabel(item) : item.cost}
             </p>
           )}
           {item.publicContact && (
@@ -1215,26 +1672,30 @@ function ListingPage() {
               {item.publicEmail}
             </a>
           )}
-          {item.website && publicUrl(item.website) && (
-            <a
-              className="button"
-              href={publicUrl(item.website)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Visit website <ArrowUpRight size={16} />
-            </a>
-          )}
-          {item.bookingUrl && publicUrl(item.bookingUrl) && (
-            <a
-              className="button secondary"
-              href={publicUrl(item.bookingUrl)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Booking information <ArrowUpRight size={16} />
-            </a>
-          )}
+          {item.website &&
+            publicUrl(item.website) &&
+            primary?.href !== publicUrl(item.website) && (
+              <a
+                className="button secondary"
+                href={publicUrl(item.website)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Visit website <ArrowUpRight size={16} />
+              </a>
+            )}
+          {item.bookingUrl &&
+            publicUrl(item.bookingUrl) &&
+            primary?.href !== publicUrl(item.bookingUrl) && (
+              <a
+                className="button secondary"
+                href={publicUrl(item.bookingUrl)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Booking information <ArrowUpRight size={16} />
+              </a>
+            )}
           {item.socialLinks
             ?.split("\n")
             .filter(Boolean)
@@ -1297,6 +1758,9 @@ function GetFound() {
           </AccountLink>
         </div>
       </section>
+      <div className="container page">
+        <ListingChooser />
+      </div>
       <section className="container page narrow">
         <h2>One account. All your possibilities.</h2>
         <p>

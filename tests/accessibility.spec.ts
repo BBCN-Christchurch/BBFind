@@ -3,7 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 test("public pages have no automated WCAG A/AA violations", async ({
   page,
 }) => {
-  for (const path of ["/", "/find", "/venues", "/get-found"]) {
+  for (const path of ["/", "/find", "/events", "/venues", "/get-found"]) {
     await page.goto(path);
     await expect(page.locator("h1")).toBeVisible();
     const report = await new AxeBuilder({ page })
