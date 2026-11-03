@@ -98,85 +98,89 @@ export const initialCategories = [
 ];
 const safeUrl = z
   .string()
+  .trim()
   .max(1000)
   .refine(
-    (v) => !v || /^https?:\/\//i.test(v),
+    (v) => !v || Boolean(publicUrl(v)),
     "Use a full http:// or https:// address.",
   );
-export const listingSchema = z
-  .object({
-    name: z.string().trim().min(3, "Enter at least 3 characters.").max(150),
-    summary: z
-      .string()
-      .trim()
-      .min(10, "Add a short introduction (at least 10 characters).")
-      .max(220),
-    description: z
-      .string()
-      .trim()
-      .min(20, "Tell visitors a little more (at least 20 characters).")
-      .max(10000),
-    type: z.enum(listingTypes),
-    categories: z.array(z.string().min(1).max(150)).max(10),
-    suburb: z.string().trim().min(2).max(100),
-    address: z.string().max(300),
-    website: safeUrl,
-    publicEmail: z.union([z.literal(""), z.string().email()]),
-    publicPhone: z.string().max(80),
-    publicContact: z.string().max(100),
-    socialLinks: z
-      .string()
-      .max(2000)
-      .refine(
-        (v) => !v || v.split("\n").every((s) => /^https?:\/\//i.test(s.trim())),
-        "Use one full web address per line.",
-      ),
-    times: z.string().max(1000),
-    ageGroups: z.string().max(300),
-    suitableAges: z.array(z.enum(suitableAges)).max(7).default([]),
-    eventStartDate: eventDate,
-    eventEndDate: eventDate,
-    cost: z.string().max(300),
-    accessibility: z.string().max(1000),
-    capacity: z.number().int().min(0).max(100000),
-    roomType: z.string().max(150),
-    kitchen: z.boolean(),
-    accessible: z.boolean(),
-    outdoor: z.boolean(),
-    wifi: z.boolean(),
-    parking: z.boolean(),
-    av: z.boolean(),
-    toilets: z.boolean(),
-    facilities: z.string().max(2000),
-    suitableFor: z.string().max(1000),
-    availability: z.string().max(1000),
-    bookingUrl: safeUrl,
-    price: z.number().min(0).max(100000),
-    spaces: z.string().max(3000),
-  })
-  .superRefine((data, ctx) => {
-    if (!["event", "venue"].includes(data.type) && !data.categories.length)
-      ctx.addIssue({
-        code: "custom",
-        path: ["categories"],
-        message: "Choose a category.",
-      });
-    if (data.type === "event" && !data.eventStartDate)
-      ctx.addIssue({
-        code: "custom",
-        path: ["eventStartDate"],
-        message: "Choose the event start date.",
-      });
-    if (
-      data.eventEndDate &&
-      (!data.eventStartDate || data.eventEndDate < data.eventStartDate)
-    )
-      ctx.addIssue({
-        code: "custom",
-        path: ["eventEndDate"],
-        message: "The end date must be on or after the start date.",
-      });
-  });
+const listingFields = z.object({
+  name: z.string().trim().min(3, "Enter at least 3 characters.").max(150),
+  summary: z
+    .string()
+    .trim()
+    .min(10, "Add a short introduction (at least 10 characters).")
+    .max(220),
+  description: z
+    .string()
+    .trim()
+    .min(20, "Tell visitors a little more (at least 20 characters).")
+    .max(10000),
+  type: z.enum(listingTypes),
+  categories: z.array(z.string().min(1).max(150)).max(10),
+  suburb: z.string().trim().min(2).max(100),
+  address: z.string().max(300),
+  website: safeUrl,
+  publicEmail: z.union([z.literal(""), z.string().email()]),
+  publicPhone: z.string().max(80),
+  publicContact: z.string().max(100),
+  socialLinks: z
+    .string()
+    .max(2000)
+    .refine(
+      (v) => !v || v.split("\n").every((s) => /^https?:\/\//i.test(s.trim())),
+      "Use one full web address per line.",
+    ),
+  times: z.string().max(1000),
+  ageGroups: z.string().max(300),
+  suitableAges: z.array(z.enum(suitableAges)).max(7).default([]),
+  eventStartDate: eventDate,
+  eventEndDate: eventDate,
+  cost: z.string().max(300),
+  accessibility: z.string().max(1000),
+  capacity: z.number().int().min(0).max(100000),
+  roomType: z.string().max(150),
+  kitchen: z.boolean(),
+  accessible: z.boolean(),
+  outdoor: z.boolean(),
+  wifi: z.boolean(),
+  parking: z.boolean(),
+  av: z.boolean(),
+  toilets: z.boolean(),
+  facilities: z.string().max(2000),
+  suitableFor: z.string().max(1000),
+  availability: z.string().max(1000),
+  bookingUrl: safeUrl,
+  price: z.number().min(0).max(100000),
+  spaces: z.string().max(3000),
+});
+export const draftSchema = listingFields.extend({
+  summary: z.string().trim().max(220),
+  description: z.string().trim().max(10000),
+});
+export const listingSchema = listingFields.superRefine((data, ctx) => {
+  if (!["event", "venue"].includes(data.type) && !data.categories.length)
+    ctx.addIssue({
+      code: "custom",
+      path: ["categories"],
+      message: "Choose a category.",
+    });
+  if (data.type === "event" && !data.eventStartDate)
+    ctx.addIssue({
+      code: "custom",
+      path: ["eventStartDate"],
+      message: "Choose the event start date.",
+    });
+  if (
+    data.eventEndDate &&
+    (!data.eventStartDate || data.eventEndDate < data.eventStartDate)
+  )
+    ctx.addIssue({
+      code: "custom",
+      path: ["eventEndDate"],
+      message: "The end date must be on or after the start date.",
+    });
+});
 export type ListingData = z.infer<typeof listingSchema>;
 export function isFreeListing(
   listing: Pick<ListingData, "cost" | "type" | "price">,
@@ -185,6 +189,42 @@ export function isFreeListing(
     listing.cost.trim().toLowerCase() === "free" &&
     (listing.type !== "venue" || listing.price === 0)
   );
+}
+export function venuePriceLabel(
+  item: Pick<ListingData, "type" | "cost" | "price">,
+) {
+  if (isFreeListing(item)) return "Free";
+  if (item.cost.trim() && item.cost.trim().toLowerCase() !== "free")
+    return item.cost;
+  return item.price > 0
+    ? `$${item.price.toLocaleString("en-NZ")} per hour (indicative)`
+    : "Enquire for pricing";
+}
+export function listingAction(item: ListingData) {
+  const booking = publicUrl(item.bookingUrl),
+    website = publicUrl(item.website);
+  const contact = item.publicEmail
+    ? `mailto:${item.publicEmail}`
+    : item.publicPhone
+      ? `tel:${item.publicPhone.replace(/[^+\d]/g, "")}`
+      : undefined;
+  if (item.type === "event" && booking)
+    return { href: booking, label: "Tickets / Register" };
+  if (item.type === "venue" && (booking || contact))
+    return { href: (booking || contact)!, label: "Enquire about this space" };
+  if (item.type === "event" && contact)
+    return { href: contact, label: "Contact the organiser" };
+  if (contact || booking || website)
+    return {
+      href: (contact || booking || website)!,
+      label:
+        item.type === "venue"
+          ? "Visit venue website"
+          : item.type === "event"
+            ? "Event information"
+            : "Contact / Join",
+    };
+  return null;
 }
 export type Listing = ListingData & {
   id: string;
@@ -222,6 +262,7 @@ export type ManagedListing = {
   review_note: string | null;
   featured: boolean;
   verified: boolean;
+  updated_at?: string;
 };
 export const emptyListing: ListingData = {
   name: "",

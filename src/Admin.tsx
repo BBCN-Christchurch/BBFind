@@ -2,12 +2,17 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, ImagePlus, ShieldCheck } from "lucide-react";
 import { configured, db, managedListings, rpc, type Account } from "./api";
-import { friendlyStatus, type ManagedListing } from "./domain";
+import { friendlyStatus, listingTypes, type ManagedListing } from "./domain";
 import { Message, useApp } from "./App";
 import { ListingEditor, Stat } from "./Accounts";
 import { ImageManager } from "./Images";
+import { useUnsaved } from "./Unsaved";
 export function Admin() {
   const { auth, refreshListings } = useApp();
+  const { request } = useUnsaved();
+  const [filterType, setFilterType] = useState(""),
+    [filterOrg, setFilterOrg] = useState(""),
+    [reviewKind, setReviewKind] = useState("");
   const [items, setItems] = useState<ManagedListing[]>([]),
     [orgs, setOrgs] = useState<
       (Account & { deletion_requested_at: string | null })[]
@@ -19,7 +24,13 @@ export function Admin() {
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false),
     [edit, setEdit] = useState(false),
-    [pendingImages, setPendingImages] = useState<{ listing_id: string }[]>([]);
+    [pendingImages, setPendingImages] = useState<
+      {
+        listing_id: string;
+        created_at?: string;
+        review_requested_at?: string;
+      }[]
+    >([]);
   async function refresh() {
     if (!db) return;
     setItems(await managedListings(true));
@@ -31,7 +42,7 @@ export function Admin() {
     setOrgs(data || []);
     const imgs = await db
       .from("listing_images")
-      .select("listing_id")
+      .select("listing_id,review_requested_at,created_at")
       .eq("status", "pending_review");
     if (imgs.error) throw imgs.error;
     setPendingImages(imgs.data || []);
@@ -68,15 +79,17 @@ export function Admin() {
       await refresh();
       await refreshListings();
       setMessage(success);
+      return true;
     } catch (e) {
       setError((e as Error).message);
+      return false;
     } finally {
       setBusy(false);
     }
   }
   async function review(decision: string) {
     if (!selected) return;
-    await action(
+    const saved = await action(
       () =>
         rpc("review_listing", {
           listing_id: selected.id,
@@ -86,15 +99,40 @@ export function Admin() {
         }),
       "Review saved.",
     );
-    setSelected(null);
-    setNote("");
+    if (saved) {
+      setSelected(null);
+      setNote("");
+    }
   }
-  const displayed = items.filter((i) =>
-    tab === "queue"
-      ? i.status === "pending_review" ||
-        pendingImages.some((im) => im.listing_id === i.id)
-      : true,
-  );
+  const queueTime = (item: ManagedListing) => {
+    const times = [
+      ...(item.status === "pending_review" ? [item.updated_at || ""] : []),
+      ...pendingImages
+        .filter((i) => i.listing_id === item.id)
+        .map(
+          (i) => i.review_requested_at || i.created_at || item.updated_at || "",
+        ),
+    ].filter(Boolean);
+    return times.sort()[0] || item.updated_at || "9999";
+  };
+  const displayed = items
+    .filter(
+      (i) =>
+        (tab !== "queue" ||
+          i.status === "pending_review" ||
+          pendingImages.some((im) => im.listing_id === i.id)) &&
+        (!filterType || i.proposed.type === filterType) &&
+        (!filterOrg || i.organisation_id === filterOrg) &&
+        (!reviewKind ||
+          (reviewKind === "text"
+            ? i.status === "pending_review"
+            : pendingImages.some((im) => im.listing_id === i.id))),
+    )
+    .sort((a, b) =>
+      tab === "queue"
+        ? queueTime(a).localeCompare(queueTime(b)) || a.id.localeCompare(b.id)
+        : (b.updated_at || "").localeCompare(a.updated_at || ""),
+    );
   return (
     <section className="container page">
       <div className="dashboard-heading">
@@ -152,11 +190,13 @@ export function Admin() {
           <button
             key={key}
             className={tab === key ? "active" : ""}
-            onClick={() => {
-              setTab(key);
-              setSelected(null);
-              setEdit(false);
-            }}
+            onClick={() =>
+              request(() => {
+                setTab(key);
+                setSelected(null);
+                setEdit(false);
+              })
+            }
           >
             {label}
           </button>
@@ -195,6 +235,13 @@ export function Admin() {
                   {friendlyStatus(selected.status)}
                 </span>
               </div>
+              {selected.published && (
+                <p className="change-explanation">
+                  Highlighted fields show changes from the current public
+                  listing. This comparison uses only the current and proposed
+                  content.
+                </p>
+              )}
               <div className="review-columns">
                 {selected.published && (
                   <section className="form-card">
@@ -204,7 +251,10 @@ export function Admin() {
                 )}
                 <section className="form-card">
                   <span className="eyebrow">PROPOSED CONTENT</span>
-                  <ListingReview data={selected.proposed} />
+                  <ListingReview
+                    data={selected.proposed}
+                    previous={selected.published}
+                  />
                 </section>
               </div>
               <div className="review-actions">
@@ -347,6 +397,63 @@ export function Admin() {
         </div>
       ) : (
         <div className="managed-listings">
+          <div className="admin-queue-filters form-grid">
+            <label>
+              Listing type
+              <select
+                aria-label="Filter listing type"
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+              >
+                <option value="">All listing types</option>
+                {listingTypes.map((t) => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Organisation
+              <select
+                aria-label="Filter organisation"
+                value={filterOrg}
+                onChange={(e) => setFilterOrg(e.target.value)}
+              >
+                <option value="">All organisations</option>
+                {orgs.map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Review needed
+              <select
+                aria-label="Filter review needed"
+                value={reviewKind}
+                onChange={(e) => setReviewKind(e.target.value)}
+              >
+                <option value="">Text or photos</option>
+                <option value="text">Listing text</option>
+                <option value="images">Photos</option>
+              </select>
+            </label>
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => {
+                setFilterType("");
+                setFilterOrg("");
+                setReviewKind("");
+              }}
+            >
+              Clear review filters
+            </button>
+          </div>
+          <p role="status">
+            {displayed.length} listings shown
+            {tab === "queue" ? " · Oldest outstanding first" : ""}.
+          </p>
           {!displayed.length && (
             <div className="empty">
               <CheckCircle2 size={34} />
@@ -475,17 +582,53 @@ export function Admin() {
     </section>
   );
 }
-function ListingReview({ data }: { data: Record<string, unknown> }) {
+function ListingReview({
+  data,
+  previous,
+}: {
+  data: Record<string, unknown>;
+  previous?: Record<string, unknown> | null;
+}) {
+  const display = (value: unknown) =>
+    Array.isArray(value)
+      ? value.join(", ") || "Not supplied"
+      : value === false
+        ? "No"
+        : value === "" || value === null || value === undefined
+          ? "Not supplied"
+          : String(value);
   return (
     <dl className="review-data">
       {Object.entries(data)
-        .filter(([, v]) => v !== "" && v !== 0 && v !== false)
-        .map(([key, value]) => (
-          <div key={key}>
-            <dt>{key.replace(/([A-Z])/g, " $1")}</dt>
-            <dd>{Array.isArray(value) ? value.join(", ") : String(value)}</dd>
-          </div>
-        ))}
+        .filter(
+          ([key, v]) =>
+            (previous && JSON.stringify(previous[key]) !== JSON.stringify(v)) ||
+            (v !== "" &&
+              v !== 0 &&
+              v !== false &&
+              (!Array.isArray(v) || v.length)),
+        )
+        .map(([key, value]) => {
+          const changed = Boolean(
+            previous && JSON.stringify(previous[key]) !== JSON.stringify(value),
+          );
+          return (
+            <div key={key} className={changed ? "changed-field" : ""}>
+              <dt>
+                {key.replace(/([A-Z])/g, " $1")}
+                {changed && <span className="change-label">Changed</span>}
+              </dt>
+              <dd>
+                {display(value)}
+                {changed && (
+                  <small className="previous-value">
+                    Previously: {display(previous?.[key])}
+                  </small>
+                )}
+              </dd>
+            </div>
+          );
+        })}
     </dl>
   );
 }

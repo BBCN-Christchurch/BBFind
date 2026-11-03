@@ -37,6 +37,7 @@ import {
   friendlyStatus,
   isFreeListing,
   listingSchema,
+  draftSchema,
   listingTypes,
   suitableAges,
   type ListingData,
@@ -44,6 +45,8 @@ import {
 } from "./domain";
 import { AccountLink, Message, useApp } from "./App";
 import { ImageManager } from "./Images";
+import { ListingPreview } from "./ListingPreview";
+import { useUnsaved } from "./Unsaved";
 import { NeighbourhoodOptions, PriorityNeighbourhoods } from "./Neighbourhood";
 type EmailSubmission = {
   kind: "registration" | "verification" | "reset";
@@ -257,7 +260,7 @@ export function AuthPage() {
         });
         if (error) throw error;
         navigate(
-          /^\/dashboard\/new(?:\/(activity|event|venue))?\/?$/.test(
+          /^\/dashboard\/new(?:\/(activity|event|venue|profile))?\/?$/.test(
             location.pathname,
           )
             ? location.pathname
@@ -548,7 +551,7 @@ export function ListingChooser({ dashboard = false }: { dashboard?: boolean }) {
         {[
           {
             kind: "activity",
-            label: "Find Me",
+            label: "Find Me · Listed in Find It",
             name: "List an activity or programme",
             description:
               "Regular activities, programmes, organisations, services and local businesses.",
@@ -588,6 +591,12 @@ export function ListingChooser({ dashboard = false }: { dashboard?: boolean }) {
           </AccountLink>
         ))}
       </div>
+      <p>
+        Listing your organisation itself?{" "}
+        <AccountLink className="text-button" path="/dashboard/new/profile">
+          List an organisation or business
+        </AccountLink>
+      </p>
       <p className="help">
         You can save a draft, add photos and submit for BBCN review. Nothing
         becomes public until approved.
@@ -596,12 +605,17 @@ export function ListingChooser({ dashboard = false }: { dashboard?: boolean }) {
   );
 }
 export function Dashboard() {
+  const { request } = useUnsaved();
   const navigate = useNavigate();
   const location = useLocation();
-  const creation = /^\/dashboard\/new(?:\/(activity|event|venue))?\/?$/.exec(
-    location.pathname,
-  );
+  const creation =
+    /^\/dashboard\/new(?:\/(activity|event|venue|profile))?\/?$/.exec(
+      location.pathname,
+    );
   const { auth, refreshAuth, refreshListings } = useApp();
+  const [pendingPhotos, setPendingPhotos] = useState<Record<string, number>>(
+    {},
+  );
   const [items, setItems] = useState<ManagedListing[]>([]),
     [selected, setSelected] = useState<ManagedListing | null>(null),
     [tab, setTab] = useState("listings"),
@@ -609,7 +623,22 @@ export function Dashboard() {
     [loading, setLoading] = useState(true);
   async function refresh() {
     try {
-      setItems(await managedListings());
+      setItems(
+        (await managedListings()).filter(
+          (i) => !auth.account || i.organisation_id === auth.account.id,
+        ),
+      );
+      if (db) {
+        const result = await db
+          .from("listing_images")
+          .select("listing_id,status")
+          .eq("status", "pending_review");
+        if (result.error) throw result.error;
+        const counts: Record<string, number> = {};
+        for (const image of result.data || [])
+          counts[image.listing_id] = (counts[image.listing_id] || 0) + 1;
+        setPendingPhotos(counts);
+      }
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -634,7 +663,7 @@ export function Dashboard() {
         </div>
         <button
           className="button secondary small"
-          onClick={() => void logout()}
+          onClick={() => request(() => void logout())}
         >
           <LogOut size={16} />
           Sign out
@@ -650,22 +679,26 @@ export function Dashboard() {
       <div className="dashboard-tabs">
         <button
           className={tab === "listings" ? "active" : ""}
-          onClick={() => {
-            setTab("listings");
-            setSelected(null);
-            navigate("/dashboard");
-          }}
+          onClick={() =>
+            request(() => {
+              setTab("listings");
+              setSelected(null);
+              navigate("/dashboard");
+            })
+          }
         >
           <LayoutDashboard size={17} />
           Your listings
         </button>
         <button
           className={tab === "settings" ? "active" : ""}
-          onClick={() => {
-            setTab("settings");
-            setSelected(null);
-            navigate("/dashboard");
-          }}
+          onClick={() =>
+            request(() => {
+              setTab("settings");
+              setSelected(null);
+              navigate("/dashboard");
+            })
+          }
         >
           <Settings size={17} />
           Account settings
@@ -684,8 +717,14 @@ export function Dashboard() {
       ) : creation?.[1] || selected ? (
         <ListingEditor
           key={creation?.[1] || selected?.id}
+          onImagesChanged={() => void refresh()}
+          onDraftSaved={refresh}
           item={creation ? undefined : selected || undefined}
-          initialType={(creation?.[1] || "activity") as ListingData["type"]}
+          initialType={
+            (creation?.[1] === "profile"
+              ? "organisation"
+              : creation?.[1] || "activity") as ListingData["type"]
+          }
           onCancel={() => {
             setSelected(null);
             navigate(creation ? "/dashboard/new" : "/dashboard");
@@ -772,6 +811,29 @@ export function Dashboard() {
                     <p>
                       {item.proposed.type} · {item.proposed.suburb}
                     </p>
+                    <p className="next-action">
+                      {item.status === "pending_review"
+                        ? item.published
+                          ? "Your approved listing is live; changes are with BBCN."
+                          : "With BBCN for review. We’ll let you know the outcome."
+                        : item.status === "changes_requested" ||
+                            item.status === "rejected"
+                          ? "Changes needed: read BBCN’s note, edit and resubmit."
+                          : item.status === "draft"
+                            ? "Draft: continue editing, add photos and submit when ready."
+                            : item.published
+                              ? "Listing live: visitors can find your approved content."
+                              : "This listing is not currently public."}
+                    </p>
+                    {!!pendingPhotos[item.id] && (
+                      <p className="photo-status">
+                        {pendingPhotos[item.id]}{" "}
+                        {pendingPhotos[item.id] === 1
+                          ? "photo awaiting"
+                          : "photos awaiting"}{" "}
+                        approval. Listing and photo decisions are separate.
+                      </p>
+                    )}
                     {item.review_note && (
                       <p className="review-note">BBCN: {item.review_note}</p>
                     )}
@@ -788,7 +850,12 @@ export function Dashboard() {
                     >
                       {item.status === "pending_review"
                         ? "View submission"
-                        : "Manage listing"}
+                        : item.status === "changes_requested" ||
+                            item.status === "rejected"
+                          ? "Make requested changes"
+                          : item.status === "draft"
+                            ? "Continue editing"
+                            : "Manage listing"}
                     </button>
                   </div>
                 </article>
@@ -814,14 +881,25 @@ export function ListingEditor({
   onCancel,
   admin = false,
   initialType = "organisation",
+  onImagesChanged,
+  onDraftSaved,
 }: {
   item?: ManagedListing;
   initialType?: ListingData["type"];
+  onImagesChanged?: () => void;
+  onDraftSaved?: () => void | Promise<void>;
   onSaved: (id: string) => void | Promise<void>;
   onCancel: () => void;
   admin?: boolean;
 }) {
   const { categories, locations } = useApp();
+  const { register, request, clean } = useUnsaved();
+  const [issues, setIssues] = useState<Record<string, string>>({}),
+    [preview, setPreview] = useState(false);
+  const savedId = useRef(item?.id || null);
+  const baseline = useRef(
+    JSON.stringify({ ...emptyListing, type: initialType, ...item?.proposed }),
+  );
   const formId = useId();
   const costId = `${formId}-cost`;
   const [data, setData] = useState<ListingData>({
@@ -849,35 +927,68 @@ export function ListingEditor({
     kind === "event" ? CalendarDays : kind === "venue" ? Building2 : Users;
   const locked = item?.status === "pending_review" && !admin;
   useEffect(() => {
-    setData({ ...emptyListing, type: initialType, ...item?.proposed });
+    const next = { ...emptyListing, type: initialType, ...item?.proposed };
+    setData(next);
+    baseline.current = JSON.stringify(next);
   }, [item?.id, item?.status, initialType]);
   function field<K extends keyof ListingData>(name: K, value: ListingData[K]) {
     setData((d) => ({ ...d, [name]: value }));
+    setIssues((current) => {
+      const next = { ...current };
+      delete next[name];
+      return next;
+    });
   }
-  async function save(submit: boolean) {
-    if (busy || imagesBusy || locked) return;
+  const dirty = JSON.stringify(data) !== baseline.current;
+  useEffect(() => {
+    register({ dirty, save: () => save(false, true) });
+  });
+  useEffect(() => () => register(null), [register]);
+  function showIssues(errors: { path: PropertyKey[]; message: string }[]) {
+    const next: Record<string, string> = {};
+    for (const issue of errors) next[String(issue.path[0])] = issue.message;
+    setIssues(next);
+    setError("Please check the highlighted fields.");
+    requestAnimationFrame(() =>
+      document
+        .getElementById(`${formId}-${String(errors[0]?.path[0])}`)
+        ?.focus(),
+    );
+  }
+  const fieldError = (name: string) =>
+    issues[name] ? (
+      <span className="field-error" id={`${formId}-${name}-error`}>
+        {issues[name]}
+      </span>
+    ) : null;
+  async function save(submit: boolean, staying = false): Promise<boolean> {
+    if (busy || imagesBusy || locked) return false;
     setError("");
     setMessage("");
-    const parsed = listingSchema.safeParse(data);
+    const parsed = (submit ? listingSchema : draftSchema).safeParse(data);
     if (!parsed.success) {
-      setError(
-        parsed.error.issues
-          .map((i) => `${i.path.join(".")}: ${i.message}`)
-          .join(" "),
-      );
-      return;
+      showIssues(parsed.error.issues);
+      return false;
     }
+    setIssues({});
     setBusy(true);
     try {
-      const id = await saveListing(item?.id || null, parsed.data, submit);
-      await onSaved(id);
+      const id = await saveListing(savedId.current, parsed.data, submit);
+      savedId.current = id;
+      setData(parsed.data);
+      baseline.current = JSON.stringify(parsed.data);
+      clean();
+      if (!staying) await onSaved(id);
+      else if (onDraftSaved) await onDraftSaved();
       setMessage(
         submit
           ? "Submitted to BBCN for review. Your current approved content is unchanged."
-          : "Draft saved.",
+          : "Draft saved privately. Complete the remaining details before submitting.",
       );
+      return true;
     } catch (e) {
       setError((e as Error).message);
+      return false;
     } finally {
       setBusy(false);
     }
@@ -894,14 +1005,31 @@ export function ListingEditor({
   ) => (
     <label>
       {label}
+      {["name", "summary", "description"].includes(name) && (
+        <span aria-hidden="true"> *</span>
+      )}
       {opts.area ? (
         <textarea
+          id={`${formId}-${name}`}
+          aria-required={["name", "summary", "description"].includes(name)}
+          aria-label={label}
+          aria-invalid={Boolean(issues[name])}
+          aria-describedby={
+            issues[name] ? `${formId}-${name}-error` : undefined
+          }
           rows={name === "description" ? 6 : 3}
           value={String(data[name])}
           onChange={(e) => field(name, e.target.value as never)}
         />
       ) : (
         <input
+          id={`${formId}-${name}`}
+          aria-required={["name", "summary", "description"].includes(name)}
+          aria-label={label}
+          aria-invalid={Boolean(issues[name])}
+          aria-describedby={
+            issues[name] ? `${formId}-${name}-error` : undefined
+          }
           type={opts.type || "text"}
           disabled={opts.disabled}
           value={String(data[name])}
@@ -916,11 +1044,15 @@ export function ListingEditor({
         />
       )}{" "}
       {opts.help && <small>{opts.help}</small>}
+      {fieldError(name)}
     </label>
   );
   return (
     <div className={`listing-editor listing-theme-${kind}`}>
-      <button className="text-button back-link" onClick={onCancel}>
+      <button
+        className="text-button back-link"
+        onClick={() => request(onCancel)}
+      >
         {item ? "← Back to listings" : "← Choose another listing type"}
       </button>
       <div className="section-heading listing-editor-heading">
@@ -967,6 +1099,7 @@ export function ListingEditor({
       )}
       <form
         id={formId}
+        noValidate
         onSubmit={(e) => {
           e.preventDefault();
           void save(true);
@@ -975,6 +1108,10 @@ export function ListingEditor({
         <fieldset disabled={busy || locked} className="listing-form">
           <section className="form-section">
             <h3>The basics</h3>
+            <p className="help">
+              Fields marked * are required to submit. To save a private draft
+              and add photos, only the listing name and type are required.
+            </p>
             <div className="form-grid">
               {(kind === "activity" || admin) && (
                 <label>
@@ -1011,7 +1148,8 @@ export function ListingEditor({
             {kind === "activity" && (
               <fieldset>
                 <legend>
-                  Categories <small>Select up to 10</small>
+                  Categories <span aria-hidden="true">*</span>{" "}
+                  <small>Select up to 10</small>
                 </legend>
                 <div className="category-checks">
                   {[...new Set([...categories, ...data.categories])].map(
@@ -1019,6 +1157,12 @@ export function ListingEditor({
                       <label key={c} className="check-label">
                         <input
                           type="checkbox"
+                          id={
+                            c ===
+                            [...new Set([...categories, ...data.categories])][0]
+                              ? `${formId}-categories`
+                              : undefined
+                          }
                           checked={data.categories.includes(c)}
                           onChange={(e) =>
                             field(
@@ -1034,6 +1178,7 @@ export function ListingEditor({
                     ),
                   )}
                 </div>
+                {fieldError("categories")}
               </fieldset>
             )}
           </section>
@@ -1077,25 +1222,43 @@ export function ListingEditor({
               <>
                 <div className="form-grid">
                   <label>
-                    Event start date
+                    Event start date <span aria-hidden="true">*</span>
                     <input
                       type="date"
-                      required
+                      id={`${formId}-eventStartDate`}
+                      aria-label="Event start date"
+                      aria-required="true"
+                      aria-invalid={Boolean(issues.eventStartDate)}
+                      aria-describedby={
+                        issues.eventStartDate
+                          ? `${formId}-eventStartDate-error`
+                          : undefined
+                      }
                       min="1900-01-01"
                       max="2100-12-31"
                       value={data.eventStartDate}
                       onChange={(e) => field("eventStartDate", e.target.value)}
                     />
+                    {fieldError("eventStartDate")}
                   </label>
                   <label>
                     Event end date (optional)
                     <input
                       type="date"
+                      id={`${formId}-eventEndDate`}
+                      aria-label="Event end date (optional)"
+                      aria-invalid={Boolean(issues.eventEndDate)}
+                      aria-describedby={
+                        issues.eventEndDate
+                          ? `${formId}-eventEndDate-error`
+                          : undefined
+                      }
                       min={data.eventStartDate || "1900-01-01"}
                       max="2100-12-31"
                       value={data.eventEndDate}
                       onChange={(e) => field("eventEndDate", e.target.value)}
                     />
+                    {fieldError("eventEndDate")}
                   </label>
                 </div>
                 <p className="help">
@@ -1205,6 +1368,10 @@ export function ListingEditor({
               </label>
               <input
                 id={costId}
+                aria-invalid={Boolean(issues.cost)}
+                aria-describedby={
+                  issues.cost ? `${formId}-cost-error` : undefined
+                }
                 value={data.cost}
                 maxLength={300}
                 onChange={(e) => field("cost", e.target.value)}
@@ -1214,6 +1381,7 @@ export function ListingEditor({
                     : "e.g. price, concessions or optional donations"
                 }
               />
+              {fieldError("cost")}
               <small>
                 Choose Free when there is no compulsory charge. Leave the cost
                 blank if it is not yet known.
@@ -1304,14 +1472,15 @@ export function ListingEditor({
           listingId={item.id}
           admin={false}
           onBusyChange={setImagesBusy}
+          onChange={onImagesChanged}
         />
       ) : (
         <section className="image-manager">
           <h2>Photos & images</h2>
           <p>
-            Save a draft to add your logo, primary image and gallery before
-            submitting. Saving a draft does not publish your listing or send it
-            for review. Photos are optional.
+            Save a private draft with a name to add your logo, primary image and
+            gallery before submitting. Saving a draft does not publish your
+            listing or send it for review. Photos are optional.
           </p>
           <button
             type="button"
@@ -1323,6 +1492,18 @@ export function ListingEditor({
           </button>
         </section>
       )}
+      {preview && (
+        <ListingPreview
+          data={data}
+          listingId={item?.id}
+          canSubmit={!locked && !busy && !imagesBusy}
+          onClose={() => setPreview(false)}
+          onSubmit={() => {
+            setPreview(false);
+            void save(true);
+          }}
+        />
+      )}
       <div className="listing-submit-section">
         <p>
           When your listing and photos are ready, submit your listing for BBCN
@@ -1330,6 +1511,14 @@ export function ListingEditor({
           their own approval process.
         </p>
         <div className="form-actions">
+          <button
+            type="button"
+            className="button secondary"
+            disabled={busy || imagesBusy}
+            onClick={() => setPreview(true)}
+          >
+            Preview listing
+          </button>
           <button
             type="button"
             className="button secondary"

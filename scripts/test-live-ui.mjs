@@ -100,20 +100,11 @@ export async function testLiveUI(config, owner, admin, check, imageBytes) {
     await page
       .getByLabel("Listing name", { exact: true })
       .fill("A programme from the live browser");
-    await page
-      .getByLabel("Short introduction")
-      .fill("A real browser-to-backend integration check.");
-    await page
-      .getByLabel("Full description")
-      .fill(
-        "This listing was submitted using the real React dashboard and Supabase services.",
-      );
-    await page.getByLabel("Education and Learning", { exact: true }).check();
     await page.getByRole("button", { name: "Save draft", exact: true }).click();
     await expect(
       page.getByRole("heading", { name: "Photos & images" }),
     ).toBeVisible();
-    check(true, "browser saves a real listing draft");
+    check(true, "browser saves a private incomplete listing draft");
     await page.getByLabel("Image file", { exact: true }).setInputFiles({
       name: "community-test.png",
       mimeType: "image/png",
@@ -134,6 +125,15 @@ export async function testLiveUI(config, owner, admin, check, imageBytes) {
       true,
       "browser uploads an image through the real Edge processor and private Storage",
     );
+    await page
+      .getByLabel("Short introduction")
+      .fill("A real browser-to-backend integration check.");
+    await page
+      .getByLabel("Full description")
+      .fill(
+        "This listing was submitted using the real React dashboard and Supabase services.",
+      );
+    await page.getByLabel("Education and Learning", { exact: true }).check();
     await page
       .getByRole("button", { name: "Submit for review", exact: true })
       .click();

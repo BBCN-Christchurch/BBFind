@@ -3,6 +3,7 @@ import {
   useContext,
   useEffect,
   useRef,
+  useId,
   useState,
   type FormEvent,
   type ReactNode,
@@ -15,6 +16,7 @@ import {
   useLocation,
   useNavigate,
   useSearchParams,
+  ScrollRestoration,
 } from "react-router-dom";
 import {
   ArrowRight,
@@ -61,6 +63,8 @@ import {
   localToday,
   formatEventDate,
   isFreeListing,
+  venuePriceLabel,
+  listingAction,
   matchesSearch,
   publicUrl,
   suburbs,
@@ -196,7 +200,6 @@ export default function App() {
   }, []);
   useEffect(() => {
     setMobile(false);
-    window.scrollTo(0, 0);
     const detail = listings.find(
       (i) => location.pathname === `/listing/${i.id}`,
     );
@@ -292,7 +295,22 @@ export default function App() {
         refreshTaxonomy,
       }}
     >
-      <a className="skip" href="#main">
+      <ScrollRestoration
+        getKey={(loc) =>
+          /^\/(find|events|venues)$/.test(loc.pathname)
+            ? loc.pathname + loc.search
+            : loc.key
+        }
+      />
+      <a
+        className="skip"
+        href="#main"
+        onClick={(event) => {
+          event.preventDefault();
+          document.getElementById("main")?.focus();
+          document.getElementById("main")?.scrollIntoView();
+        }}
+      >
         Skip to content
       </a>
       <div className="topline">
@@ -330,7 +348,9 @@ export default function App() {
             <NavLink to="/find">Find It</NavLink>
             <NavLink to="/events">Events</NavLink>
             <NavLink to="/venues">Venues for Hire</NavLink>
-            <NavLink to="/get-found">Get Found</NavLink>
+            <NavLink to="/get-found">
+              Get Found <span className="nav-action-hint">· Add a listing</span>
+            </NavLink>
             <NavLink to="/about">About</NavLink>
           </nav>
           <AccountLink
@@ -752,6 +772,10 @@ export function ListingCard({
   agenda?: boolean;
   venueDetails?: boolean;
 }) {
+  const location = useLocation();
+  const backState = /^\/(find|events|venues)$/.test(location.pathname)
+    ? { from: location.pathname + location.search }
+    : undefined;
   const [cover, setCover] = useState("");
   useEffect(() => {
     let live = true;
@@ -784,6 +808,7 @@ export function ListingCard({
       )}
       <Link
         to={`/listing/${item.id}`}
+        state={backState}
         className="card-visual"
         tabIndex={-1}
         aria-hidden="true"
@@ -820,7 +845,7 @@ export function ListingCard({
           </p>
         )}
         <h3>
-          <Link to={`/listing/${item.id}`}>
+          <Link to={`/listing/${item.id}`} state={backState}>
             {item.name}
             <ArrowUpRight size={19} />
           </Link>
@@ -851,7 +876,11 @@ export function ListingCard({
                   : "Find Me")}
           </span>
           {item.type === "venue" ? (
-            <span>{item.capacity} people</span>
+            <span>
+              {item.capacity > 0
+                ? `${item.capacity} people`
+                : "Capacity not supplied"}
+            </span>
           ) : (
             <ArrowRight size={16} />
           )}
@@ -883,6 +912,27 @@ function Directory({
 }) {
   const { listings, categories, locations } = useApp();
   const [urlParams, setParams] = useSearchParams();
+  const directoryLocation = useLocation();
+  const [filtersOpen, setFiltersOpen] = useState(() => {
+    try {
+      return (
+        sessionStorage.getItem(
+          `bbfind-filters:${directoryLocation.pathname}`,
+        ) === "open"
+      );
+    } catch {
+      return false;
+    }
+  });
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(
+        `bbfind-filters:${directoryLocation.pathname}`,
+        filtersOpen ? "open" : "closed",
+      );
+    } catch {}
+  }, [filtersOpen, directoryLocation.pathname]);
+  const filterId = useId();
   const [params, setLocalParams] = useState(urlParams);
   const currentFilters = useRef(urlParams);
   const requested = useRef<string | null>(null);
@@ -900,7 +950,7 @@ function Directory({
     currentFilters.current = next;
     requested.current = next.toString();
     setLocalParams(next);
-    setParams(next);
+    setParams(next, { replace: true, preventScrollReset: true });
   };
   const set = (key: string, value: string) => {
     const next = new URLSearchParams(currentFilters.current);
@@ -1078,167 +1128,218 @@ function Directory({
       <section
         className={`container directory-layout ${events ? "directory-events" : venues ? "directory-venues" : "directory-find"}`}
       >
-        <aside className="filters">
-          <h2>
-            <SlidersHorizontal size={18} />{" "}
-            {events
-              ? "Plan your visit"
-              : venues
-                ? "Find your space"
-                : "Find a good fit"}
-          </h2>
-          {!events && !venues && (
-            <label>
-              Category
-              <select
-                aria-label="Category"
-                value={category}
-                onChange={(e) => set("category", e.target.value)}
-              >
-                <option value="">All categories</option>
-                {availableCategories.map((c) => (
-                  <option key={c}>{c}</option>
-                ))}
-              </select>
-            </label>
-          )}
-          <PriorityNeighbourhoods
-            locations={availableLocations}
-            value={suburb}
-            onChange={(v) => set("suburb", v)}
-          />
-          <label>
-            Neighbourhood
-            <select
-              aria-label="Neighbourhood"
-              value={suburb}
-              onChange={(e) => set("suburb", e.target.value)}
-            >
-              <option value="">All neighbourhoods</option>
-              <NeighbourhoodOptions locations={availableLocations} />
-            </select>
-          </label>
-          {!venues && (
-            <label>
-              Suitable Ages
-              <select
-                aria-label="Suitable Ages"
-                value={params.get("age") || ""}
-                onChange={(e) => set("age", e.target.value)}
-              >
-                <option value="">Any age</option>
-                {suitableAges.map((age) => (
-                  <option key={age}>{age}</option>
-                ))}
-              </select>
-            </label>
-          )}
-          {events && (
-            <>
+        <div className="filter-column">
+          <button
+            type="button"
+            className="button secondary mobile-filter-toggle"
+            aria-expanded={filtersOpen}
+            aria-controls={filterId}
+            onClick={() => setFiltersOpen(!filtersOpen)}
+          >
+            Filters {params.size > 0 && `(${params.size})`}
+          </button>
+          <aside
+            id={filterId}
+            className={`filters ${filtersOpen ? "filters-open" : "filters-collapsed"}`}
+          >
+            <h2>
+              <SlidersHorizontal size={18} />{" "}
+              {events
+                ? "Plan your visit"
+                : venues
+                  ? "Find your space"
+                  : "Find a good fit"}
+            </h2>
+            {!events && !venues && (
               <label>
-                Show events
+                Category
                 <select
-                  aria-label="Show events"
-                  value={params.get("period") || "upcoming"}
-                  onChange={(e) => set("period", e.target.value)}
+                  aria-label="Category"
+                  value={category}
+                  onChange={(e) => set("category", e.target.value)}
                 >
-                  <option value="upcoming">Upcoming & ongoing</option>
-                  <option value="all">All dates</option>
-                  <option value="past">Past events</option>
+                  <option value="">All categories</option>
+                  {availableCategories.map((c) => (
+                    <option key={c}>{c}</option>
+                  ))}
                 </select>
               </label>
-              <label>
-                From date
-                <input
-                  type="date"
-                  value={params.get("from") || ""}
-                  onChange={(e) => set("from", e.target.value)}
-                />
-              </label>
-              <label>
-                To date
-                <input
-                  type="date"
-                  min={params.get("from") || undefined}
-                  value={params.get("to") || ""}
-                  onChange={(e) => set("to", e.target.value)}
-                />
-              </label>
-            </>
-          )}
-          <label className="check-label">
-            <input
-              type="checkbox"
-              checked={Boolean(params.get("free"))}
-              onChange={(e) => set("free", e.target.checked ? "true" : "")}
+            )}
+            <PriorityNeighbourhoods
+              locations={availableLocations}
+              value={suburb}
+              onChange={(v) => set("suburb", v)}
             />
-            Free only
-          </label>
-          {venues && (
-            <>
+            <label>
+              Neighbourhood
+              <select
+                aria-label="Neighbourhood"
+                value={suburb}
+                onChange={(e) => set("suburb", e.target.value)}
+              >
+                <option value="">All neighbourhoods</option>
+                <NeighbourhoodOptions locations={availableLocations} />
+              </select>
+            </label>
+            {!venues && (
               <label>
-                People to accommodate
-                <input
-                  type="number"
-                  min="0"
-                  value={params.get("capacity") || ""}
-                  onChange={(e) => set("capacity", e.target.value)}
-                  placeholder="Any capacity"
-                />
+                Suitable Ages
+                <select
+                  aria-label="Suitable Ages"
+                  value={params.get("age") || ""}
+                  onChange={(e) => set("age", e.target.value)}
+                >
+                  <option value="">Any age</option>
+                  {suitableAges.map((age) => (
+                    <option key={age}>{age}</option>
+                  ))}
+                </select>
               </label>
-              <label>
-                Room type
-                <input
-                  value={params.get("room") || ""}
-                  onChange={(e) => set("room", e.target.value)}
-                  placeholder="e.g. hall, meeting room"
-                />
-              </label>
-              <label>
-                Suitable activity
-                <input
-                  value={params.get("use") || ""}
-                  onChange={(e) => set("use", e.target.value)}
-                  placeholder="e.g. workshop"
-                />
-              </label>
-              <label>
-                Maximum hourly price ($)
-                <input
-                  type="number"
-                  min="0"
-                  value={params.get("price") || ""}
-                  onChange={(e) => set("price", e.target.value)}
-                  placeholder="Any price"
-                />
-              </label>
-              {[
-                ["kitchen", "Kitchen facilities"],
-                ["accessible", "Accessible venue"],
-                ["indoor", "Indoor space"],
-                ["outdoor", "Outdoor space"],
-              ].map(([k, label]) => (
-                <label key={k} className="check-label">
-                  <input
-                    type="checkbox"
-                    checked={Boolean(params.get(k))}
-                    onChange={(e) => set(k, e.target.checked ? "true" : "")}
-                  />
-                  {label}
+            )}
+            {events && (
+              <>
+                <label>
+                  Show events
+                  <select
+                    aria-label="Show events"
+                    value={params.get("period") || "upcoming"}
+                    onChange={(e) => set("period", e.target.value)}
+                  >
+                    <option value="upcoming">Upcoming & ongoing</option>
+                    <option value="all">All dates</option>
+                    <option value="past">Past events</option>
+                  </select>
                 </label>
-              ))}
-            </>
-          )}
-          {params.size > 0 && (
-            <button
-              className="text-button"
-              onClick={() => update(new URLSearchParams())}
-            >
-              Clear all filters <X size={13} />
-            </button>
-          )}
-        </aside>
+                <label>
+                  From date
+                  <input
+                    type="date"
+                    value={params.get("from") || ""}
+                    onChange={(e) => set("from", e.target.value)}
+                  />
+                </label>
+                <label>
+                  To date
+                  <input
+                    type="date"
+                    min={params.get("from") || undefined}
+                    value={params.get("to") || ""}
+                    onChange={(e) => set("to", e.target.value)}
+                  />
+                </label>
+              </>
+            )}
+            <label className="check-label">
+              <input
+                type="checkbox"
+                checked={Boolean(params.get("free"))}
+                onChange={(e) => set("free", e.target.checked ? "true" : "")}
+              />
+              Free only
+            </label>
+            {venues && (
+              <>
+                <label>
+                  People to accommodate
+                  <input
+                    type="number"
+                    min="0"
+                    value={params.get("capacity") || ""}
+                    onChange={(e) => set("capacity", e.target.value)}
+                    placeholder="Any capacity"
+                  />
+                </label>
+                <label>
+                  Room type
+                  <input
+                    value={params.get("room") || ""}
+                    onChange={(e) => set("room", e.target.value)}
+                    placeholder="e.g. hall, meeting room"
+                  />
+                </label>
+                <label>
+                  Suitable activity
+                  <input
+                    value={params.get("use") || ""}
+                    onChange={(e) => set("use", e.target.value)}
+                    placeholder="e.g. workshop"
+                  />
+                </label>
+                <label>
+                  Maximum hourly price ($)
+                  <input
+                    type="number"
+                    min="0"
+                    value={params.get("price") || ""}
+                    onChange={(e) => set("price", e.target.value)}
+                    placeholder="Any price"
+                  />
+                </label>
+                {[
+                  ["kitchen", "Kitchen facilities"],
+                  ["accessible", "Accessible venue"],
+                  ["indoor", "Indoor space"],
+                  ["outdoor", "Outdoor space"],
+                ].map(([k, label]) => (
+                  <label key={k} className="check-label">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(params.get(k))}
+                      onChange={(e) => set(k, e.target.checked ? "true" : "")}
+                    />
+                    {label}
+                  </label>
+                ))}
+              </>
+            )}
+            {params.size > 0 && (
+              <button
+                className="text-button"
+                onClick={() => update(new URLSearchParams())}
+              >
+                Clear all filters <X size={13} />
+              </button>
+            )}
+          </aside>
+        </div>
         <div>
+          {!!params.size && (
+            <div className="active-filters" aria-label="Selected filters">
+              {[...params].map(([key, value]) => (
+                <button
+                  key={key}
+                  type="button"
+                  className="filter-chip"
+                  onClick={() => set(key, "")}
+                  aria-label={`Remove ${key} filter`}
+                >
+                  {(
+                    {
+                      q: "Search",
+                      category: "Category",
+                      suburb: "Neighbourhood",
+                      age: "Age",
+                      free: "Free",
+                      capacity: "Capacity",
+                      price: "Max hourly price",
+                      from: "From",
+                      to: "To",
+                      period: "Dates",
+                      room: "Room",
+                      use: "Use",
+                    } as Record<string, string>
+                  )[key] || key}
+                  : {value === "true" ? "Yes" : value} <X size={12} />
+                </button>
+              ))}
+              <button
+                className="text-button"
+                onClick={() => update(new URLSearchParams())}
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
           <div className="results-toolbar">
             <span>
               <strong>{filtered.length}</strong>{" "}
@@ -1335,11 +1436,30 @@ function ListingPage() {
         <ButtonLink to="/find">Back to the directory</ButtonLink>
       </div>
     );
+  const fallback =
+    item.type === "event"
+      ? "/events"
+      : item.type === "venue"
+        ? "/venues"
+        : "/find";
+  const back =
+    typeof location.state?.from === "string" &&
+    /^\/(find|events|venues)(\?|$)/.test(location.state.from)
+      ? location.state.from
+      : fallback;
+  const primary = listingAction(item);
   return (
     <div className="container page">
+      <Link className="text-button back-link" to={back}>
+        ← Back to results
+      </Link>
       <div className="breadcrumb">
-        <Link to={item.type === "event" ? "/events" : "/find"}>
-          {item.type === "event" ? "Events" : "Find It"}
+        <Link to={fallback}>
+          {item.type === "event"
+            ? "Events"
+            : item.type === "venue"
+              ? "Venues for Hire"
+              : "Find It"}
         </Link>
         <ChevronRight size={12} />
         {item.name}
@@ -1423,7 +1543,12 @@ function ListingPage() {
               <h2>A space that fits</h2>
               <div className="facility-grid">
                 {[
-                  ["Capacity", `${item.capacity} people`],
+                  [
+                    "Capacity",
+                    item.capacity > 0
+                      ? `${item.capacity} people`
+                      : "Capacity not supplied",
+                  ],
                   ["Space", item.roomType],
                   ["Kitchen", item.kitchen ? "Available" : "Not specified"],
                   ["Accessible", item.accessible ? "Yes" : "Not specified"],
@@ -1468,6 +1593,17 @@ function ListingPage() {
         <aside className="contact-panel">
           <span className="eyebrow">MAKE A CONNECTION</span>
           <h2>Good to know</h2>
+          {primary && (
+            <a
+              className="button listing-primary-action"
+              href={primary.href}
+              {...(primary.href.startsWith("http")
+                ? { target: "_blank", rel: "noreferrer" }
+                : {})}
+            >
+              {primary.label} <ArrowUpRight size={16} />
+            </a>
+          )}
           {item.organisation_name && <p>Part of {item.organisation_name}</p>}
           {item.address && (
             <p>
@@ -1481,10 +1617,10 @@ function ListingPage() {
               {item.times}
             </p>
           )}
-          {item.cost && (
+          {(item.cost || item.type === "venue") && (
             <p>
               <Heart size={18} />
-              {item.cost}
+              {item.type === "venue" ? venuePriceLabel(item) : item.cost}
             </p>
           )}
           {item.publicContact && (
@@ -1505,26 +1641,30 @@ function ListingPage() {
               {item.publicEmail}
             </a>
           )}
-          {item.website && publicUrl(item.website) && (
-            <a
-              className="button"
-              href={publicUrl(item.website)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Visit website <ArrowUpRight size={16} />
-            </a>
-          )}
-          {item.bookingUrl && publicUrl(item.bookingUrl) && (
-            <a
-              className="button secondary"
-              href={publicUrl(item.bookingUrl)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Booking information <ArrowUpRight size={16} />
-            </a>
-          )}
+          {item.website &&
+            publicUrl(item.website) &&
+            primary?.href !== publicUrl(item.website) && (
+              <a
+                className="button secondary"
+                href={publicUrl(item.website)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Visit website <ArrowUpRight size={16} />
+              </a>
+            )}
+          {item.bookingUrl &&
+            publicUrl(item.bookingUrl) &&
+            primary?.href !== publicUrl(item.bookingUrl) && (
+              <a
+                className="button secondary"
+                href={publicUrl(item.bookingUrl)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Booking information <ArrowUpRight size={16} />
+              </a>
+            )}
           {item.socialLinks
             ?.split("\n")
             .filter(Boolean)

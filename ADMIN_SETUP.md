@@ -35,3 +35,5 @@ Category/location changes take effect immediately and refresh the current browse
 Assign BBCN people to review submissions, respond to privacy/deletion requests, monitor free quotas, operate backups and test restoration. Set up the notification worker and verify delivery; dashboard status alone does not establish that email is working. Auth-provider operational logs may still exist even though the app does not implement audit/history features.
 
 Events use the same listing and image review queue. See [Events and filters](docs/EVENTS_AND_FILTERS.md) for event dates, suitable ages and preserving retired category associations.
+
+The review queue supports organisation, listing-type and text/photo filters, with the oldest outstanding work first. Changes from approved content are highlighted in the proposed column, including removed values. Current photo-review request timestamps clear after review; this is not an audit or revision-history feature. Incomplete drafts can receive photos privately but cannot be submitted or approved until complete.

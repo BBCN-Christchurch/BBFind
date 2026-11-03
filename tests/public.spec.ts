@@ -1,4 +1,13 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
+async function openFilters(page: Page) {
+  await expect(page.locator(".results-toolbar")).toBeVisible();
+  const toggle = page.getByRole("button", { name: /^Filters/ });
+  if (
+    (await toggle.isVisible()) &&
+    (await toggle.getAttribute("aria-expanded")) === "false"
+  )
+    await toggle.click();
+}
 test("home connects search to matching listings", async ({ page }) => {
   await page.goto("/");
   await expect(
@@ -21,6 +30,7 @@ test("home connects search to matching listings", async ({ page }) => {
 });
 test("category filters and listing detail work", async ({ page }) => {
   await page.goto("/find");
+  await openFilters(page);
   await page
     .getByLabel("Category", { exact: true })
     .selectOption("Arts, Heritage and Culture");
@@ -40,12 +50,14 @@ test("free-only search combines with other filters and survives refresh", async 
   page,
 }) => {
   await page.goto("/find");
+  await openFilters(page);
   await page.getByLabel("Free only", { exact: true }).check();
   await expect(page.locator(".listing-card")).toHaveCount(2);
   await expect(page.locator(".free-label")).toHaveCount(2);
   await page.getByLabel("Search the directory").fill("garden");
   await expect(page.locator(".listing-card")).toHaveCount(1);
   await page.reload();
+  await openFilters(page);
   await expect(page.getByLabel("Free only", { exact: true })).toBeChecked();
   await expect(page.getByLabel("Search the directory")).toHaveValue("garden");
   await expect(page.locator(".listing-card")).toHaveCount(1);
@@ -59,6 +71,7 @@ test("free-only search combines with other filters and survives refresh", async 
 });
 test("venue filters combine and clear", async ({ page }) => {
   await page.goto("/venues");
+  await openFilters(page);
   await expect(page.locator(".listing-card")).toHaveCount(1);
   await page.getByLabel("People to accommodate").fill("150");
   await expect(page.locator(".listing-card")).toHaveCount(0);
@@ -148,7 +161,7 @@ test("feature pages have clear identities and Get Found follows Venues", async (
     "Find It",
     "Events",
     "Venues for Hire",
-    "Get Found",
+    "Get Found · Add a listing",
     "About",
   ]);
   await page.goto("/");
@@ -164,4 +177,62 @@ test("feature pages have clear identities and Get Found follows Venues", async (
     .getByRole("link", { name: "View all events", exact: true })
     .click();
   await expect(page).toHaveURL(/\/events$/);
+});
+
+test("mobile filters collapse and result navigation preserves search and scroll", async ({
+  page,
+}, info) => {
+  await page.goto("/");
+  if (info.project.name === "mobile")
+    await page.getByRole("button", { name: "Open navigation" }).click();
+  await page
+    .getByRole("navigation")
+    .getByRole("link", { name: "Find It", exact: true })
+    .click();
+  await expect(page.locator(".results-toolbar")).toBeVisible();
+  if (info.project.name === "mobile") {
+    await expect(
+      page.getByRole("button", { name: /^Filters/ }),
+    ).toHaveAttribute("aria-expanded", "false");
+    await expect(page.locator(".filters")).not.toBeVisible();
+  }
+  await page.getByLabel("Search the directory").fill("garden");
+  await expect(
+    page.getByRole("button", { name: "Remove q filter" }),
+  ).toBeVisible();
+  const link = page.getByRole("link", {
+    name: "The neighbourhood garden",
+    exact: true,
+  });
+  await link.scrollIntoViewIfNeeded();
+  await link.evaluate((element) =>
+    element.addEventListener(
+      "click",
+      () => sessionStorage.setItem("test-result-scroll", String(scrollY)),
+      { once: true },
+    ),
+  );
+  await link.click();
+  const position = await page.evaluate(() =>
+    Number(sessionStorage.getItem("test-result-scroll")),
+  );
+  await page
+    .getByRole("link", { name: "Back to results", exact: false })
+    .click();
+  await expect(page).toHaveURL(/\/find\?q=garden$/);
+  await expect(page.getByLabel("Search the directory")).toHaveValue("garden");
+  await expect
+    .poll(() => page.evaluate((saved) => Math.abs(scrollY - saved), position))
+    .toBeLessThan(100);
+  await page.goBack();
+  await expect(
+    page.getByRole("heading", {
+      name: "The neighbourhood garden",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.goBack();
+  await expect(page).toHaveURL(/\/find\?q=garden$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
 });

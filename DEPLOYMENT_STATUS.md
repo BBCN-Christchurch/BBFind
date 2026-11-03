@@ -62,3 +62,22 @@ The three-card chooser and dedicated activity/event/venue forms passed 54 local
 desktop/mobile browser checks, 18 unit checks, 62 SQL permission/moderation checks,
 and 50 actual-service integration checks. Existing organisation, programme,
 activity, service and business types remain available under Find Me.
+
+## Approved workflow improvements — 3 November 2026
+
+Installed `202611030003_workflow_improvements.sql` on the original BBFind project
+and recorded migration history. It adds private incomplete-draft validation,
+retains strict submission/approval validation, and records only the current
+photo-review request time. Existing queued photos receive their creation time as
+a fallback. Completed review clears that current timestamp.
+
+The two existing listing records were retained, their published content still
+validates, and anonymous listing writes/draft-helper execution remain denied.
+No account, listing text, photograph or category content was created or replaced.
+No audit or revision-history feature was added.
+
+Validation passed locally: 20 unit checks, 74 SQL/RLS checks, 66 desktop/mobile
+browser checks and 50 actual-service integration checks. The real-service browser
+flow saves an incomplete draft and uploads a private image before completing and
+submitting it. See docs/WORKFLOW_IMPROVEMENTS.md for the approved-item mapping;
+suggestions 4 and 10 remain pending.

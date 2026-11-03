@@ -4,6 +4,15 @@ import { test, expect, type Page, type Route } from "@playwright/test";
 import { emptyListing } from "../src/domain";
 import { Image } from "imagescript";
 import AxeBuilder from "@axe-core/playwright";
+async function openFilters(page: Page) {
+  await expect(page.locator(".results-toolbar")).toBeVisible();
+  const toggle = page.getByRole("button", { name: /^Filters/ });
+  if (
+    (await toggle.isVisible()) &&
+    (await toggle.getAttribute("aria-expanded")) === "false"
+  )
+    await toggle.click();
+}
 const owner = "00000000-0000-4000-8000-000000000001",
   org = "00000000-0000-4000-8000-000000000011",
   id = "00000000-0000-4000-8000-000000000021";
@@ -22,12 +31,14 @@ async function fixture(
     gallery = false,
     items = [],
     publicRows,
+    imageRows = [],
   }: {
     admin?: boolean;
     publicOnly?: boolean;
     gallery?: boolean;
     items?: any[];
     publicRows?: any[];
+    imageRows?: any[];
   } = {},
 ) {
   const requests: { name: string; body: any }[] = [];
@@ -195,7 +206,7 @@ async function fixture(
     else if (path.includes("/locations"))
       data = [{ id: "location-1", name: "Burnside", active: true }];
     else if (path.includes("/listings")) data = items;
-    else if (path.includes("/listing_images")) data = [];
+    else if (path.includes("/listing_images")) data = imageRows;
     else if (path.includes("/object/sign/") && req.method() === "POST")
       data = {
         signedURL:
@@ -349,6 +360,7 @@ test("free venues fit a maximum price without treating unknown prices as free", 
     ],
   });
   await page.goto("http://127.0.0.1:5184/venues?price=0");
+  await openFilters(page);
   await expect(page.locator(".listing-card")).toHaveCount(1);
   await expect(
     page.getByRole("heading", { name: "Free community room" }),
@@ -380,7 +392,9 @@ test("admin compares content and approves the reviewed proposal", async ({
   await page.goto("http://127.0.0.1:5184/admin");
   await page.getByRole("button", { name: "Review listing & images" }).click();
   await expect(page.getByText("CURRENT PUBLIC CONTENT")).toBeVisible();
-  await expect(page.getByText("PROPOSED CONTENT")).toBeVisible();
+  await expect(
+    page.getByText("PROPOSED CONTENT", { exact: true }),
+  ).toBeVisible();
   await page
     .getByRole("button", { name: "Approve listing", exact: true })
     .click();
@@ -479,6 +493,7 @@ test("events are date ordered, include ongoing events, and combine age, place, f
     ],
   });
   await page.goto("http://127.0.0.1:5184/events");
+  await openFilters(page);
   await expect(
     page.getByRole("heading", { name: "Your community calendar." }),
   ).toBeVisible();
@@ -497,6 +512,7 @@ test("events are date ordered, include ongoing events, and combine age, place, f
     "Today family event",
   ]);
   await page.reload();
+  await openFilters(page);
   await expect(page.getByLabel("Suitable Ages", { exact: true })).toHaveValue(
     "Family",
   );
@@ -548,9 +564,12 @@ test("owner adds an event with structured ages and a draft for photos", async ({
     .getByLabel("Full description")
     .fill("Join our community for an afternoon of music and activities.");
   await page
-    .getByRole("button", { name: "Save draft to add photos", exact: true })
+    .getByRole("button", { name: "Submit for review", exact: true })
     .click();
   await expect(page.getByRole("alert")).toContainText(
+    "Please check the highlighted fields",
+  );
+  await expect(page.locator(".field-error")).toContainText(
     "Choose the event start date",
   );
   expect(requests.some((r) => r.name === "save_listing")).toBe(false);
@@ -837,6 +856,282 @@ test("Get Found selection survives sign-in and opens the plum event form", async
   await page
     .getByRole("button", { name: "Choose another listing type", exact: false })
     .click();
+  await page
+    .getByRole("button", { name: "Leave without saving", exact: true })
+    .click();
   await expect(page).toHaveURL(/\/dashboard\/new$/);
   await expect(page.locator(".listing-choice")).toHaveCount(3);
+});
+
+test("incomplete drafts, focused field errors and private previews protect publication", async ({
+  page,
+}) => {
+  const requests = await fixture(page);
+  await page.goto("http://127.0.0.1:5184/dashboard/new/event");
+  await page
+    .getByLabel("Event name", { exact: true })
+    .fill("An event in progress");
+  await page
+    .getByRole("button", { name: "Save draft to add photos", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Photos & images" }),
+  ).toBeVisible();
+  expect(requests.find((r) => r.name === "save_listing")?.body).toMatchObject({
+    submit: false,
+    content: { summary: "", description: "", eventStartDate: "" },
+  });
+  await page
+    .getByRole("button", { name: "Submit for review", exact: true })
+    .click();
+  await expect(
+    page.getByLabel("Short introduction", { exact: false }),
+  ).toBeFocused();
+  await expect(page.locator(".field-error")).toHaveCount(3);
+  expect(requests.some((r) => r.name === "save_listing" && r.body.submit)).toBe(
+    false,
+  );
+  await page
+    .getByRole("button", { name: "Preview listing", exact: true })
+    .click();
+  const preview = page.getByRole("dialog", { name: "Private listing preview" });
+  await expect(
+    preview.getByRole("heading", { name: "An event in progress", exact: true }),
+  ).toBeVisible();
+  await expect(
+    preview.getByRole("button", { name: "Submit for review", exact: true }),
+  ).toBeDisabled();
+  await expect(preview).not.toContainText("private-owner@example.test");
+  await preview
+    .getByRole("button", { name: "Continue editing", exact: true })
+    .click();
+  await page
+    .getByLabel("Short introduction")
+    .fill("A completed introduction for our event.");
+  await page
+    .getByLabel("Full description")
+    .fill("A full public description explaining our community event.");
+  await page.getByLabel("Event start date", { exact: true }).fill("2028-05-01");
+  await page
+    .getByRole("button", { name: "Preview listing", exact: true })
+    .click();
+  await preview
+    .getByRole("button", { name: "Submit for review", exact: true })
+    .click();
+  await expect(
+    page.getByText("Awaiting review", { exact: true }),
+  ).toBeVisible();
+  expect(
+    requests.filter((r) => r.name === "save_listing").map((r) => r.body.submit),
+  ).toEqual([false, true]);
+});
+
+test("unsaved listing guard supports staying, private saving and leaving", async ({
+  page,
+}) => {
+  const requests = await fixture(page);
+  await page.goto("http://127.0.0.1:5184/dashboard/new/event");
+  await page
+    .getByLabel("Event name", { exact: true })
+    .fill("Do not lose this event");
+  await page
+    .getByRole("button", { name: /Choose another listing type/ })
+    .click();
+  const guard = page.getByRole("dialog", {
+    name: "Save your changes before leaving?",
+  });
+  await expect(guard).toBeVisible();
+  await guard
+    .getByRole("button", { name: "Continue editing", exact: true })
+    .click();
+  await expect(page.getByLabel("Event name", { exact: true })).toHaveValue(
+    "Do not lose this event",
+  );
+  await page
+    .getByRole("button", { name: /Choose another listing type/ })
+    .click();
+  await guard
+    .getByRole("button", { name: "Save draft and leave", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/dashboard\/new$/);
+  expect(requests.find((r) => r.name === "save_listing")?.body).toMatchObject({
+    submit: false,
+    content: { name: "Do not lose this event" },
+  });
+  await page
+    .getByRole("link", { name: /List an activity or programme/ })
+    .click();
+  await page
+    .getByLabel("Listing name", { exact: true })
+    .fill("Unsaved activity");
+  // Main navigation is protected by the router blocker too.
+  if (await page.getByRole("button", { name: "Open navigation" }).isVisible())
+    await page.getByRole("button", { name: "Open navigation" }).click();
+  await page
+    .getByRole("navigation")
+    .getByRole("link", { name: "Events", exact: true })
+    .click();
+  await guard
+    .getByRole("button", { name: "Leave without saving", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/events$/);
+  expect(requests.filter((r) => r.name === "save_listing")).toHaveLength(1);
+  await page.goto("http://127.0.0.1:5184/dashboard/new");
+  await page.getByRole("link", { name: /List an event/ }).click();
+  await page
+    .getByLabel("Event name", { exact: true })
+    .fill("Browser back protection");
+  await page.evaluate(() => history.back());
+  await expect(guard).toBeVisible();
+  await guard
+    .getByRole("button", { name: "Continue editing", exact: true })
+    .click();
+  await expect(page.getByLabel("Event name", { exact: true })).toHaveValue(
+    "Browser back protection",
+  );
+  await page.evaluate(() => history.back());
+  await guard
+    .getByRole("button", { name: "Leave without saving", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/dashboard\/new$/);
+});
+
+test("dashboard explains live text and pending photos, with a direct business profile entry", async ({
+  page,
+}) => {
+  const item = {
+    id,
+    organisation_id: org,
+    published: content,
+    proposed: content,
+    status: "published",
+    review_note: null,
+    featured: false,
+    verified: false,
+  };
+  await fixture(page, {
+    items: [item],
+    imageRows: [
+      { id: "pending-1", listing_id: id, status: "pending_review" },
+      { id: "pending-2", listing_id: id, status: "pending_review" },
+    ],
+  });
+  await page.goto("http://127.0.0.1:5184/dashboard");
+  await expect(
+    page.getByText("Listing live: visitors can find your approved content."),
+  ).toBeVisible();
+  await expect(
+    page.getByText("2 photos awaiting approval.", { exact: false }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Create a listing", exact: true })
+    .click();
+  await page
+    .getByRole("link", {
+      name: "List an organisation or business",
+      exact: true,
+    })
+    .click();
+  await expect(page).toHaveURL(/\/dashboard\/new\/profile$/);
+  await expect(page.getByLabel("Listing type")).toHaveValue("organisation");
+  await page.getByLabel("Listing type").selectOption("business");
+  await expect(page.locator(".listing-editor")).toHaveClass(
+    /listing-theme-activity/,
+  );
+});
+
+test("admin review filters include pending photos and order by oldest outstanding work", async ({
+  page,
+}) => {
+  const oldText = {
+    id: "old-text",
+    organisation_id: org,
+    published: null,
+    proposed: { ...content, name: "Text to review" },
+    status: "pending_review",
+    review_note: null,
+    featured: false,
+    verified: false,
+    updated_at: "2028-04-02T00:00:00Z",
+  };
+  const photo = {
+    id: "photo-work",
+    organisation_id: org,
+    published: content,
+    proposed: { ...content, type: "venue", name: "Venue photos to review" },
+    status: "published",
+    review_note: null,
+    featured: false,
+    verified: false,
+    updated_at: "2028-04-03T00:00:00Z",
+  };
+  await fixture(page, {
+    admin: true,
+    items: [oldText, photo],
+    imageRows: [
+      {
+        id: "photo-1",
+        listing_id: photo.id,
+        status: "pending_review",
+        created_at: "2028-04-01T00:00:00Z",
+      },
+    ],
+  });
+  await page.goto("http://127.0.0.1:5184/admin");
+  await expect(page.locator(".managed-listings article h3")).toHaveText([
+    "Venue photos to review",
+    "Text to review",
+  ]);
+  await page.getByLabel("Filter review needed").selectOption("images");
+  await expect(page.locator(".managed-listings article h3")).toHaveText([
+    "Venue photos to review",
+  ]);
+  await page.getByLabel("Filter listing type").selectOption("programme");
+  await expect(page.locator(".managed-listings article")).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Clear review filters", exact: true })
+    .click();
+  await page.getByLabel("Filter review needed").selectOption("text");
+  await expect(page.locator(".managed-listings article h3")).toHaveText([
+    "Text to review",
+  ]);
+});
+
+test("venue detail distinguishes unknown values and offers a supported enquiry action", async ({
+  page,
+}) => {
+  await fixture(page, {
+    publicOnly: true,
+    publicRows: [
+      {
+        id,
+        data: {
+          ...content,
+          type: "venue",
+          name: "Unpriced venue",
+          cost: "",
+          price: 0,
+          capacity: 0,
+          publicEmail: "hall@example.test",
+        },
+        featured: false,
+        verified: false,
+      },
+    ],
+  });
+  await page.goto(`http://127.0.0.1:5184/listing/${id}`);
+  await expect(
+    page.getByText("Capacity not supplied", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Enquire for pricing", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Enquire about this space", exact: false }),
+  ).toHaveAttribute("href", "mailto:hall@example.test");
+  await expect(
+    page
+      .locator(".breadcrumb")
+      .getByRole("link", { name: "Venues for Hire", exact: true }),
+  ).toHaveCount(1);
 });
