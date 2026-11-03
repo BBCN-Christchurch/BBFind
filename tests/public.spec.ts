@@ -198,7 +198,7 @@ test("mobile filters collapse and result navigation preserves search and scroll"
   }
   await page.getByLabel("Search the directory").fill("garden");
   await expect(
-    page.getByRole("button", { name: "Remove q filter" }),
+    page.getByRole("button", { name: "Remove search filter" }),
   ).toBeVisible();
   const link = page.getByRole("link", {
     name: "The neighbourhood garden",

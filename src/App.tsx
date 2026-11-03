@@ -1311,7 +1311,7 @@ function Directory({
                   type="button"
                   className="filter-chip"
                   onClick={() => set(key, "")}
-                  aria-label={`Remove ${key} filter`}
+                  aria-label={`Remove ${key === "q" ? "search" : key} filter`}
                 >
                   {(
                     {
