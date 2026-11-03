@@ -939,6 +939,12 @@ function Directory({
   const currentFilters = useRef(urlParams);
   const requested = useRef<string | null>(null);
   useEffect(() => {
+    if (urlParams.get("age") === "All") {
+      const next = new URLSearchParams(urlParams);
+      next.delete("age");
+      setParams(next, { replace: true, preventScrollReset: true });
+      return;
+    }
     if (
       requested.current === null ||
       urlParams.toString() === requested.current
@@ -947,7 +953,7 @@ function Directory({
       setLocalParams(urlParams);
       requested.current = null;
     }
-  }, [urlParams]);
+  }, [urlParams, setParams]);
   const update = (next: URLSearchParams) => {
     currentFilters.current = next;
     requested.current = next.toString();

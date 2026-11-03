@@ -8,6 +8,29 @@ async function openFilters(page: Page) {
   )
     await toggle.click();
 }
+test("age filters offer Any age and individual groups without All, including old links", async ({
+  page,
+}) => {
+  for (const path of ["/find", "/events"]) {
+    await page.goto(`${path}?age=All`);
+    await expect(page).toHaveURL(new RegExp(`${path}$`));
+    await openFilters(page);
+    const ages = page.getByRole("combobox", {
+      name: "Suitable Ages",
+      exact: true,
+    });
+    await expect(ages.locator("option")).toHaveText([
+      "Any age",
+      "0-5",
+      "5-12",
+      "13-20",
+      "Adult",
+      "Senior",
+      "Family",
+    ]);
+    await expect(ages).toHaveValue("");
+  }
+});
 test("home connects search to matching listings", async ({ page }) => {
   await page.goto("/");
   await expect(

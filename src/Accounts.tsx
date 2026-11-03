@@ -926,6 +926,9 @@ export function ListingEditor({
   const Icon =
     kind === "event" ? CalendarDays : kind === "venue" ? Building2 : Users;
   const locked = item?.status === "pending_review" && !admin;
+  const selectedAges = data.suitableAges.includes("All")
+    ? [...suitableAges]
+    : data.suitableAges;
   useEffect(() => {
     const next = { ...emptyListing, type: initialType, ...item?.proposed };
     setData(next);
@@ -1282,28 +1285,20 @@ export function ListingEditor({
                 <fieldset>
                   <legend>Suitable Ages</legend>
                   <p className="help">
-                    Choose all that apply. Select All only when suitable for
-                    every age.
+                    Choose each age group this listing is suitable for.
                   </p>
                   <div className="category-checks">
                     {suitableAges.map((age) => (
                       <label key={age} className="check-label">
                         <input
                           type="checkbox"
-                          checked={data.suitableAges.includes(age)}
+                          checked={selectedAges.includes(age)}
                           onChange={(e) =>
                             field(
                               "suitableAges",
                               e.target.checked
-                                ? age === "All"
-                                  ? ["All"]
-                                  : [
-                                      ...data.suitableAges.filter(
-                                        (a) => a !== "All",
-                                      ),
-                                      age,
-                                    ]
-                                : data.suitableAges.filter((a) => a !== age),
+                                ? [...selectedAges, age]
+                                : selectedAges.filter((a) => a !== age),
                             )
                           }
                         />

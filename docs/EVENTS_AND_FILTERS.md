@@ -21,9 +21,11 @@ An approved event retains its current details while changes await review.
 ## Suitable Ages
 
 Organisations select any applicable choices: **0-5, 5-12, 13-20, Adult, Senior,
-Family, All**. All is an explicit declaration that every age is suitable and
-matches every age filter. Family matches listings marked Family or All; it does
-not infer eligibility from numeric age bands. Any age clears the visitor filter.
+Family**. The redundant All option was removed from filters and selectors on
+4 November 2026. Any age clears the visitor filter. Family does not infer
+eligibility from numeric age bands. Older saved All values remain readable and
+match each age filter; editing them presents the individual groups as selected.
+Old `?age=All` links are normalised to an unrestricted search.
 The supplied age bands are labels and deliberately overlap at age 5.
 
 Existing age descriptions are preserved under Additional age information.
