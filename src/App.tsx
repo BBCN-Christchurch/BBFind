@@ -61,6 +61,8 @@ import {
   suitableAges,
   matchesAge,
   localToday,
+  eventPeriods,
+  eventDateRange,
   formatEventDate,
   isFreeListing,
   venuePriceLabel,
@@ -951,6 +953,24 @@ function Directory({
   const currentFilters = useRef(urlParams);
   const requested = useRef<string | null>(null);
   useEffect(() => {
+    const legacyPeriod = urlParams.get("period");
+    if (
+      events &&
+      legacyPeriod &&
+      ["upcoming", "past", "all"].includes(legacyPeriod)
+    ) {
+      const next = new URLSearchParams(urlParams);
+      next.set("period", "custom");
+      if (legacyPeriod === "upcoming" && !next.has("from"))
+        next.set("from", localToday());
+      if (legacyPeriod === "past" && !next.has("to")) {
+        const yesterday = new Date(`${localToday()}T00:00:00Z`);
+        yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+        next.set("to", yesterday.toISOString().slice(0, 10));
+      }
+      setParams(next, { replace: true, preventScrollReset: true });
+      return;
+    }
     if (urlParams.get("age") === "All") {
       const next = new URLSearchParams(urlParams);
       next.delete("age");
@@ -965,7 +985,7 @@ function Directory({
       setLocalParams(urlParams);
       requested.current = null;
     }
-  }, [urlParams, setParams]);
+  }, [urlParams, setParams, events]);
   const update = (next: URLSearchParams) => {
     currentFilters.current = next;
     requested.current = next.toString();
@@ -988,6 +1008,19 @@ function Directory({
     ...new Set([...locations, ...listings.map((l) => l.suburb)]),
   ];
   const today = localToday();
+  const datePeriod = eventPeriods.some(
+    (period) => period.value === params.get("period"),
+  )
+    ? params.get("period")!
+    : params.has("from") || params.has("to")
+      ? "custom"
+      : "month";
+  const dateRange = eventDateRange(
+    datePeriod,
+    today,
+    params.get("from") || "",
+    params.get("to") || "",
+  );
   const filtered = listings
     .filter(
       (l) =>
@@ -998,13 +1031,9 @@ function Directory({
             : l.type !== "event") &&
         matchesAge(l, params.get("age") || "") &&
         (!events ||
-          (((params.get("period") || "upcoming") === "all" ||
-            (params.get("period") === "past"
-              ? (l.eventEndDate || l.eventStartDate) < today
-              : (l.eventEndDate || l.eventStartDate) >= today)) &&
-            (!params.get("from") ||
-              (l.eventEndDate || l.eventStartDate) >= params.get("from")!) &&
-            (!params.get("to") || l.eventStartDate <= params.get("to")!))) &&
+          ((!dateRange.from ||
+            (l.eventEndDate || l.eventStartDate) >= dateRange.from) &&
+            (!dateRange.to || l.eventStartDate <= dateRange.to))) &&
         matchesSearch(l, q) &&
         (!category || l.categories.includes(category)) &&
         (!suburb || l.suburb === suburb) &&
@@ -1077,7 +1106,7 @@ function Directory({
               </h1>
               <p>
                 {events
-                  ? "Discover upcoming events in calendar date order, from local gatherings to special occasions."
+                  ? "Explore events in calendar date order. Choose a week, month or your own dates."
                   : venues
                     ? "Discover local rooms, halls and spaces for your next gathering."
                     : "People, places and possibilities. There’s something here for you."}
@@ -1222,31 +1251,43 @@ function Directory({
                   Show events
                   <select
                     aria-label="Show events"
-                    value={params.get("period") || "upcoming"}
-                    onChange={(e) => set("period", e.target.value)}
+                    value={datePeriod}
+                    onChange={(e) => {
+                      const next = new URLSearchParams(currentFilters.current);
+                      next.set("period", e.target.value);
+                      next.delete("from");
+                      next.delete("to");
+                      update(next);
+                    }}
                   >
-                    <option value="upcoming">Upcoming & ongoing</option>
-                    <option value="all">All dates</option>
-                    <option value="past">Past events</option>
+                    {eventPeriods.map((period) => (
+                      <option key={period.value} value={period.value}>
+                        {period.label}
+                      </option>
+                    ))}
                   </select>
                 </label>
-                <label>
-                  From date
-                  <input
-                    type="date"
-                    value={params.get("from") || ""}
-                    onChange={(e) => set("from", e.target.value)}
-                  />
-                </label>
-                <label>
-                  To date
-                  <input
-                    type="date"
-                    min={params.get("from") || undefined}
-                    value={params.get("to") || ""}
-                    onChange={(e) => set("to", e.target.value)}
-                  />
-                </label>
+                {datePeriod === "custom" && (
+                  <>
+                    <label>
+                      From date
+                      <input
+                        type="date"
+                        value={params.get("from") || ""}
+                        onChange={(e) => set("from", e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      To date
+                      <input
+                        type="date"
+                        min={params.get("from") || undefined}
+                        value={params.get("to") || ""}
+                        onChange={(e) => set("to", e.target.value)}
+                      />
+                    </label>
+                  </>
+                )}
               </>
             )}
             <label className="check-label">
@@ -1349,7 +1390,14 @@ function Directory({
                       use: "Use",
                     } as Record<string, string>
                   )[key] || key}
-                  : {value === "true" ? "Yes" : value} <X size={12} />
+                  :{" "}
+                  {key === "period"
+                    ? eventPeriods.find((period) => period.value === value)
+                        ?.label || value
+                    : value === "true"
+                      ? "Yes"
+                      : value}{" "}
+                  <X size={12} />
                 </button>
               ))}
               <button

@@ -494,6 +494,35 @@ test("events are date ordered, include ongoing events, and combine age, place, f
   });
   await page.goto("http://127.0.0.1:5184/events");
   await openFilters(page);
+  const period = page.getByLabel("Show events", { exact: true });
+  await expect(period.locator("option")).toHaveText([
+    "This Week",
+    "This Month",
+    "Next Month",
+    "Custom",
+  ]);
+  await expect(period).toHaveValue("month");
+  await expect(page.getByLabel("From date", { exact: true })).toHaveCount(0);
+  await expect(page.getByLabel("To date", { exact: true })).toHaveCount(0);
+  await expect(page.locator(".listing-card h3")).toHaveText([
+    "Ongoing event",
+    "Past event",
+    "Today family event",
+  ]);
+  await period.selectOption("week");
+  await expect(page.locator(".listing-card h3")).toHaveText([
+    "Ongoing event",
+    "Past event",
+    "Today family event",
+    "Later featured event",
+  ]);
+  await period.selectOption("next-month");
+  await expect(page.locator(".listing-card h3")).toHaveText([
+    "Ongoing event",
+    "Later featured event",
+  ]);
+  await period.selectOption("custom");
+  await page.getByLabel("From date", { exact: true }).fill("2028-02-29");
   await expect(
     page.getByRole("heading", { name: "Your community calendar." }),
   ).toBeVisible();
@@ -520,6 +549,9 @@ test("events are date ordered, include ongoing events, and combine age, place, f
     page.getByRole("button", { name: "Bryndwr", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Clear all filters" }).click();
+  await expect(period).toHaveValue("month");
+  await expect(page.getByLabel("From date", { exact: true })).toHaveCount(0);
+  await period.selectOption("custom");
   await page.getByLabel("From date", { exact: true }).fill("2028-03-01");
   await page.getByLabel("To date", { exact: true }).fill("2028-03-02");
   await expect(page.locator(".listing-card h3")).toHaveText(["Ongoing event"]);
@@ -531,7 +563,14 @@ test("events are date ordered, include ongoing events, and combine age, place, f
     "27 February 2028",
   );
   await page.goto("http://127.0.0.1:5184/events?period=past");
-  await expect(page.locator(".listing-card h3")).toHaveText(["Past event"]);
+  await expect(page.getByLabel("Show events", { exact: true })).toHaveValue(
+    "custom",
+  );
+  // A custom end bound includes an event overlapping that day, even if it continues later.
+  await expect(page.locator(".listing-card h3")).toHaveText([
+    "Ongoing event",
+    "Past event",
+  ]);
   await page.goto("http://127.0.0.1:5184/find?age=Senior");
   await expect(page.locator(".listing-card h3")).toHaveText([
     "Regular activity",

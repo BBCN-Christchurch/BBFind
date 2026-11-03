@@ -47,6 +47,37 @@ export function formatEventDate(value: string) {
       }).format(new Date(`${value}T00:00:00Z`))
     : "Date to be confirmed";
 }
+export const eventPeriods = [
+  { value: "week", label: "This Week" },
+  { value: "month", label: "This Month" },
+  { value: "next-month", label: "Next Month" },
+  { value: "custom", label: "Custom" },
+] as const;
+
+// Work with NZ calendar dates as UTC date-only values, avoiding DST shifts.
+export function eventDateRange(
+  period: string,
+  today: string,
+  from = "",
+  to = "",
+) {
+  if (period === "custom") return { from, to };
+  const [year, month, day] = today.split("-").map(Number);
+  const date = (y: number, m: number, d: number) =>
+    new Date(Date.UTC(y, m, d)).toISOString().slice(0, 10);
+  if (period === "week") {
+    const weekday = (new Date(`${today}T00:00:00Z`).getUTCDay() + 6) % 7;
+    return {
+      from: date(year, month - 1, day - weekday),
+      to: date(year, month - 1, day - weekday + 6),
+    };
+  }
+  const offset = period === "next-month" ? 1 : 0;
+  return {
+    from: date(year, month - 1 + offset, 1),
+    to: date(year, month + offset, 0),
+  };
+}
 export function matchesAge(
   listing: Pick<ListingData, "suitableAges">,
   age: string,

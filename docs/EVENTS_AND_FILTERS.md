@@ -9,7 +9,7 @@ and times are local to New Zealand (Pacific/Auckland).
 
 Events are always shown in ascending start-date order, including when featured.
 Upcoming and ongoing events are shown by default. Visitors can include all dates
-or past events, search text, and filter by category, neighbourhood, suitable ages,
+or past dates using Custom, search text, and filter by category, neighbourhood, suitable ages,
 Free only, and a date range. Multi-day events match any overlapping date range
 and remain upcoming/ongoing through their final day. Create separate events for
 separate occurrences; recurring-calendar scheduling is not part of this release.
@@ -102,3 +102,16 @@ Apply additive migration `202611030002_listing_workflow.sql` before deploying
 these forms. It relaxes only the category minimum for event and venue content;
 all other validation, ownership and approval checks remain in place. Do not
 reapply earlier migrations or alter existing listing content during installation.
+
+## Calendar date filters — 4 November 2026
+
+Events offer This Week (Monday–Sunday), This Month (default), Next Month and
+Custom. Presets cover the whole calendar period, including events already held
+in that period, and use New Zealand's current date. Multi-day events match when
+any part of their date range overlaps the selected period. Custom reveals the
+From date and To date controls and allows either bound to be left blank. Switching
+presets clears custom bounds. Existing date-range and old upcoming/past/all links
+remain usable, with old period links converted to Custom.
+
+The home carousel’s View all events link opens a Custom range starting today,
+so it continues to show every upcoming/ongoing event across future months.

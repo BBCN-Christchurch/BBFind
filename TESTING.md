@@ -16,7 +16,7 @@ absence of the inherited Supabase URL, public key and account-portal URL.
 The browser suite has 80 desktop/mobile checks on this branch, including real local
 venue-image loading, source credits and keyboard lightbox navigation. Connected
 owner/admin contracts still use explicit local fixtures, not production data.
-The unit suite has 24 checks, including public provenance and the presence of each image asset.
+The unit suite has 25 checks, including public provenance and the presence of each image asset.
 
 Merged main at `68734d3` into demo, retaining all 17 sample records, source
 notes and image assets unchanged. Events, tailored listing workflows, filters and
@@ -87,3 +87,10 @@ The demo bundle excludes inherited live service URLs and keys.
 Import verification: 24 unit tests, 78 desktop/mobile browser tests, TypeScript,
 format checks and the production demo build passed. All displayed local card
 images decoded in Chromium; automated public-page accessibility checks passed.
+
+## Calendar date presets — 4 November 2026
+
+Both branches use This Week (Monday–Sunday), This Month (default), Next Month
+and Custom. Custom reveals date inputs; overlapping multi-day events are included.
+NZ calendar boundary, leap-year and daylight-saving checks pass. Old date links
+remain usable and the home View all events link includes all future months.
