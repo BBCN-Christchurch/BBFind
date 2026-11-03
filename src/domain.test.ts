@@ -119,9 +119,12 @@ describe("directory data and search", () => {
   });
   it("keeps community samples sourced and their credited images available locally", () => {
     for (const listing of demoListings) {
-      expect(new URL(listing.sourceUrl!).protocol).toBe("https:");
+      if (listing.sourceUrl)
+        expect(new URL(listing.sourceUrl).protocol).toBe("https:");
+      else expect(listing.sourceNote).toContain("Burnside Community Directory");
       expect(listing.verified).not.toBe(true);
-      expect(listing.demoImages?.length).toBeGreaterThan(0);
+      if (!listing.demoImages?.length)
+        expect(listing.sourceNote).toContain("BBFind illustration");
       for (const image of listing.demoImages || []) {
         expect(image.path).not.toContain("..");
         expect(existsSync(resolve(process.cwd(), "public", image.path))).toBe(

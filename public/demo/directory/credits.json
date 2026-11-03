@@ -1,0 +1,310 @@
+[
+  {
+    "key": "alcoholdrughelp",
+    "path": "demo/directory/alcoholdrughelp.webp",
+    "sourceUrl": "https://alcoholdrughelp.org.nz/",
+    "downloadUrl": "https://alcoholdrughelp.org.nz/images/logo-inverted.png",
+    "dark": true
+  },
+  {
+    "key": "best-start.org/",
+    "path": "demo/directory/best-start.webp",
+    "sourceUrl": "https://best-start.org/",
+    "downloadUrl": "https://best-start.org/images/logo3.png",
+    "dark": false
+  },
+  {
+    "key": "capnz.org",
+    "path": "demo/directory/capnz.svg",
+    "sourceUrl": "https://capnz.org/",
+    "downloadUrl": "https://www.capnz.org/wp-content/uploads/2021/03/wg-logo.svg",
+    "dark": false
+  },
+  {
+    "key": "cpnz.org",
+    "path": "demo/directory/cpnz.webp",
+    "sourceUrl": "https://cpnz.org.nz/",
+    "downloadUrl": "https://cpnz.org.nz/wp-content/uploads/2021/08/Logo-1.png",
+    "dark": false
+  },
+  {
+    "key": "girlguidingnz",
+    "path": "demo/directory/girlguidingnz.webp",
+    "sourceUrl": "https://girlguidingnz.org.nz/",
+    "downloadUrl": "https://girlguidingnz.org.nz/wp-content/themes/GirlGuiding-May24-2019/images/logo.png",
+    "dark": false
+  },
+  {
+    "key": "my.christchurchcitylibraries.com/locations/FE",
+    "path": "demo/directory/my.webp",
+    "sourceUrl": "https://my.christchurchcitylibraries.com/locations/FE/",
+    "downloadUrl": "https://cor-liv-cdn-static.bibliocommons.com/images/NZ-CHRISTCHURCH/logo.png?1793710923201",
+    "dark": false
+  },
+  {
+    "key": "poisons.co",
+    "path": "demo/directory/poisons.svg",
+    "sourceUrl": "https://poisons.co.nz/",
+    "downloadUrl": "https://poisons-centre.s3.ap-southeast-2.amazonaws.com/public/Uploads/07eb3df54a/logo_black.svg",
+    "dark": false
+  },
+  {
+    "key": "burnsidecricket",
+    "path": "demo/directory/burnsidecricket.webp",
+    "sourceUrl": "https://www.burnsidecricket.org.nz/",
+    "downloadUrl": "https://i0.wp.com/burnsidecricket.org.nz/wp-content/uploads/2024/08/header-logo.png?fit=787%2C248&ssl=1",
+    "dark": true
+  },
+  {
+    "key": "burnsiderugby",
+    "path": "demo/directory/burnsiderugby.webp",
+    "sourceUrl": "https://www.burnsiderugby.co.nz/",
+    "downloadUrl": "https://prodcdn.sporty.co.nz/cms/10092/18302/menulogo_wo.jpg?v=638823332087430000",
+    "dark": false
+  },
+  {
+    "key": "burnsidesquash",
+    "path": "demo/directory/burnsidesquash.webp",
+    "sourceUrl": "https://www.burnsidesquash.co.nz/",
+    "downloadUrl": "https://static.wixstatic.com/media/9c5871_29f7e66c1dd4416d910bae194f03eac4~mv2.webp/v1/fill/w_151,h_54,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/burnside-squash-logo-1_2x.webp",
+    "dark": false
+  },
+  {
+    "key": "canterburypotters",
+    "path": "demo/directory/canterburypotters.webp",
+    "sourceUrl": "https://www.canterburypotters.co.nz/",
+    "downloadUrl": "https://www.canterburypotters.co.nz/uploads/1/5/3/3/153326301/cpalogo-02.webp",
+    "dark": false
+  },
+  {
+    "key": "canterburywaterpolo",
+    "path": "demo/directory/canterburywaterpolo.webp",
+    "sourceUrl": "https://www.canterburywaterpolo.org.nz/",
+    "downloadUrl": "https://prodcdn.sporty.co.nz/cms/2155/7794/934289/36a8de24-4b9f-4276-a6a9-2f693257c7b1_wo.jpg?t=638778159315970000",
+    "dark": false
+  },
+  {
+    "key": "chav.org",
+    "path": "demo/directory/chav.webp",
+    "sourceUrl": "https://www.chav.org.nz/",
+    "downloadUrl": "https://images.squarespace-cdn.com/content/v1/5e30b328e292f043c9ccd752/1580290191445-R246ZHIKJ5MWNDW17B5W/Logo-611x124.png?format=1500w",
+    "dark": false
+  },
+  {
+    "key": "chinesechurch",
+    "path": "demo/directory/chinesechurch.webp",
+    "sourceUrl": "https://www.chinesechurch.org.nz/",
+    "downloadUrl": "https://chinesechurch.org.nz/assets/img/logo-OtFNBz2A.jpeg",
+    "dark": false
+  },
+  {
+    "key": "cnc.school",
+    "path": "demo/directory/cnc.svg",
+    "sourceUrl": "https://www.cnc.school.nz/",
+    "downloadUrl": "https://cnc.ibcdn.nz/media/theme/new-cnc-logo-white-horizontal.svg",
+    "dark": true
+  },
+  {
+    "key": "delta.org",
+    "path": "demo/directory/delta.webp",
+    "sourceUrl": "https://www.delta.org.nz/",
+    "downloadUrl": "https://delta.org.nz/media/44/sizes/delta-logo-banner_1863x450.png",
+    "dark": false
+  },
+  {
+    "key": "fctwenty11",
+    "path": "demo/directory/fctwenty11.webp",
+    "sourceUrl": "https://www.fctwenty11.co.nz/",
+    "downloadUrl": "https://prodcdn.sporty.co.nz/cms/27273/208585/menulogo_wo.png?v=638907146404270000",
+    "dark": false
+  },
+  {
+    "key": "ilamdental",
+    "path": "demo/directory/ilamdental.webp",
+    "sourceUrl": "https://www.ilamdental.co.nz/",
+    "downloadUrl": "https://zdn.nz/site/ilam/images/basic_theme/logo.jpg",
+    "dark": false
+  },
+  {
+    "key": "just-teeth",
+    "path": "demo/directory/just-teeth.webp",
+    "sourceUrl": "https://www.just-teeth.co.nz/",
+    "downloadUrl": "https://zdn.nz/site/just-teeth/images/basic_theme/logo.gif",
+    "dark": true
+  },
+  {
+    "key": "kidsfirst",
+    "path": "demo/directory/kidsfirst.webp",
+    "sourceUrl": "https://www.kidsfirst.co.nz/",
+    "downloadUrl": "https://kidsfirst.org.nz/wp-content/uploads/2024/03/logo_95965_2.png",
+    "dark": false
+  },
+  {
+    "key": "lifeline.org",
+    "path": "demo/directory/lifeline.svg",
+    "sourceUrl": "https://www.lifeline.org.nz/",
+    "downloadUrl": "https://www.lifeline.org.nz/assets/Uploads/Logo/Lifeline-LOGO.svg",
+    "dark": false
+  },
+  {
+    "key": "metroinfo",
+    "path": "demo/directory/metroinfo.webp",
+    "sourceUrl": "https://www.metroinfo.co.nz/",
+    "downloadUrl": "https://www.metroinfo.co.nz/assets/Logos/Uploads/metro.png",
+    "dark": false
+  },
+  {
+    "key": "northwestwomens",
+    "path": "demo/directory/northwestwomens.webp",
+    "sourceUrl": "https://www.northwestwomenscricket.org.nz/",
+    "downloadUrl": "https://northwestwomenscricket.org.nz/wp-content/uploads/2026/09/nwwc-website-logo-small-white.png",
+    "dark": true
+  },
+  {
+    "key": "orangatamariki",
+    "path": "demo/directory/orangatamariki.webp",
+    "sourceUrl": "https://www.orangatamariki.govt.nz/",
+    "downloadUrl": "https://www.orangatamariki.govt.nz/assets/logos/site1/oranga-tamariki-logo-new.png",
+    "dark": true
+  },
+  {
+    "key": "parenthelp",
+    "path": "demo/directory/parenthelp.webp",
+    "sourceUrl": "https://www.parenthelp.org.nz/",
+    "downloadUrl": "https://www.parenthelp.org.nz/wp-content/uploads/2022/02/cropped-cropped-new-png.png",
+    "dark": false
+  },
+  {
+    "key": "playcentre.org.nz/centre/avonhead",
+    "path": "demo/directory/playcentre.svg",
+    "sourceUrl": "https://www.playcentre.org.nz/centre/avonhead/",
+    "downloadUrl": "https://www.playcentre.org.nz/wp-content/themes/playcentre/img/playcentre_logo.svg",
+    "dark": false
+  },
+  {
+    "key": "rabbitpatch",
+    "path": "demo/directory/rabbitpatch.webp",
+    "sourceUrl": "https://www.rabbitpatch.co.nz/",
+    "downloadUrl": "https://rabbitpatch.co.nz/wp-content/uploads/2018/08/logo-2018-1.png",
+    "dark": false
+  },
+  {
+    "key": "riccartonclinic",
+    "path": "demo/directory/riccartonclinic.svg",
+    "sourceUrl": "https://www.riccartonclinic.co.nz/",
+    "downloadUrl": "https://www.riccartonclinic.co.nz/images/riccarton-clinic-logo.svg",
+    "dark": false
+  },
+  {
+    "key": "silhouettestudios",
+    "path": "demo/directory/silhouettestudios.webp",
+    "sourceUrl": "https://www.silhouettestudios.co.nz/",
+    "downloadUrl": "https://silhouettestudios.co.nz/wp-content/uploads/2020/04/Silhouette-logo.png",
+    "dark": true
+  },
+  {
+    "key": "sporty.co.nz/fendaltonparkcroquet",
+    "path": "demo/directory/sporty.webp",
+    "sourceUrl": "https://www.sporty.co.nz/fendaltonparkcroquet/",
+    "downloadUrl": "https://prodcdn.sporty.co.nz/cms/5302/13509/menulogo_wo.jpg?v=638458136868170000",
+    "dark": false
+  },
+  {
+    "key": "woolworths",
+    "path": "demo/directory/woolworths.webp",
+    "sourceUrl": "https://www.woolworths.co.nz/",
+    "downloadUrl": "https://s7ap1.scene7.com//is/image/woolworthsgroupmrm/Wapple_Logo_1044x238px?fmt=png-alpha&wid=209&hei=48&fit=stretch",
+    "dark": false
+  },
+  {
+    "key": "wrbc.org",
+    "path": "demo/directory/wrbc.webp",
+    "sourceUrl": "https://www.wrbc.org.nz/",
+    "downloadUrl": "https://www.wrbc.org.nz/Images/logo.png",
+    "dark": false
+  },
+  {
+    "key": "youthline",
+    "path": "demo/directory/youthline.webp",
+    "sourceUrl": "https://youthline.co.nz/",
+    "downloadUrl": "https://youthline.co.nz/wp-content/uploads/2024/04/youthline-logo-full-blackhorizontal.png",
+    "dark": false
+  },
+  {
+    "key": "netsafe.org",
+    "path": "demo/directory/netsafe.webp",
+    "sourceUrl": "https://netsafe.org.nz/",
+    "downloadUrl": "https://netsafe.org.nz/assets/netsafe/apple-touch-icon.png",
+    "dark": false
+  },
+  {
+    "key": "menzshed",
+    "path": "demo/directory/menzshed.webp",
+    "sourceUrl": "https://menzshed.org.nz/bishopdale/",
+    "downloadUrl": "https://menzshed.org.nz/wp-content/uploads/2025/11/MENZSHED-for-web-1024x463.png",
+    "dark": false
+  },
+  {
+    "key": "nwyc.co",
+    "path": "demo/directory/nwyc.webp",
+    "sourceUrl": "https://www.nwyc.co.nz/",
+    "downloadUrl": "https://nwyc.co.nz/wp-content/uploads/2016/11/imgres.jpg",
+    "dark": false
+  },
+  {
+    "key": "burnsideprimary",
+    "path": "demo/directory/burnsideprimary.webp",
+    "sourceUrl": "https://www.burnsideprimary.school.nz/",
+    "downloadUrl": "https://assets.hail-cdn.com/uploads/75x75-df9c2893-6a68-4167-9fed-b0eafabd641b",
+    "dark": false
+  },
+  {
+    "key": "christtheking",
+    "path": "demo/directory/christtheking.webp",
+    "sourceUrl": "https://www.christtheking.school.nz/",
+    "downloadUrl": "https://assets.hail-cdn.com/uploads/75x75-97ad686f-9c45-420f-a567-18ae2c850ac8",
+    "dark": false
+  },
+  {
+    "key": "roydvale",
+    "path": "demo/directory/roydvale.webp",
+    "sourceUrl": "https://www.roydvale.school.nz/",
+    "downloadUrl": "https://assets.hail-cdn.com/mq6EoC45jC1WAFiIsCHcAg8sDODu3iwuJYjfRK8DVQ3XtcpjCHC6UlQPhiFIu9f41uK3vy5nSS2hXNOfe7dp02wC1iXY3eF9zJQEOx7IlHqOw65gD1CwV6a7ePWb6EXF",
+    "dark": false
+  },
+  {
+    "key": "wairakeichch",
+    "path": "demo/directory/wairakeichch.webp",
+    "sourceUrl": "https://www.wairakeichch.school.nz/",
+    "downloadUrl": "https://assets.hail-cdn.com/OThB6Lj1rIvMgI3lYEHEfpiM2dEIfKHAVYrIhrB3D5sYh5KzgrFRDxFhx9bzWLABZHqYDf5FPOvVl3wazV51G1Rkp303aF2nYvxVketUJX4CwRgnYbTFs75xGGghgtxD",
+    "dark": false
+  },
+  {
+    "key": "burnsidebowling",
+    "path": "demo/directory/burnsidebowling.webp",
+    "sourceUrl": "https://www.burnsidebowlingclub.com/",
+    "downloadUrl": "https://lh3.googleusercontent.com/m8ZT3rishRUq9BZJfG8oHuj0R1HEN0UbFOHplk5Oy3W_tITcf_fRqb1K8dIhBqO9livxo9QIAup06FJVdgUtwEDfWy5j-dlmXVFftq57z3oabHkJ6EWQqw",
+    "dark": false
+  },
+  {
+    "key": "scouts",
+    "path": "demo/directory/scouts.svg",
+    "sourceUrl": "https://scouts.nz/groups/gordon-scout-group/",
+    "downloadUrl": "https://scouts.nz/wp-content/uploads/2022/11/scouts-white.svg",
+    "dark": true
+  },
+  {
+    "key": "burnsidecanoe",
+    "path": "demo/directory/burnsidecanoe.webp",
+    "sourceUrl": "https://www.burnsidecanoepoloclub.org/",
+    "downloadUrl": "https://static.wixstatic.com/media/403180_9252afc47c1d4da3bf9818151dd97b5c~mv2.png",
+    "dark": false
+  },
+  {
+    "key": "creative-capers",
+    "path": "demo/directory/creative-capers.webp",
+    "sourceUrl": "https://www.facebook.com/CreativeCapersElim",
+    "downloadUrl": "https://scontent-msp1-1.xx.fbcdn.net/v/t39.30808-1/308846680_459885852837837_233443641925641750_n.jpg?stp=dst-jpg_tt6&cstp=mx788x788&ctp=s720x720&_nc_cat=109&ccb=1-7&_nc_sid=3ab345&_nc_ohc=N807MnY-Lo0Q7kNvwF2KXSw&_nc_oc=Adr3u9fTd-oBbtLoQdFgR02DxFJtxyeUA1-_7v3MKNqoRe4wKyjgsWc76G81WSk-bq8&_nc_zt=24&_nc_ht=scontent-msp1-1.xx&_nc_gid=Yx9t8SfCYdw9st4gjAqMtA&_nc_ss=7820f&oh=00_AQSWkkuwhsUyfiauEc94VPy7io93QYwQPoSXk23JT-EzlQ&oe=6AEFEE04",
+    "dark": false
+  }
+]

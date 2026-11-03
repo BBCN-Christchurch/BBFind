@@ -2,17 +2,21 @@
 
 ## Demo branch — 4 November 2026
 
-The community demo uses 17 source-linked samples and local, credited images.
+The community demo uses 120 samples: the original 17 plus 103 entries imported
+from the supplied July 2025 Burnside directory. PDF citations, online corrections,
+unverified gaps and image credits are recorded in docs/DIRECTORY_IMPORT.md and
+on listing details. Local images are used where a suitable graphic was verified;
+otherwise an explicitly identified BBFind illustration is shown.
 Its default build/dev launcher ignores inherited production client settings and
 removes privileged mail/management bindings from child processes. A browser smoke
 check observed zero remote service requests while browsing the sample directory,
 venue photos and disabled registration page. The built bundle was checked for
 absence of the inherited Supabase URL, public key and account-portal URL.
 
-The browser suite has 74 desktop/mobile checks on this branch, including real local
+The browser suite has 78 desktop/mobile checks on this branch, including real local
 venue-image loading, source credits and keyboard lightbox navigation. Connected
 owner/admin contracts still use explicit local fixtures, not production data.
-The unit suite has 21 checks, including public provenance and the presence of each image asset.
+The unit suite has 24 checks, including public provenance and the presence of each image asset.
 
 Merged main at `68734d3` into demo, retaining all 17 sample records, source
 notes and image assets unchanged. Events, tailored listing workflows, filters and
@@ -71,3 +75,15 @@ The event/age migration was checked with legacy records, real calendar dates, in
 The approved workflow improvements are recorded in [WORKFLOW_IMPROVEMENTS.md](docs/WORKFLOW_IMPROVEMENTS.md). Coverage includes private incomplete drafts, strict submission/approval gates, navigation protection (including browser Back), private previews, inline validation/focus, collapsed mobile filters, result scroll restoration, context-specific actions, pending-photo status and oldest-first filtered admin review. Browser failures retain a trace and screenshot for diagnosis. The real-service browser workflow uploads a private image before completing its draft.
 
 The 4 November colour audit verifies themed selection/hover states, search and filter controls, card headings/arrows, empty states, contact panels, tags, previews, unsaved dialogs and gallery controls. Automated accessibility scans cover the public pages and populated private form/preview contexts. No database migration or backend behavior change was needed for this release.
+
+## Directory import — 4 November 2026
+
+The import retains all original sample IDs and assets, reuses existing duplicate
+organisations and keeps programme/hire listings separate. Added checks cover
+PDF page provenance, duplicate prevention, official contact corrections, historic
+schedules, unknown venue fees, local image decoding and wider-area/age filters.
+The demo bundle excludes inherited live service URLs and keys.
+
+Import verification: 24 unit tests, 78 desktop/mobile browser tests, TypeScript,
+format checks and the production demo build passed. All displayed local card
+images decoded in Chromium; automated public-page accessibility checks passed.

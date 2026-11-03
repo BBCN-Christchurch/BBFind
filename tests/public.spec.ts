@@ -1,3 +1,5 @@
+import { demoListings } from "../src/demo";
+import { isFreeListing, matchesSearch } from "../src/domain";
 import { test, expect, type Page } from "@playwright/test";
 async function openFilters(page: Page) {
   await expect(page.locator(".results-toolbar")).toBeVisible();
@@ -34,7 +36,11 @@ test("category filters and listing detail work", async ({ page }) => {
   await page
     .getByLabel("Category", { exact: true })
     .selectOption("Arts, Heritage and Culture");
-  await expect(page.locator(".listing-card")).toHaveCount(2);
+  await expect(page.locator(".listing-card")).toHaveCount(
+    demoListings.filter((item) =>
+      item.categories.includes("Arts, Heritage and Culture"),
+    ).length,
+  );
   await page
     .getByRole("link", { name: "Specialist Music Programme", exact: true })
     .click();
@@ -57,8 +63,12 @@ test("free-only search combines with other filters and survives refresh", async 
   await page.goto("/find");
   await openFilters(page);
   await page.getByLabel("Free only", { exact: true }).check();
-  await expect(page.locator(".listing-card")).toHaveCount(2);
-  await expect(page.locator(".free-label")).toHaveCount(2);
+  await expect(page.locator(".listing-card")).toHaveCount(
+    demoListings.filter(isFreeListing).length,
+  );
+  await expect(page.locator(".free-label")).toHaveCount(
+    demoListings.filter(isFreeListing).length,
+  );
   await page.getByLabel("Search the directory").fill("nexus english");
   await expect(page.locator(".listing-card")).toHaveCount(1);
   await page.reload();
@@ -74,12 +84,14 @@ test("free-only search combines with other filters and survives refresh", async 
   await expect(page.locator(".listing-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Clear all filters" }).click();
   await expect(page.getByLabel("Free only", { exact: true })).not.toBeChecked();
-  await expect(page.locator(".listing-card")).toHaveCount(17);
+  await expect(page.locator(".listing-card")).toHaveCount(demoListings.length);
 });
 test("venue filters combine and clear", async ({ page }) => {
   await page.goto("/venues");
   await openFilters(page);
-  await expect(page.locator(".listing-card")).toHaveCount(3);
+  await expect(page.locator(".listing-card")).toHaveCount(
+    demoListings.filter((item) => item.type === "venue").length,
+  );
   await page.getByLabel("People to accommodate").fill("150");
   await expect(page.locator(".listing-card")).toHaveCount(0);
   await page.getByLabel("People to accommodate").fill("30");
@@ -88,7 +100,9 @@ test("venue filters combine and clear", async ({ page }) => {
   await page.getByLabel("Maximum hourly price").fill("10");
   await expect(page.locator(".listing-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Clear all filters" }).click();
-  await expect(page.locator(".listing-card")).toHaveCount(3);
+  await expect(page.locator(".listing-card")).toHaveCount(
+    demoListings.filter((item) => item.type === "venue").length,
+  );
 });
 test("search handles a typo and a no-result query", async ({ page }) => {
   await page.goto("/find?q=nexuz english");
@@ -195,11 +209,27 @@ test("requested community samples are searchable and Kendal Medical is a busines
     await expect(
       page.getByRole("heading", { name, exact: true }),
     ).toBeVisible();
-    await expect(page.locator(".listing-card")).toHaveCount(1);
+    await expect(page.locator(".listing-card")).toHaveCount(
+      demoListings.filter((item) => matchesSearch(item, query)).length,
+    );
   }
   await page.goto("/find?category=Local%20Businesses%20and%20Services");
-  await expect(page.locator(".listing-card")).toHaveCount(1);
-  await expect(page.locator(".card-type")).toHaveText("business");
+  await expect(page.locator(".listing-card")).toHaveCount(
+    demoListings.filter((item) =>
+      item.categories.includes("Local Businesses and Services"),
+    ).length,
+  );
+  await expect(
+    page
+      .locator(".listing-card")
+      .filter({
+        has: page.getByRole("heading", {
+          name: "Kendal Medical Centre",
+          exact: true,
+        }),
+      })
+      .locator(".card-type"),
+  ).toHaveText("business");
   await page
     .getByRole("link", { name: "Kendal Medical Centre", exact: true })
     .click();
@@ -345,4 +375,78 @@ test("feature controls, selected filters and empty states use their page palette
     "color",
     "rgb(98, 68, 46)",
   );
+});
+
+test("printed directory records expose dated provenance, corrections and explicit gaps", async ({
+  page,
+}) => {
+  await page.goto("/find?q=Parent%20Help");
+  await page
+    .getByRole("link", {
+      name: "Parent Help — Parenting Helpline",
+      exact: true,
+    })
+    .click();
+  await expect(page.getByRole("link", { name: /0800 568 856/ })).toBeVisible();
+  await expect(page.locator(".demo-source")).toContainText("page 3");
+  await expect(page.locator(".demo-source")).toContainText("July 2025");
+  await expect(page.locator(".demo-source")).toContainText(
+    "PDF repeats the PlunketLine number",
+  );
+  await page.goto("/listing/directory-jellie-park-recreation-and-sport-centre");
+  await expect(page.locator(".preserve")).toContainText(
+    "closed for scheduled maintenance until 2027",
+  );
+  await page.goto("/listing/directory-burnside-garden-club");
+  await expect(page.locator(".demo-source")).toContainText(
+    "could not be verified",
+  );
+  await expect(
+    page.getByRole("link", { name: "View the official information" }),
+  ).toHaveCount(0);
+  await page.goto("/listing/directory-creative-capers-messy-playgroup");
+  await expect(page.locator(".gallery-grid")).toContainText(
+    "public Facebook page",
+  );
+});
+
+test("imported brands decode locally and wider-area and age filters find the right entries", async ({
+  page,
+}) => {
+  await page.goto("/find");
+  await expect(page.locator(".listing-card")).toHaveCount(120);
+  const failures = await page
+    .locator(".listing-card img")
+    .evaluateAll(async (images) => {
+      const sources = [
+        ...new Set(images.map((element) => (element as HTMLImageElement).src)),
+      ];
+      return (
+        await Promise.all(
+          sources.map(async (src) => {
+            const image = new Image();
+            image.src = src;
+            try {
+              await image.decode();
+              return "";
+            } catch {
+              return src;
+            }
+          }),
+        )
+      ).filter(Boolean);
+    });
+  expect(failures).toEqual([]);
+  await openFilters(page);
+  await page
+    .getByLabel("Neighbourhood", { exact: true })
+    .selectOption("Merivale");
+  await expect(
+    page.getByRole("heading", { name: "Nor'West Brass", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".listing-card")).toHaveCount(1);
+  await page.goto("/find?q=BestStart%20Roydvale&age=0-5");
+  await expect(
+    page.getByRole("heading", { name: "BestStart Roydvale", exact: true }),
+  ).toBeVisible();
 });

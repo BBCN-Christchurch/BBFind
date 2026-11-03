@@ -245,6 +245,7 @@ export type Listing = ListingData & {
   demoImages?: DemoImage[];
   sourceUrl?: string;
   sourceChecked?: string;
+  sourceNote?: string;
 };
 export type ImageRecord = {
   id: string;

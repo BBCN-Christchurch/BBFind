@@ -1,0 +1,2826 @@
+[
+  {
+    "id": "directory-emergency-services-police-fire-and-ambulance",
+    "name": "Emergency services — Police, Fire and Ambulance",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://www.police.govt.nz/call-111",
+    "publicPhone": "111",
+    "publicEmail": "",
+    "summary": "Emergency assistance from Police, Fire and Ambulance. Call 111 in an emergency.",
+    "directoryPage": 3,
+    "categories": [
+      "Government and Community Support",
+      "Health and Welfare Services"
+    ],
+    "description": "Emergency assistance from Police, Fire and Ambulance. Call 111 in an emergency. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.police.govt.nz/call-111"
+  },
+  {
+    "id": "directory-national-poisons-centre",
+    "name": "National Poisons Centre",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://poisons.co.nz/",
+    "publicPhone": "0800 764 766",
+    "publicEmail": "",
+    "summary": "Poisoning advice and information from the National Poisons Centre.",
+    "directoryPage": 3,
+    "categories": ["Health and Welfare Services"],
+    "description": "Poisoning advice and information from the National Poisons Centre. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "cost": "Free",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://poisons.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/poisons.svg",
+        "alt": "Organisation branding for National Poisons Centre",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://poisons.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://poisons.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-riccarton-clinic-and-after-hours-medical-centre",
+    "name": "Riccarton Clinic and After Hours Medical Centre",
+    "type": "business",
+    "suburb": "Upper Riccarton",
+    "address": "4 Yaldhurst Road",
+    "website": "https://www.riccartonclinic.co.nz/",
+    "publicPhone": "03 343 3661",
+    "publicEmail": "",
+    "summary": "Urgent care and after-hours medical services in Upper Riccarton.",
+    "directoryPage": 3,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "Urgent care and after-hours medical services in Upper Riccarton. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.riccartonclinic.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/riccartonclinic.svg",
+        "alt": "Organisation branding for Riccarton Clinic and After Hours Medical Centre",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.riccartonclinic.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.riccartonclinic.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-after-hours-veterinary-centre",
+    "name": "After Hours Veterinary Centre",
+    "type": "business",
+    "suburb": "Addington",
+    "address": "146 Antigua Street",
+    "website": "https://www.afterhoursvet.co.nz/",
+    "publicPhone": "03 366 1052",
+    "publicEmail": "",
+    "summary": "After-hours veterinary care for pets in Christchurch.",
+    "directoryPage": 3,
+    "categories": ["Local Businesses and Services"],
+    "description": "After-hours veterinary care for pets in Christchurch. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "times": "Official website: Monday–Thursday 7pm–8am; Friday 7pm through to Monday 8am, plus public holidays. Phone before visiting.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.afterhoursvet.co.nz/"
+  },
+  {
+    "id": "directory-alcohol-drug-helpline",
+    "name": "Alcohol Drug Helpline",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://alcoholdrughelp.org.nz/",
+    "publicPhone": "0800 787 797",
+    "publicEmail": "",
+    "summary": "Confidential support for people concerned about alcohol or other drug use. Text 8681.",
+    "directoryPage": 3,
+    "categories": ["Health and Welfare Services"],
+    "description": "Confidential support for people concerned about alcohol or other drug use. Text 8681. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "cost": "Free",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://alcoholdrughelp.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/alcoholdrughelp.webp",
+        "alt": "Organisation branding for Alcohol Drug Helpline",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://alcoholdrughelp.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://alcoholdrughelp.org.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-caf-emergency-child-and-youth-mental-health",
+    "name": "CAF Emergency — Child and Youth Mental Health",
+    "type": "service",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://www.healthinfo.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Child and youth crisis service listed in July 2025; confirm current local crisis contacts through HealthInfo. In an emergency call 111.",
+    "directoryPage": 3,
+    "categories": [
+      "Health and Welfare Services",
+      "Children, Youth and Families"
+    ],
+    "description": "Urgent mental health support for children and young people. Check HealthInfo for current crisis contacts; call 111 in an emergency. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3. Historical directory entry: the named service and direct crisis contact could not be reverified. Use the linked HealthInfo resource for current local crisis services; call 111 in an emergency. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "family",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.healthinfo.org.nz/"
+  },
+  {
+    "id": "directory-crisis-resolution-mental-health",
+    "name": "Crisis Resolution — Mental Health",
+    "type": "service",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://www.healthinfo.org.nz/",
+    "publicPhone": "0800 920 092",
+    "publicEmail": "",
+    "summary": "Urgent mental health crisis support in Canterbury. Call 111 in an emergency.",
+    "directoryPage": 3,
+    "categories": ["Health and Welfare Services"],
+    "description": "Urgent mental health crisis support in Canterbury. Call 111 in an emergency. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.healthinfo.org.nz/"
+  },
+  {
+    "id": "directory-healthline",
+    "name": "Healthline",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://www.healthnz.govt.nz/online-phone-healthcare/healthline",
+    "publicPhone": "0800 611 116",
+    "publicEmail": "",
+    "summary": "Health advice over the phone from registered nurses and health professionals.",
+    "directoryPage": 3,
+    "categories": ["Health and Welfare Services"],
+    "description": "Health advice over the phone from registered nurses and health professionals. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.healthnz.govt.nz/online-phone-healthcare/healthline"
+  },
+  {
+    "id": "directory-lifeline",
+    "name": "Lifeline",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://www.lifeline.org.nz/",
+    "publicPhone": "0800 543 354",
+    "publicEmail": "",
+    "summary": "Confidential support for people experiencing distress. Text HELP to 4357; check current service availability.",
+    "directoryPage": 3,
+    "categories": ["Health and Welfare Services"],
+    "description": "Confidential support for people experiencing distress. Text HELP to 4357; check current service availability. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "cost": "Free",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.lifeline.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/lifeline.svg",
+        "alt": "Organisation branding for Lifeline",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.lifeline.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.lifeline.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-chinese-lifeline",
+    "name": "Chinese Lifeline",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://www.lifeline.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Chinese-language helpline listed in July 2025; current dedicated service and phone number remain unconfirmed.",
+    "directoryPage": 3,
+    "categories": [
+      "Health and Welfare Services",
+      "Ethnic and Multicultural Communities"
+    ],
+    "description": "Chinese Lifeline appears in the July 2025 community directory as a Mandarin- and Cantonese-language support service. A current dedicated service and phone number could not be independently verified. Contact Lifeline to ask about available language support. For an emergency call 111.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3. Historical directory entry: current availability unconfirmed. The old dedicated number is not published as a verified current helpline. Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.lifeline.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/lifeline.svg",
+        "alt": "Organisation branding for Chinese Lifeline",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.lifeline.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.lifeline.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-oranga-tamariki-child-safety-concerns",
+    "name": "Oranga Tamariki — Child Safety Concerns",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://www.orangatamariki.govt.nz/",
+    "publicPhone": "0508 326 459",
+    "publicEmail": "",
+    "summary": "Report concerns about the safety or wellbeing of a child or young person.",
+    "directoryPage": 3,
+    "categories": [
+      "Government and Community Support",
+      "Children, Youth and Families"
+    ],
+    "description": "Report concerns about the safety or wellbeing of a child or young person. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.orangatamariki.govt.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/orangatamariki.webp",
+        "alt": "Organisation branding for Oranga Tamariki — Child Safety Concerns",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.orangatamariki.govt.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.orangatamariki.govt.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-parent-help-parenting-helpline",
+    "name": "Parent Help — Parenting Helpline",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://www.parenthelp.org.nz/",
+    "publicPhone": "0800 568 856",
+    "publicEmail": "",
+    "summary": "Confidential parenting support and guidance from Parent Help.",
+    "directoryPage": 3,
+    "categories": [
+      "Children, Youth and Families",
+      "Health and Welfare Services"
+    ],
+    "description": "Confidential parenting support and guidance from Parent Help. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3. The PDF repeats the PlunketLine number under Parent Helpline. Parent Help’s official website confirms its own helpline is 0800 568 856. Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.parenthelp.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/parenthelp.webp",
+        "alt": "Organisation branding for Parent Help — Parenting Helpline",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.parenthelp.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.parenthelp.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-plunketline",
+    "name": "PlunketLine",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://www.plunket.org.nz/plunket/what-we-offer/plunketline/",
+    "publicPhone": "0800 933 922",
+    "publicEmail": "",
+    "summary": "Advice and support for parents and caregivers of babies and young children.",
+    "directoryPage": 3,
+    "categories": [
+      "Children, Youth and Families",
+      "Health and Welfare Services"
+    ],
+    "description": "Advice and support for parents and caregivers of babies and young children. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "cost": "Free",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.plunket.org.nz/plunket/what-we-offer/plunketline/",
+    "demoImages": [
+      {
+        "path": "demo/plunket-logo.png",
+        "alt": "Parent organisation logo — PlunketLine",
+        "caption": "Parent organisation branding, not a photograph of this programme or hire space.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://www.plunket.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-suicide-crisis-helpline-tautoko",
+    "name": "Suicide Crisis Helpline — Tautoko",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://www.lifeline.org.nz/",
+    "publicPhone": "0508 828 865",
+    "publicEmail": "",
+    "summary": "Support for people in distress or worried about someone else. Check current availability; call 111 in an emergency.",
+    "directoryPage": 3,
+    "categories": ["Health and Welfare Services"],
+    "description": "Support for people in distress or worried about someone else. Check current availability; call 111 in an emergency. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3. The official Lifeline website confirms 0508 828 865; the PDF mixes an 0508 label with an 0800 number. Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "cost": "Free",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.lifeline.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/lifeline.svg",
+        "alt": "Organisation branding for Suicide Crisis Helpline — Tautoko",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.lifeline.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.lifeline.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-youthline",
+    "name": "Youthline",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://youthline.co.nz/",
+    "publicPhone": "0800 376 633",
+    "publicEmail": "talk@youthline.co.nz",
+    "summary": "Support for young people and those who care about them. Free text 234.",
+    "directoryPage": 3,
+    "categories": [
+      "Children, Youth and Families",
+      "Health and Welfare Services"
+    ],
+    "description": "Support for young people and those who care about them. Free text 234. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "cost": "Free",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://youthline.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/youthline.webp",
+        "alt": "Organisation branding for Youthline",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://youthline.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://youthline.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-unichem-bealey-avenue-pharmacy",
+    "name": "Unichem Bealey Avenue Pharmacy",
+    "type": "business",
+    "suburb": "Christchurch Central",
+    "address": "212 Bealey Avenue",
+    "website": "https://www.bealeypharmacy.co.nz/",
+    "publicPhone": "03 365 1234",
+    "publicEmail": "",
+    "summary": "Community pharmacy on Bealey Avenue, listed for extended-hours services. Check current opening hours.",
+    "directoryPage": 3,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "Community pharmacy on Bealey Avenue, listed for extended-hours services. Check current opening hours. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.bealeypharmacy.co.nz/"
+  },
+  {
+    "id": "directory-unichem-riccarton-clinic-pharmacy",
+    "name": "Unichem Riccarton Clinic Pharmacy",
+    "type": "business",
+    "suburb": "Upper Riccarton",
+    "address": "4 Yaldhurst Road",
+    "website": "https://www.riccartonclinic.co.nz/",
+    "publicPhone": "03 341 4855",
+    "publicEmail": "",
+    "summary": "Pharmacy at Riccarton Clinic. Contact the pharmacy for current dispensing and opening hours.",
+    "directoryPage": 3,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "Pharmacy at Riccarton Clinic. Contact the pharmacy for current dispensing and opening hours. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 3.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.riccartonclinic.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/riccartonclinic.svg",
+        "alt": "Organisation branding for Unichem Riccarton Clinic Pharmacy",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.riccartonclinic.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.riccartonclinic.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-hamish-campbell-mp-for-ilam",
+    "name": "Hamish Campbell — MP for Ilam",
+    "type": "service",
+    "suburb": "Bryndwr",
+    "address": "Unit 5, Fendalton Village, 376 Ilam Road",
+    "website": "https://www.national.org.nz/hamishcampbell",
+    "publicPhone": "03 359 3665",
+    "publicEmail": "hamish.campbell@parliament.govt.nz",
+    "summary": "Electorate office for assistance with government departments and Ilam electorate matters.",
+    "directoryPage": 4,
+    "categories": ["Government and Community Support"],
+    "description": "Electorate office for assistance with government departments and Ilam electorate matters. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.national.org.nz/hamishcampbell"
+  },
+  {
+    "id": "directory-metro-canterbury-bus-information",
+    "name": "Metro Canterbury — Bus Information",
+    "type": "service",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://www.metroinfo.co.nz/",
+    "publicPhone": "03 366 8855",
+    "publicEmail": "metro@ecan.govt.nz",
+    "summary": "Public transport information, bus routes, journey planning and fares for Greater Christchurch.",
+    "directoryPage": 4,
+    "categories": ["Government and Community Support"],
+    "description": "Public transport information, bus routes, journey planning and fares for Greater Christchurch. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.metroinfo.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/metroinfo.webp",
+        "alt": "Organisation branding for Metro Canterbury — Bus Information",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.metroinfo.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.metroinfo.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-arise-church-christchurch",
+    "name": "ARISE Church — Christchurch",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "Aurora Centre, Burnside High School, 151 Greers Road",
+    "website": "https://www.arisechurch.com/christchurch",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Christchurch church community listed at the Aurora Centre in the July 2025 directory. Confirm the current meeting venue online.",
+    "directoryPage": 4,
+    "categories": ["Churches and Faith Communities"],
+    "description": "Christchurch church community listed at the Aurora Centre in the July 2025 directory. Confirm the current meeting venue online. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.arisechurch.com/christchurch"
+  },
+  {
+    "id": "directory-bread-of-life-church",
+    "name": "Bread of Life Church",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "30 Sheffield Crescent",
+    "website": "https://www.bolccc.org/",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Christian church community based on Sheffield Crescent in Burnside.",
+    "directoryPage": 4,
+    "categories": ["Churches and Faith Communities"],
+    "description": "Christian church community based on Sheffield Crescent in Burnside. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.bolccc.org/"
+  },
+  {
+    "id": "directory-christchurch-community-church",
+    "name": "Christchurch Community Church",
+    "type": "organisation",
+    "suburb": "Bryndwr",
+    "address": "286 Greers Road",
+    "website": "https://www.chinesechurch.org.nz/",
+    "publicPhone": "03 359 5986",
+    "publicEmail": "admin@chinesechurch.org.nz",
+    "summary": "Church community on Greers Road serving Christchurch's Chinese-speaking community and others.",
+    "directoryPage": 4,
+    "categories": [
+      "Churches and Faith Communities",
+      "Ethnic and Multicultural Communities"
+    ],
+    "description": "Christchurch Community Church welcomes people from different cultural backgrounds. Its official website describes Mandarin/English, Cantonese and English-language congregations.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "times": "Sunday: Mandarin/English 10am; Cantonese 1:30pm; MOSAIC English 5pm. Confirm current services online.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.chinesechurch.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/chinesechurch.webp",
+        "alt": "Organisation branding for Christchurch Community Church",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.chinesechurch.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.chinesechurch.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-iglesia-ni-cristo-christchurch",
+    "name": "Iglesia Ni Cristo — Christchurch",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "3 Abros Place",
+    "website": "https://iglesianicristo.net/",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Iglesia Ni Cristo congregation listed on Abros Place in the community directory.",
+    "directoryPage": 4,
+    "categories": ["Churches and Faith Communities"],
+    "description": "Iglesia Ni Cristo congregation listed on Abros Place in the community directory. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://iglesianicristo.net/"
+  },
+  {
+    "id": "directory-new-apostolic-church-christchurch",
+    "name": "New Apostolic Church — Christchurch",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "352 Wairakei Road",
+    "website": "",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "New Apostolic Church community listed on Wairakei Road in Burnside.",
+    "directoryPage": 4,
+    "categories": ["Churches and Faith Communities"],
+    "description": "New Apostolic Church community listed on Wairakei Road in Burnside. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4. The directory lists this church and address but no website. A matching current congregation website could not be verified. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)"
+  },
+  {
+    "id": "directory-wairakei-road-bible-church",
+    "name": "Wairakei Road Bible Church",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "392 Wairakei Road",
+    "website": "https://www.wrbc.org.nz/",
+    "publicPhone": "03 359 9247",
+    "publicEmail": "office@wrbc.org.nz",
+    "summary": "Local Christian church community based on Wairakei Road.",
+    "directoryPage": 4,
+    "categories": ["Churches and Faith Communities"],
+    "description": "Local Christian church community based on Wairakei Road. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.wrbc.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/wrbc.webp",
+        "alt": "Organisation branding for Wairakei Road Bible Church",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.wrbc.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.wrbc.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-bowling-club-venue-hire",
+    "name": "Burnside Bowling Club — Venue Hire",
+    "type": "venue",
+    "suburb": "Burnside",
+    "address": "330 Avonhead Road",
+    "website": "https://www.burnsidebowlingclub.com/",
+    "publicPhone": "03 358 4617",
+    "publicEmail": "hire@burnsidebowlingclub.com",
+    "summary": "Club facilities for community groups, business gatherings and functions. Enquire about available spaces.",
+    "directoryPage": 4,
+    "categories": ["Venues and Facilities"],
+    "description": "Club facilities for community groups, business gatherings and functions. Enquire about available spaces. Ask the venue about current availability, hire charges, capacity, accessibility and the facilities included in your booking.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 4.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "hall",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsidebowlingclub.com/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsidebowling.webp",
+        "alt": "Organisation branding for Burnside Bowling Club — Venue Hire",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsidebowlingclub.com/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsidebowlingclub.com/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-park-tennis-club-pavilion-room",
+    "name": "Burnside Park Tennis Club — Pavilion Room",
+    "type": "venue",
+    "suburb": "Burnside",
+    "address": "Burnside Park, 336 Avonhead Road",
+    "website": "https://www.burnsideparktennis.com/",
+    "publicPhone": "",
+    "publicEmail": "admin@burnsideparktennis.com",
+    "summary": "Pavilion room listed for meetings, birthdays and team functions. Ask the club about hire arrangements.",
+    "directoryPage": 5,
+    "categories": ["Venues and Facilities"],
+    "description": "Pavilion room listed for meetings, birthdays and team functions. Ask the club about hire arrangements. Ask the venue about current availability, hire charges, capacity, accessibility and the facilities included in your booking.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "hall",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsideparktennis.com/",
+    "demoImages": [
+      {
+        "path": "demo/burnside-tennis-logo.png",
+        "alt": "Parent organisation logo — Burnside Park Tennis Club — Pavilion Room",
+        "caption": "Parent organisation branding, not a photograph of this programme or hire space.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://www.burnsideparktennis.com/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-rfc-function-centre",
+    "name": "Burnside RFC Function Centre",
+    "type": "venue",
+    "suburb": "Burnside",
+    "address": "342 Avonhead Road",
+    "website": "https://www.burnsiderugby.co.nz/",
+    "publicPhone": "03 358 8099",
+    "publicEmail": "functions@burnsiderugby.co.nz",
+    "summary": "Function facilities for parties, meetings, conferences and weddings at Burnside Rugby Football Club.",
+    "directoryPage": 5,
+    "categories": ["Venues and Facilities"],
+    "description": "Function facilities for parties, meetings, conferences and weddings at Burnside Rugby Football Club. Ask the venue about current availability, hire charges, capacity, accessibility and the facilities included in your booking.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "hall",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsiderugby.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsiderugby.webp",
+        "alt": "Organisation branding for Burnside RFC Function Centre",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsiderugby.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsiderugby.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-west-cricket-pavilion",
+    "name": "Burnside West Cricket Pavilion",
+    "type": "venue",
+    "suburb": "Burnside",
+    "address": "Burnside Park, 340 Avonhead Road",
+    "website": "https://www.burnsidecricket.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "cricket@burnsidecricket.org.nz",
+    "summary": "Cricket pavilion available for corporate and private functions. Contact the club for capacity and hire details.",
+    "directoryPage": 5,
+    "categories": ["Venues and Facilities"],
+    "description": "Cricket pavilion available for corporate and private functions. Contact the club for capacity and hire details. Ask the venue about current availability, hire charges, capacity, accessibility and the facilities included in your booking.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "hall",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsidecricket.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsidecricket.webp",
+        "alt": "Organisation branding for Burnside West Cricket Pavilion",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsidecricket.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsidecricket.org.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-harewood-playcentre-hall-hire",
+    "name": "Harewood Playcentre — Hall Hire",
+    "type": "venue",
+    "suburb": "Harewood",
+    "address": "719 Harewood Road",
+    "website": "https://www.playcentre.org.nz/centre/harewood/",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Playcentre hall listed for children's parties, dance, fitness and meetings. Confirm facilities and availability with the centre.",
+    "directoryPage": 5,
+    "categories": ["Venues and Facilities"],
+    "description": "Playcentre hall listed for children's parties, dance, fitness and meetings. Confirm facilities and availability with the centre. Ask the venue about current availability, hire charges, capacity, accessibility and the facilities included in your booking.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "hall",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.playcentre.org.nz/centre/harewood/",
+    "demoImages": [
+      {
+        "path": "demo/directory/playcentre.svg",
+        "alt": "Parent organisation branding for Harewood Playcentre — Hall Hire",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.playcentre.org.nz/centre/avonhead/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.playcentre.org.nz/centre/avonhead/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-silhouette-studios-nz-studio-hire",
+    "name": "Silhouette Studios NZ — Studio Hire",
+    "type": "venue",
+    "suburb": "Burnside",
+    "address": "6 Sheffield Crescent",
+    "website": "https://www.silhouettestudios.co.nz/",
+    "publicPhone": "",
+    "publicEmail": "admin@silhouettestudios.co.nz",
+    "summary": "Dance studio space listed for classes, workshops and events. Contact the studio about hire options.",
+    "directoryPage": 5,
+    "categories": ["Venues and Facilities"],
+    "description": "Dance studio space listed for classes, workshops and events. Contact the studio about hire options. Ask the venue about current availability, hire charges, capacity, accessibility and the facilities included in your booking.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "hall",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.silhouettestudios.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/silhouettestudios.webp",
+        "alt": "Organisation branding for Silhouette Studios NZ — Studio Hire",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.silhouettestudios.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.silhouettestudios.co.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-ilam-dental-centre",
+    "name": "Ilam Dental Centre",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "110 Memorial Avenue",
+    "website": "https://www.ilamdental.co.nz/",
+    "publicPhone": "03 348 1602",
+    "publicEmail": "info@ilamdental.co.nz",
+    "summary": "Dental care at Ilam Dental Centre on Memorial Avenue.",
+    "directoryPage": 5,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "Dental care at Ilam Dental Centre on Memorial Avenue. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.ilamdental.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/ilamdental.webp",
+        "alt": "Organisation branding for Ilam Dental Centre",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.ilamdental.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.ilamdental.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-just-teeth",
+    "name": "Just Teeth",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "4/49 Sir William Pickering Drive",
+    "website": "https://www.just-teeth.co.nz/",
+    "publicPhone": "03 357 2020",
+    "publicEmail": "",
+    "summary": "Dental services based on Sir William Pickering Drive in Burnside.",
+    "directoryPage": 5,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "Dental services based on Sir William Pickering Drive in Burnside. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.just-teeth.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/just-teeth.webp",
+        "alt": "Organisation branding for Just Teeth",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.just-teeth.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.just-teeth.co.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-greers-road-medical-centre",
+    "name": "Greers Road Medical Centre",
+    "type": "business",
+    "suburb": "Bryndwr",
+    "address": "285 Greers Road",
+    "website": "https://www.greersmed.co.nz/",
+    "publicPhone": "03 359 8119",
+    "publicEmail": "reception@greersmed.co.nz",
+    "summary": "General practice and primary healthcare on Greers Road.",
+    "directoryPage": 5,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "General practice and primary healthcare on Greers Road. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.greersmed.co.nz/"
+  },
+  {
+    "id": "directory-ilam-medical-centre",
+    "name": "Ilam Medical Centre",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "110 Memorial Avenue",
+    "website": "https://www.ilammc.co.nz/",
+    "publicPhone": "03 351 6198",
+    "publicEmail": "reception@ilam.co.nz",
+    "summary": "General practice and primary healthcare on Memorial Avenue.",
+    "directoryPage": 5,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "General practice and primary healthcare on Memorial Avenue. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.ilammc.co.nz/"
+  },
+  {
+    "id": "directory-burnside-medical-centre",
+    "name": "Burnside Medical Centre",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "368 Wairakei Road",
+    "website": "https://www.burnsidemedical.co.nz/",
+    "publicPhone": "03 359 9974",
+    "publicEmail": "reception@burnside.pegasus.net.nz",
+    "summary": "General practice and medical services on Wairakei Road.",
+    "directoryPage": 5,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "General practice and medical services on Wairakei Road. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.burnsidemedical.co.nz/"
+  },
+  {
+    "id": "directory-beststart-burnside",
+    "name": "BestStart Burnside",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "11 Sir William Pickering Drive",
+    "website": "https://best-start.org/centres/beststart-burnside",
+    "publicPhone": "03 358 2917",
+    "publicEmail": "",
+    "summary": "Early childhood education and care at BestStart Burnside in Burnside.",
+    "directoryPage": 5,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families",
+      "Local Businesses and Services"
+    ],
+    "description": "Early childhood education and care at BestStart Burnside in Burnside. The official centre page supplies the address, phone and opening hours shown here. Ask about enrolment, fees, funded hours and current availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "times": "Monday–Friday, 7:30am–5:30pm; confirm holidays and enrolment arrangements.",
+    "suitableAges": ["0-5"],
+    "ageGroups": "Early childhood",
+    "cost": "Fees apply; ask about eligibility for subsidies and funded hours.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://best-start.org/centres/beststart-burnside",
+    "demoImages": [
+      {
+        "path": "demo/directory/best-start.webp",
+        "alt": "Parent organisation branding for BestStart Burnside",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://best-start.org/. Copyright remains with its owner.",
+        "sourceUrl": "https://best-start.org/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-beststart-roydvale",
+    "name": "BestStart Roydvale",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "139–141 Roydvale Avenue",
+    "website": "https://best-start.org/centres/beststart-roydvale",
+    "publicPhone": "03 358 3000",
+    "publicEmail": "",
+    "summary": "Early childhood education and care at BestStart Roydvale in Burnside.",
+    "directoryPage": 5,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families",
+      "Local Businesses and Services"
+    ],
+    "description": "Early childhood education and care at BestStart Roydvale in Burnside. The official centre page supplies the address, phone and opening hours shown here. Ask about enrolment, fees, funded hours and current availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "times": "Monday–Friday, 7:30am–5:30pm; confirm holidays and enrolment arrangements.",
+    "suitableAges": ["0-5"],
+    "ageGroups": "Early childhood",
+    "cost": "Fees apply; ask about eligibility for subsidies and funded hours.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://best-start.org/centres/beststart-roydvale",
+    "demoImages": [
+      {
+        "path": "demo/directory/best-start.webp",
+        "alt": "Parent organisation branding for BestStart Roydvale",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://best-start.org/. Copyright remains with its owner.",
+        "sourceUrl": "https://best-start.org/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-beststart-wairakei-road",
+    "name": "BestStart Wairakei Road",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "431 Wairakei Road",
+    "website": "https://best-start.org/centres/beststart-wairakei-road",
+    "publicPhone": "03 359 5274",
+    "publicEmail": "",
+    "summary": "Early childhood education and care at BestStart Wairakei Road in Burnside.",
+    "directoryPage": 5,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families",
+      "Local Businesses and Services"
+    ],
+    "description": "Early childhood education and care at BestStart Wairakei Road in Burnside. The official centre page supplies the address, phone and opening hours shown here. Ask about enrolment, fees, funded hours and current availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "times": "Monday–Friday, 7am–6pm; confirm holidays and enrolment arrangements.",
+    "suitableAges": ["0-5"],
+    "ageGroups": "Early childhood",
+    "cost": "Fees apply; ask about eligibility for subsidies and funded hours.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://best-start.org/centres/beststart-wairakei-road",
+    "demoImages": [
+      {
+        "path": "demo/directory/best-start.webp",
+        "alt": "Parent organisation branding for BestStart Wairakei Road",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://best-start.org/. Copyright remains with its owner.",
+        "sourceUrl": "https://best-start.org/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-kidsfirst-kindergartens-kendal",
+    "name": "Kidsfirst Kindergartens — Kendal",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "55 Kendal Avenue",
+    "website": "https://www.kidsfirst.co.nz/",
+    "publicPhone": "",
+    "publicEmail": "kendal@kidsfirst.org.nz",
+    "summary": "Kindergarten for young children on Kendal Avenue, part of Kidsfirst Kindergartens.",
+    "directoryPage": 5,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Kindergarten for young children on Kendal Avenue, part of Kidsfirst Kindergartens. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "suitableAges": ["0-5", "Family"],
+    "ageGroups": "Early childhood and caregivers",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.kidsfirst.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/kidsfirst.webp",
+        "alt": "Organisation branding for Kidsfirst Kindergartens — Kendal",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.kidsfirst.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.kidsfirst.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-the-rabbit-patch-greers-road",
+    "name": "The Rabbit Patch — Greers Road",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "161 Greers Road",
+    "website": "https://www.rabbitpatch.co.nz/",
+    "publicPhone": "03 358 2549",
+    "publicEmail": "greers@rabbitpatch.co.nz",
+    "summary": "Early childhood education at The Rabbit Patch's Greers Road centre.",
+    "directoryPage": 5,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families",
+      "Local Businesses and Services"
+    ],
+    "description": "Early childhood education at The Rabbit Patch's Greers Road centre. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5. The current Rabbit Patch website supplies the Greers Road address and phone; the PDF phone belongs to its Saffron Street centre. Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "times": "Monday–Friday, 7:30am–5:30pm, excluding public holidays.",
+    "ageGroups": "Three months to school age",
+    "suitableAges": ["0-5"],
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.rabbitpatch.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/rabbitpatch.webp",
+        "alt": "Organisation branding for The Rabbit Patch — Greers Road",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.rabbitpatch.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.rabbitpatch.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-kendal-pharmacy",
+    "name": "Kendal Pharmacy",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "64 Kendal Avenue",
+    "website": "https://www.healthpoint.co.nz/pharmacy/pharmacy/kendal-pharmacy/",
+    "publicPhone": "03 358 8714",
+    "publicEmail": "health@kendalpharmacy.co.nz",
+    "summary": "Community pharmacy offering prescription dispensing and health advice on Kendal Avenue.",
+    "directoryPage": 5,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "Community pharmacy offering prescription dispensing and health advice on Kendal Avenue. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 5.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "times": "Monday–Friday, 9am–5:30pm; check holiday hours.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.healthpoint.co.nz/pharmacy/pharmacy/kendal-pharmacy/"
+  },
+  {
+    "id": "directory-unichem-ilam-healthworks-pharmacy",
+    "name": "Unichem Ilam Healthworks Pharmacy",
+    "type": "business",
+    "suburb": "Burnside",
+    "address": "110 Memorial Avenue",
+    "website": "https://www.unichempharmacy.co.nz/",
+    "publicPhone": "03 351 8633",
+    "publicEmail": "rx@healthworks.co.nz",
+    "summary": "Community pharmacy beside Ilam Medical Centre on Memorial Avenue.",
+    "directoryPage": 6,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "Community pharmacy beside Ilam Medical Centre on Memorial Avenue. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.unichempharmacy.co.nz/"
+  },
+  {
+    "id": "directory-unichem-spitfire-square-pharmacy",
+    "name": "Unichem Spitfire Square Pharmacy",
+    "type": "business",
+    "suburb": "Christchurch Airport",
+    "address": "14/544 Memorial Avenue, Spitfire Square",
+    "website": "https://www.healthpoint.co.nz/pharmacy/pharmacy/unichem-spitfire-square-pharmacy/",
+    "publicPhone": "03 358 6266",
+    "publicEmail": "rx@unichemspitfire.nz",
+    "summary": "Community pharmacy at Spitfire Square, offering prescriptions and other pharmacy services.",
+    "directoryPage": 6,
+    "categories": [
+      "Health and Welfare Services",
+      "Local Businesses and Services"
+    ],
+    "description": "Community pharmacy at Spitfire Square, offering prescriptions and other pharmacy services. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6. The PDF website now displays a domain-registration page, so the provider-reviewed Healthpoint listing is linked instead. Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.healthpoint.co.nz/pharmacy/pharmacy/unichem-spitfire-square-pharmacy/"
+  },
+  {
+    "id": "directory-avonhead-playcentre",
+    "name": "Avonhead Playcentre",
+    "type": "organisation",
+    "suburb": "Avonhead",
+    "address": "166 Waimairi Road",
+    "website": "https://www.playcentre.org.nz/centre/avonhead/",
+    "publicPhone": "",
+    "publicEmail": "avonhead@playcentre.org.nz",
+    "summary": "Parent-led early childhood education and play for young children and their whānau.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Parent-led early childhood education and play for young children and their whānau. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "suitableAges": ["0-5", "Family"],
+    "ageGroups": "Early childhood and caregivers",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.playcentre.org.nz/centre/avonhead/",
+    "demoImages": [
+      {
+        "path": "demo/directory/playcentre.svg",
+        "alt": "Parent organisation branding for Avonhead Playcentre",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.playcentre.org.nz/centre/avonhead/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.playcentre.org.nz/centre/avonhead/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-fendalton-playcentre",
+    "name": "Fendalton Playcentre",
+    "type": "organisation",
+    "suburb": "Fendalton",
+    "address": "170A Clyde Road",
+    "website": "https://www.playcentre.org.nz/centre/fendalton/",
+    "publicPhone": "",
+    "publicEmail": "fendalton@playcentre.org.nz",
+    "summary": "Parent-led early childhood education at Fendalton Playcentre on Clyde Road.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Parent-led early childhood education at Fendalton Playcentre on Clyde Road. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "suitableAges": ["0-5", "Family"],
+    "ageGroups": "Early childhood and caregivers",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.playcentre.org.nz/centre/fendalton/",
+    "demoImages": [
+      {
+        "path": "demo/directory/playcentre.svg",
+        "alt": "Parent organisation branding for Fendalton Playcentre",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.playcentre.org.nz/centre/avonhead/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.playcentre.org.nz/centre/avonhead/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-harewood-playcentre",
+    "name": "Harewood Playcentre",
+    "type": "organisation",
+    "suburb": "Harewood",
+    "address": "719 Harewood Road",
+    "website": "https://www.playcentre.org.nz/centre/harewood/",
+    "publicPhone": "",
+    "publicEmail": "harewood@playcentre.org.nz",
+    "summary": "Parent-led early childhood education and play at Harewood Playcentre.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Parent-led early childhood education and play at Harewood Playcentre. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "suitableAges": ["0-5", "Family"],
+    "ageGroups": "Early childhood and caregivers",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.playcentre.org.nz/centre/harewood/",
+    "demoImages": [
+      {
+        "path": "demo/directory/playcentre.svg",
+        "alt": "Parent organisation branding for Harewood Playcentre",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.playcentre.org.nz/centre/avonhead/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.playcentre.org.nz/centre/avonhead/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-russley-playcentre",
+    "name": "Russley Playcentre",
+    "type": "organisation",
+    "suburb": "Russley",
+    "address": "8 Apsley Drive",
+    "website": "https://www.playcentre.org.nz/centre/russley/",
+    "publicPhone": "",
+    "publicEmail": "russley@playcentre.org.nz",
+    "summary": "Early childhood education through parent-led play and shared learning.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Early childhood education through parent-led play and shared learning. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "suitableAges": ["0-5", "Family"],
+    "ageGroups": "Early childhood and caregivers",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.playcentre.org.nz/centre/russley/",
+    "demoImages": [
+      {
+        "path": "demo/directory/playcentre.svg",
+        "alt": "Parent organisation branding for Russley Playcentre",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.playcentre.org.nz/centre/avonhead/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.playcentre.org.nz/centre/avonhead/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-primary-school",
+    "name": "Burnside Primary School",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "96 Memorial Avenue",
+    "website": "https://www.burnsideprimary.school.nz/",
+    "publicPhone": "03 351 9407",
+    "publicEmail": "office@burnsideprimary.school.nz",
+    "summary": "Local primary school for children in Years 0–6 on Memorial Avenue.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Local primary school for children in Years 0–6 on Memorial Avenue. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "family",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.burnsideprimary.school.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsideprimary.webp",
+        "alt": "Organisation branding for Burnside Primary School",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsideprimary.school.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsideprimary.school.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-high-school",
+    "name": "Burnside High School",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "151 Greers Road",
+    "website": "https://www.burnside.school.nz/",
+    "publicPhone": "03 358 8383",
+    "publicEmail": "admin@burnside.school.nz",
+    "summary": "Secondary education for Years 9–13 at Burnside High School.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Secondary education for Years 9–13 at Burnside High School. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnside.school.nz/",
+    "demoImages": [
+      {
+        "path": "demo/burnside-high-logo.svg",
+        "alt": "Parent organisation logo — Burnside High School",
+        "caption": "Parent organisation branding, not a photograph of this programme or hire space.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://www.burnside.school.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-christchurch-north-college",
+    "name": "Christchurch North College",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "19 Sheffield Crescent",
+    "website": "https://www.cnc.school.nz/",
+    "publicPhone": "03 244 0252",
+    "publicEmail": "admin@cnc.school.nz",
+    "summary": "School listed for Years 7–10 in the July 2025 directory. Check current enrolment information with the college.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "School listed for Years 7–10 in the July 2025 directory. Check current enrolment information with the college. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.cnc.school.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/cnc.svg",
+        "alt": "Organisation branding for Christchurch North College",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.cnc.school.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.cnc.school.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-christ-the-king-school",
+    "name": "Christ the King School",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "92 Greers Road",
+    "website": "https://www.christtheking.school.nz/",
+    "publicPhone": "03 358 2708",
+    "publicEmail": "admin@christtheking.school.nz",
+    "summary": "Catholic primary and intermediate school for Years 0–8 on Greers Road.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Catholic primary and intermediate school for Years 0–8 on Greers Road. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "family",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.christtheking.school.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/christtheking.webp",
+        "alt": "Organisation branding for Christ the King School",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.christtheking.school.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.christtheking.school.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-roydvale-school",
+    "name": "Roydvale School",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "117 Roydvale Avenue",
+    "website": "https://www.roydvale.school.nz/",
+    "publicPhone": "03 358 5785",
+    "publicEmail": "office@roydvale.school.nz",
+    "summary": "Primary education for Years 0–6 at Roydvale School.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Primary education for Years 0–6 at Roydvale School. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "family",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.roydvale.school.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/roydvale.webp",
+        "alt": "Organisation branding for Roydvale School",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.roydvale.school.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.roydvale.school.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-wairakei-school",
+    "name": "Wairakei School",
+    "type": "organisation",
+    "suburb": "Bryndwr",
+    "address": "250 Wairakei Road",
+    "website": "https://www.wairakeichch.school.nz/",
+    "publicPhone": "03 351 8033",
+    "publicEmail": "office@wairakeichch.school.nz",
+    "summary": "Primary school for Years 0–6 serving the Wairakei community.",
+    "directoryPage": 6,
+    "categories": [
+      "Schools and Early Childhood",
+      "Children, Youth and Families"
+    ],
+    "description": "Primary school for Years 0–6 serving the Wairakei community. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "family",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.wairakeichch.school.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/wairakeichch.webp",
+        "alt": "Organisation branding for Wairakei School",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.wairakeichch.school.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.wairakeichch.school.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-kens-mart-wairakei",
+    "name": "Kens Mart Wairakei",
+    "type": "business",
+    "suburb": "Bryndwr",
+    "address": "291 Wairakei Road",
+    "website": "https://www.kensmart.co.nz/",
+    "publicPhone": "03 333 6666",
+    "publicEmail": "",
+    "summary": "Supermarket and food shopping on Wairakei Road, with online ordering listed in the directory.",
+    "directoryPage": 6,
+    "categories": ["Local Businesses and Services"],
+    "description": "Supermarket and food shopping on Wairakei Road, with online ordering listed in the directory. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.kensmart.co.nz/"
+  },
+  {
+    "id": "directory-new-world-bishopdale",
+    "name": "New World Bishopdale",
+    "type": "business",
+    "suburb": "Bishopdale",
+    "address": "Corner Farrington Avenue and Harewood Road",
+    "website": "https://www.newworld.co.nz/",
+    "publicPhone": "03 359 8998",
+    "publicEmail": "",
+    "summary": "Local supermarket serving Bishopdale and the surrounding neighbourhoods.",
+    "directoryPage": 6,
+    "categories": ["Local Businesses and Services"],
+    "description": "Local supermarket serving Bishopdale and the surrounding neighbourhoods. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6. Store contact and location come from the July 2025 PDF; the website links to the supermarket brand, not a reverified store page. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.newworld.co.nz/"
+  },
+  {
+    "id": "directory-new-world-fendalton",
+    "name": "New World Fendalton",
+    "type": "business",
+    "suburb": "Fendalton",
+    "address": "19–23 Memorial Avenue",
+    "website": "https://www.newworld.co.nz/",
+    "publicPhone": "03 351 6251",
+    "publicEmail": "",
+    "summary": "Supermarket on Memorial Avenue in Fendalton.",
+    "directoryPage": 6,
+    "categories": ["Local Businesses and Services"],
+    "description": "Supermarket on Memorial Avenue in Fendalton. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6. Store contact and location come from the July 2025 PDF; the website links to the supermarket brand, not a reverified store page. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.newworld.co.nz/"
+  },
+  {
+    "id": "directory-woolworths-avonhead",
+    "name": "Woolworths Avonhead",
+    "type": "business",
+    "suburb": "Avonhead",
+    "address": "Avonhead Shopping Centre, corner Withells Road and Merrin Street",
+    "website": "https://www.woolworths.co.nz/",
+    "publicPhone": "03 358 4765",
+    "publicEmail": "",
+    "summary": "Supermarket at Avonhead Shopping Centre.",
+    "directoryPage": 6,
+    "categories": ["Local Businesses and Services"],
+    "description": "Supermarket at Avonhead Shopping Centre. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.woolworths.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/woolworths.webp",
+        "alt": "Parent organisation branding for Woolworths Avonhead",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.woolworths.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.woolworths.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-woolworths-christchurch-airport",
+    "name": "Woolworths Christchurch Airport",
+    "type": "business",
+    "suburb": "Christchurch Airport",
+    "address": "530–564A Memorial Avenue, Spitfire Square",
+    "website": "https://www.woolworths.co.nz/",
+    "publicPhone": "03 357 0450",
+    "publicEmail": "",
+    "summary": "Supermarket at Spitfire Square near Christchurch Airport.",
+    "directoryPage": 6,
+    "categories": ["Local Businesses and Services"],
+    "description": "Supermarket at Spitfire Square near Christchurch Airport. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 6.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.woolworths.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/woolworths.webp",
+        "alt": "Parent organisation branding for Woolworths Christchurch Airport",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.woolworths.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.woolworths.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-scottish-country-dance-club",
+    "name": "Burnside Scottish Country Dance Club",
+    "type": "activity",
+    "suburb": "Papanui",
+    "address": "St Paul's Anglican Church Hall, 1 Harewood Road",
+    "website": "",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Social Scottish country dancing for beginners and experienced dancers. No partner is required; soft shoes are recommended.",
+    "directoryPage": 7,
+    "categories": ["Sports and Exercise", "Recreation and Hobbies"],
+    "description": "Social Scottish country dancing for beginners and experienced dancers. No partner is required; soft shoes are recommended. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 7. The directory supplies a Papanui meeting location. A current club website or social page could not be independently verified. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "walk",
+    "times": "July 2025 directory schedule: Thursday at 8pm. Confirm current dates and times before attending.",
+    "sourceChecked": "July 2025 (directory)"
+  },
+  {
+    "id": "directory-silhouette-studios-nz-dance-classes",
+    "name": "Silhouette Studios NZ — Dance Classes",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "6 Sheffield Crescent",
+    "website": "https://www.silhouettestudios.co.nz/",
+    "publicPhone": "",
+    "publicEmail": "admin@silhouettestudios.co.nz",
+    "summary": "Dance, acrobatic and aerial classes, including a boys' dance programme.",
+    "directoryPage": 7,
+    "categories": [
+      "Sports and Exercise",
+      "Arts, Heritage and Culture",
+      "Children, Youth and Families"
+    ],
+    "description": "Dance, acrobatic and aerial classes, including a boys' dance programme. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 7.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.silhouettestudios.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/silhouettestudios.webp",
+        "alt": "Organisation branding for Silhouette Studios NZ — Dance Classes",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.silhouettestudios.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.silhouettestudios.co.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-bowling-club",
+    "name": "Burnside Bowling Club",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "330 Avonhead Road",
+    "website": "https://www.burnsidebowlingclub.com/",
+    "publicPhone": "03 358 4617",
+    "publicEmail": "theclub@burnsidebowlingclub.com",
+    "summary": "Lawn bowls club welcoming players with a range of ages and bowling experience.",
+    "directoryPage": 7,
+    "categories": ["Sports and Exercise", "Recreation and Hobbies"],
+    "description": "Lawn bowls club welcoming players with a range of ages and bowling experience. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 7.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsidebowlingclub.com/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsidebowling.webp",
+        "alt": "Organisation branding for Burnside Bowling Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsidebowlingclub.com/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsidebowlingclub.com/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-canoe-polo-club",
+    "name": "Burnside Canoe Polo Club",
+    "type": "organisation",
+    "suburb": "Harewood",
+    "address": "Lake Roto Kohatu Canoe Polo Area, 575 Sawyers Arms Road",
+    "website": "https://www.burnsidecanoepoloclub.org/",
+    "publicPhone": "",
+    "publicEmail": "Burnsidecanoepoloclub@gmail.com",
+    "summary": "Canoe polo club supporting participation, training and games in Christchurch.",
+    "directoryPage": 7,
+    "categories": ["Sports and Exercise"],
+    "description": "Canoe polo club supporting participation, training and games in Christchurch. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 7.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsidecanoepoloclub.org/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsidecanoe.webp",
+        "alt": "Organisation branding for Burnside Canoe Polo Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsidecanoepoloclub.org/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsidecanoepoloclub.org/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-joggers-walkers",
+    "name": "Burnside Joggers & Walkers",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "Burnside Squash Club, 403 Withells Road",
+    "website": "",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Social running and walking group with local routes and occasional away outings. Confirm the next meeting before joining.",
+    "directoryPage": 7,
+    "categories": ["Sports and Exercise", "Recreation and Hobbies"],
+    "description": "Social running and walking group with local routes and occasional away outings. Confirm the next meeting before joining. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 7. The directory names a Facebook page, but a public page and current meeting details could not be independently verified. No guessed Facebook link is published. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "walk",
+    "times": "July 2025 directory schedule: Sunday at 8:30am, with occasional away outings. Confirm current dates and times before attending.",
+    "sourceChecked": "July 2025 (directory)"
+  },
+  {
+    "id": "directory-burnside-rugby-football-club",
+    "name": "Burnside Rugby Football Club",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "342 Avonhead Road",
+    "website": "https://www.burnsiderugby.co.nz/",
+    "publicPhone": "03 358 8099",
+    "publicEmail": "office@burnsiderugby.co.nz",
+    "summary": "Community rugby and touch opportunities for a wide range of ages and abilities.",
+    "directoryPage": 8,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Community rugby and touch opportunities for a wide range of ages and abilities. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 8.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsiderugby.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsiderugby.webp",
+        "alt": "Organisation branding for Burnside Rugby Football Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsiderugby.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsiderugby.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-squash-club",
+    "name": "Burnside Squash Club",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "403 Withells Road",
+    "website": "https://www.burnsidesquash.co.nz/",
+    "publicPhone": "",
+    "publicEmail": "burnsidesquash@gmail.com",
+    "summary": "Squash club offering courts, playing opportunities and a local club community.",
+    "directoryPage": 8,
+    "categories": ["Sports and Exercise", "Recreation and Hobbies"],
+    "description": "Squash club offering courts, playing opportunities and a local club community. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 8.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsidesquash.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsidesquash.webp",
+        "alt": "Organisation branding for Burnside Squash Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsidesquash.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsidesquash.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-west-christchurch-university-cricket-club",
+    "name": "Burnside West Christchurch University Cricket Club",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "Burnside Park, 340 Avonhead Road",
+    "website": "https://www.burnsidecricket.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "cricket@burnsidecricket.org.nz",
+    "summary": "Community cricket club providing junior, youth and adult playing opportunities.",
+    "directoryPage": 8,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Community cricket club providing junior, youth and adult playing opportunities. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 8.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.burnsidecricket.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/burnsidecricket.webp",
+        "alt": "Organisation branding for Burnside West Christchurch University Cricket Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.burnsidecricket.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.burnsidecricket.org.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-canterbury-water-polo",
+    "name": "Canterbury Water Polo",
+    "type": "organisation",
+    "suburb": "Christchurch",
+    "address": "Jellie Park and Taiora QEII",
+    "website": "https://www.canterburywaterpolo.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "development@canterburywaterpolo.org.nz",
+    "summary": "Water polo training, school competitions and leagues for a range of ages and playing levels.",
+    "directoryPage": 8,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Water polo training, school competitions and leagues for a range of ages and playing levels. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 8.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.canterburywaterpolo.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/canterburywaterpolo.webp",
+        "alt": "Organisation branding for Canterbury Water Polo",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.canterburywaterpolo.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.canterburywaterpolo.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-christchurch-avon-athletic-club",
+    "name": "Christchurch Avon Athletic Club",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "Burnside High School grounds, 151 Greers Road",
+    "website": "https://www.chav.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Athletics and running club based at the Burnside High School track and clubrooms.",
+    "directoryPage": 9,
+    "categories": ["Sports and Exercise"],
+    "description": "Athletics and running club based at the Burnside High School track and clubrooms. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 9.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.chav.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/chav.webp",
+        "alt": "Organisation branding for Christchurch Avon Athletic Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.chav.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.chav.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-delta-rhythmic-gymnastics-club",
+    "name": "Delta Rhythmic Gymnastics Club",
+    "type": "activity",
+    "suburb": "Bishopdale",
+    "address": "Breens Intermediate School, 85 Breens Road",
+    "website": "https://www.delta.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "membership@delta.org.nz",
+    "summary": "Recreational and competitive rhythmic gymnastics, listed for girls aged four and above. Ask about current classes and trials.",
+    "directoryPage": 9,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Recreational and competitive rhythmic gymnastics, listed for girls aged four and above. Ask about current classes and trials. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 9.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "cost": "Membership and class fees apply; ask about the advertised trial class.",
+    "ageGroups": "Girls aged four and above",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.delta.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/delta.webp",
+        "alt": "Organisation branding for Delta Rhythmic Gymnastics Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.delta.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.delta.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-fc-twenty-11-football-club",
+    "name": "FC Twenty 11 Football Club",
+    "type": "organisation",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://www.fctwenty11.co.nz/",
+    "publicPhone": "020 4322 011",
+    "publicEmail": "admin@fctwenty11.co.nz",
+    "summary": "Football and futsal for social and competitive players across junior and adult grades.",
+    "directoryPage": 9,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Football and futsal for social and competitive players across junior and adult grades. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 9.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.fctwenty11.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/fctwenty11.webp",
+        "alt": "Organisation branding for FC Twenty 11 Football Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.fctwenty11.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.fctwenty11.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-fendalton-park-croquet-club",
+    "name": "Fendalton Park Croquet Club",
+    "type": "organisation",
+    "suburb": "Fendalton",
+    "address": "28 Makora Street",
+    "website": "https://www.sporty.co.nz/fendaltonparkcroquet/",
+    "publicPhone": "",
+    "publicEmail": "fendaltonparkcroquet@gmail.com",
+    "summary": "Social and competitive croquet for people of different ages and abilities. Ask about introductory coaching and group visits.",
+    "directoryPage": 9,
+    "categories": ["Sports and Exercise", "Recreation and Hobbies"],
+    "description": "Social and competitive croquet for people of different ages and abilities. Ask about introductory coaching and group visits. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 9.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "cost": "Enquire about membership and group fees. Free coaching is mentioned in the July 2025 directory; club participation is not labelled free.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.sporty.co.nz/fendaltonparkcroquet/",
+    "demoImages": [
+      {
+        "path": "demo/directory/sporty.webp",
+        "alt": "Organisation branding for Fendalton Park Croquet Club",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.sporty.co.nz/fendaltonparkcroquet/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.sporty.co.nz/fendaltonparkcroquet/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-hsob-burnside-hockey",
+    "name": "HSOB/Burnside Hockey",
+    "type": "organisation",
+    "suburb": "Strowan",
+    "address": "83D Heaton Street",
+    "website": "https://www.hsobburnside.co.nz/",
+    "publicPhone": "",
+    "publicEmail": "hsobburnsidehockey@gmail.com",
+    "summary": "Hockey club with junior and senior teams, welcoming different ages and genders.",
+    "directoryPage": 9,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Hockey club with junior and senior teams, welcoming different ages and genders. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 9.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "walk",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.hsobburnside.co.nz/"
+  },
+  {
+    "id": "directory-kofukan-karate-new-zealand-christchurch",
+    "name": "Kofukan Karate New Zealand — Christchurch",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "Roydvale School Hall, 117 Roydvale Avenue",
+    "website": "",
+    "publicPhone": "",
+    "publicEmail": "kofukanchch@hotmail.com",
+    "summary": "Not-for-profit karate instruction listed for children aged four and above and older participants.",
+    "directoryPage": 10,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Not-for-profit karate instruction listed for children aged four and above and older participants. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 10. The directory lists the club and contact email but no website. A matching current official website could not be verified. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "walk",
+    "ageGroups": "Ages four and above",
+    "sourceChecked": "July 2025 (directory)"
+  },
+  {
+    "id": "directory-north-west-youth-cricket",
+    "name": "North West Youth Cricket",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "340 Avonhead Road",
+    "website": "https://www.nwyc.co.nz/",
+    "publicPhone": "",
+    "publicEmail": "northwestyouthcc@gmail.com",
+    "summary": "Youth cricket opportunities for secondary-school players, including Burnside and Papanui High School students.",
+    "directoryPage": 10,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Youth cricket opportunities for secondary-school players, including Burnside and Papanui High School students. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 10.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.nwyc.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/nwyc.webp",
+        "alt": "Organisation branding for North West Youth Cricket",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.nwyc.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.nwyc.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-north-west-women-s-cricket",
+    "name": "North West Women's Cricket",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "340 Avonhead Road",
+    "website": "https://www.northwestwomenscricket.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "cricket@northwestwomenscricket.org.nz",
+    "summary": "Cricket for girls and women, from junior programmes to senior social and competitive grades.",
+    "directoryPage": 10,
+    "categories": ["Sports and Exercise", "Children, Youth and Families"],
+    "description": "Cricket for girls and women, from junior programmes to senior social and competitive grades. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 10.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "walk",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.northwestwomenscricket.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/northwestwomens.webp",
+        "alt": "Organisation branding for North West Women's Cricket",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.northwestwomenscricket.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.northwestwomenscricket.org.nz/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-creative-capers-messy-playgroup",
+    "name": "Creative Capers Messy Playgroup",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "Elim Church, 193 Grahams Road",
+    "website": "https://www.facebook.com/CreativeCapersElim",
+    "publicPhone": "03 358 4486",
+    "publicEmail": "admin@burnside.elim.org.nz",
+    "summary": "Preschool craft, sensory activities and play with parents and caregivers at Elim Church.",
+    "directoryPage": 10,
+    "categories": ["Children, Youth and Families", "Recreation and Hobbies"],
+    "description": "Preschool craft, sensory activities and play with parents and caregivers at Elim Church. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 10.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "family",
+    "times": "July 2025 directory schedule: Thursday during school terms, 9:45–11:15am. Confirm current dates and times before attending.",
+    "cost": "July 2025 directory: $3 per child per session. Confirm the current contribution.",
+    "ageGroups": "Preschool children with parents or caregivers",
+    "suitableAges": ["0-5", "Family"],
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.facebook.com/CreativeCapersElim",
+    "demoImages": [
+      {
+        "path": "demo/directory/creative-capers.webp",
+        "alt": "Creative Capers programme artwork from its public Facebook page",
+        "caption": "Programme artwork from Creative Capers’ public Facebook page, not a photograph of a session.",
+        "credit": "Logo/artwork published on https://www.facebook.com/CreativeCapersElim. Copyright remains with its owner.",
+        "sourceUrl": "https://www.facebook.com/CreativeCapersElim",
+        "kind": "artwork",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-girlguiding-ilam-pippins-westburn-brownies-and-guides",
+    "name": "GirlGuiding — Ilam Pippins, Westburn Brownies and Guides",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "Gordon Scout Hall, Burnside Park, 340 Avonhead Road",
+    "website": "https://girlguidingnz.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "ilampippins@gmail.com",
+    "summary": "Guiding activities supporting confidence, friendship, outdoor experiences and creative skills for girls.",
+    "directoryPage": 11,
+    "categories": ["Children, Youth and Families", "Recreation and Hobbies"],
+    "description": "Guiding activities supporting confidence, friendship, outdoor experiences and creative skills for girls. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 11.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "family",
+    "times": "July 2025 directory schedule: Pippins Monday 3:30–4:30pm; Guides Tuesday 5:30–7:30pm. The Brownies time contains a typographical error in the PDF; confirm it directly. Confirm current dates and times before attending.",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://girlguidingnz.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/girlguidingnz.webp",
+        "alt": "Parent organisation branding for GirlGuiding — Ilam Pippins, Westburn Brownies and Guides",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://girlguidingnz.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://girlguidingnz.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-gordon-scout-group",
+    "name": "Gordon Scout Group",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "Gordon Scout Hall, Burnside Park, 340 Avonhead Road",
+    "website": "https://scouts.nz/groups/gordon-scout-group/",
+    "publicPhone": "",
+    "publicEmail": "gordon@group.scouts.nz",
+    "summary": "Scouting for children and young people, with Kea, Cub, Scout and Venturer sections.",
+    "directoryPage": 11,
+    "categories": ["Children, Youth and Families", "Recreation and Hobbies"],
+    "description": "Scouting for children and young people, with Kea, Cub, Scout and Venturer sections. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 11.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "family",
+    "times": "Official group page: Keas Thursday 5–6pm; Cubs Thursday 6:30–8pm; Scouts Monday 6:45–8:45pm; Venturers Wednesday 7–9pm. Ask about term dates and waiting lists.",
+    "cost": "Joining and term fees apply after a trial; ask the group for current fees.",
+    "ageGroups": "Keas 5–8; Cubs 8–11; Scouts 11–14; Venturers 14–18",
+    "suitableAges": ["5-12", "13-20"],
+    "socialLinks": "https://www.facebook.com/GordonScoutGroup/",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://scouts.nz/groups/gordon-scout-group/",
+    "demoImages": [
+      {
+        "path": "demo/directory/scouts.svg",
+        "alt": "Parent organisation branding for Gordon Scout Group",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://scouts.nz/groups/gordon-scout-group/. Copyright remains with its owner.",
+        "sourceUrl": "https://scouts.nz/groups/gordon-scout-group/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-waimairi-toy-library",
+    "name": "Waimairi Toy Library",
+    "type": "service",
+    "suburb": "Bryndwr",
+    "address": "Wairakei School, 250 Wairakei Road",
+    "website": "https://www.facebook.com/waimairitoylibrary",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Community toy lending for children, with toys, games and resources available through membership.",
+    "directoryPage": 11,
+    "categories": ["Children, Youth and Families", "Recreation and Hobbies"],
+    "description": "Community toy lending for children, with toys, games and resources available through membership. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 11.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "family",
+    "ageGroups": "Children aged 0–10",
+    "suitableAges": ["0-5", "5-12", "Family"],
+    "cost": "Membership required; enquire about current subscriptions.",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.facebook.com/waimairitoylibrary"
+  },
+  {
+    "id": "directory-nor-west-brass",
+    "name": "Nor'West Brass",
+    "type": "organisation",
+    "suburb": "Merivale",
+    "address": "Rehearsals: Rangi Ruru Girls' School, 59 Hewitts Road",
+    "website": "https://www.norwestbrass.nz/",
+    "publicPhone": "",
+    "publicEmail": "norwestbrass@gmail.com",
+    "summary": "Community brass band welcoming players from beginners to experienced musicians.",
+    "directoryPage": 11,
+    "categories": ["Arts, Heritage and Culture", "Recreation and Hobbies"],
+    "description": "Community brass band welcoming players from beginners to experienced musicians. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 11. The band website fills the missing rehearsal venue and role email. Its Withells Road address is not presented as the rehearsal venue. Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "art",
+    "times": "Official website: Thursday evening rehearsals. Confirm the next rehearsal directly.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.norwestbrass.nz/"
+  },
+  {
+    "id": "directory-nexus-multi-ethnic-migrant-community",
+    "name": "Nexus Multi-ethnic & Migrant Community",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "St Timothy's Church, 46 Kendal Avenue",
+    "website": "https://burnsidechurch.nz/nexus",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Community connections and support for migrants and refugees. Check current activities; potluck dinners were on hold on the checked website.",
+    "directoryPage": 11,
+    "categories": [
+      "Ethnic and Multicultural Communities",
+      "Community Groups and Special Interests"
+    ],
+    "description": "Community connections and support for migrants and refugees. Check current activities; potluck dinners were on hold on the checked website. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 11.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://burnsidechurch.nz/nexus",
+    "demoImages": [
+      {
+        "path": "demo/st-timothy-hall.jpg",
+        "alt": "St Timothy’s venue photograph — Nexus Multi-ethnic & Migrant Community",
+        "caption": "Venue photograph from the church website; not a photograph of a current Nexus gathering.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://burnsidechurch.nz/",
+        "kind": "photo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-talking-caf",
+    "name": "Talking Café",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "St Timothy's Church, 46 Kendal Avenue",
+    "website": "https://bbcn.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "bbcn.chch@gmail.com",
+    "summary": "Relaxed morning-tea gatherings to meet neighbours, share ideas and connect with others in the community.",
+    "directoryPage": 11,
+    "categories": ["Community Groups and Special Interests"],
+    "description": "Relaxed morning-tea gatherings to meet neighbours, share ideas and connect with others in the community. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 11.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "times": "July 2025 directory schedule: Tuesday, 10–11:30am. Confirm current dates and times before attending.",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://bbcn.org.nz/",
+    "demoImages": [
+      {
+        "path": "branding/bbcn-logo.png",
+        "alt": "Parent organisation logo — Talking Café",
+        "caption": "Parent organisation branding, not a photograph of this programme or hire space.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://bbcn.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-burnside-garden-club",
+    "name": "Burnside Garden Club",
+    "type": "activity",
+    "suburb": "Fendalton",
+    "address": "Fendalton Library, corner Jeffreys Road and Clyde Road",
+    "website": "",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Garden talks, visits and floral activities for people who enjoy plants, gardens and the environment.",
+    "directoryPage": 12,
+    "categories": [
+      "Recreation and Hobbies",
+      "Community Groups and Special Interests"
+    ],
+    "description": "Garden talks, visits and floral activities for people who enjoy plants, gardens and the environment. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 12. A current official website or publicly readable social page could not be verified. No guessed social link is published. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "times": "July 2025 directory schedule: Second Monday of each month. Confirm current dates and times before attending.",
+    "sourceChecked": "July 2025 (directory)"
+  },
+  {
+    "id": "directory-bishopdale-menzshed",
+    "name": "Bishopdale Menzshed",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "55A Kendal Avenue",
+    "website": "https://menzshed.org.nz/bishopdale/",
+    "publicPhone": "",
+    "publicEmail": "bishopdalemenzshed@gmail.com",
+    "summary": "Community workshop where members can work on woodwork projects and enjoy companionship.",
+    "directoryPage": 12,
+    "categories": ["Recreation and Hobbies", "Older People and Seniors"],
+    "description": "Community workshop where members can work on woodwork projects and enjoy companionship. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 12.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "times": "Official shed page: Tuesday, Thursday and Saturday 10:30am–3:30pm; Wednesday 9am–12:30pm. Confirm before visiting.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://menzshed.org.nz/bishopdale/",
+    "demoImages": [
+      {
+        "path": "demo/directory/menzshed.webp",
+        "alt": "Parent organisation branding for Bishopdale Menzshed",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://menzshed.org.nz/bishopdale/. Copyright remains with its owner.",
+        "sourceUrl": "https://menzshed.org.nz/bishopdale/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-canterbury-potters-association",
+    "name": "Canterbury Potters Association",
+    "type": "organisation",
+    "suburb": "Burnside",
+    "address": "Avice Hill Reserve, 395 Memorial Avenue",
+    "website": "https://www.canterburypotters.co.nz/",
+    "publicPhone": "",
+    "publicEmail": "canterburypotters@gmail.com",
+    "summary": "Pottery club with studio facilities, equipment, workshops and classes for adults and young people.",
+    "directoryPage": 12,
+    "categories": ["Arts, Heritage and Culture", "Recreation and Hobbies"],
+    "description": "Pottery club with studio facilities, equipment, workshops and classes for adults and young people. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 12.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "art",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://www.canterburypotters.co.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/canterburypotters.webp",
+        "alt": "Organisation branding for Canterbury Potters Association",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://www.canterburypotters.co.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://www.canterburypotters.co.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-move-it-or-lose-it-gentle-exercise",
+    "name": "Move It or Lose It — Gentle Exercise",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "Elim Church, 193 Grahams Road",
+    "website": "https://www.elimchristchurch.org/location-burnside",
+    "publicPhone": "03 358 4486",
+    "publicEmail": "admin@burnside.elim.org.nz",
+    "summary": "Gentle group exercise for seniors, focusing on balance, strength and social connection.",
+    "directoryPage": 12,
+    "categories": ["Sports and Exercise", "Older People and Seniors"],
+    "description": "Gentle group exercise for seniors, focusing on balance, strength and social connection. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 12.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "walk",
+    "times": "July 2025 directory schedule: Tuesday during school terms, 3–4pm. Confirm current dates and times before attending.",
+    "suitableAges": ["Senior"],
+    "ageGroups": "Seniors",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.elimchristchurch.org/location-burnside",
+    "demoImages": [
+      {
+        "path": "demo/elim-christchurch-logo.png",
+        "alt": "Parent organisation logo — Move It or Lose It — Gentle Exercise",
+        "caption": "Parent organisation branding, not a photograph of this programme or hire space.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://www.elimchristchurch.org/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-link-english-classes-elim-burnside",
+    "name": "LINK English Classes — Elim Burnside",
+    "type": "programme",
+    "suburb": "Burnside",
+    "address": "Elim Church, 193 Grahams Road",
+    "website": "https://www.elimchristchurch.org/location-burnside",
+    "publicPhone": "03 358 4486",
+    "publicEmail": "admin@burnside.elim.org.nz",
+    "summary": "Beginner and intermediate English conversation classes supporting practical language and understanding of New Zealand culture.",
+    "directoryPage": 13,
+    "categories": [
+      "Education and Learning",
+      "Ethnic and Multicultural Communities"
+    ],
+    "description": "Beginner and intermediate English conversation classes supporting practical language and understanding of New Zealand culture. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 13.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "times": "July 2025 directory schedule: Wednesday mornings during school terms, from 9:30am. Confirm current dates and times before attending.",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.elimchristchurch.org/location-burnside",
+    "demoImages": [
+      {
+        "path": "demo/elim-christchurch-logo.png",
+        "alt": "Parent organisation logo — LINK English Classes — Elim Burnside",
+        "caption": "Parent organisation branding, not a photograph of this programme or hire space.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://www.elimchristchurch.org/",
+        "kind": "logo",
+        "dark": true
+      }
+    ]
+  },
+  {
+    "id": "directory-christians-against-poverty-debt-help",
+    "name": "Christians Against Poverty — Debt Help",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://capnz.org/",
+    "publicPhone": "0508 227 111",
+    "publicEmail": "",
+    "summary": "Confidential debt help and budgeting support for people dealing with unmanageable debt.",
+    "directoryPage": 13,
+    "categories": [
+      "Government and Community Support",
+      "Health and Welfare Services"
+    ],
+    "description": "Confidential debt help and budgeting support for people dealing with unmanageable debt. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 13.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "cost": "Free",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://capnz.org/",
+    "demoImages": [
+      {
+        "path": "demo/directory/capnz.svg",
+        "alt": "Organisation branding for Christians Against Poverty — Debt Help",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://capnz.org/. Copyright remains with its owner.",
+        "sourceUrl": "https://capnz.org/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-canterbury-kia-ora-academy-trust",
+    "name": "Canterbury Kia Ora Academy Trust",
+    "type": "organisation",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://www.kiaora.academy/",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Cultural, educational and recreational community initiatives for Persians living in Christchurch.",
+    "directoryPage": 13,
+    "categories": [
+      "Ethnic and Multicultural Communities",
+      "Arts, Heritage and Culture",
+      "Education and Learning"
+    ],
+    "description": "Cultural, educational and recreational community initiatives for Persians living in Christchurch. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 13.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "art",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.kiaora.academy/"
+  },
+  {
+    "id": "directory-friends-of-nepal-reserve",
+    "name": "Friends of Nepal Reserve",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "Nepal Reserve",
+    "website": "https://bbcn.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "karen.boag@ccc.govt.nz",
+    "summary": "Volunteer group caring for native plantings at Nepal Reserve. Ask BBCN about current working bees and planting days.",
+    "directoryPage": 13,
+    "categories": [
+      "Community Groups and Special Interests",
+      "Recreation and Hobbies"
+    ],
+    "description": "Volunteer group caring for native plantings at Nepal Reserve. Ask BBCN about current working bees and planting days. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 13.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://bbcn.org.nz/",
+    "demoImages": [
+      {
+        "path": "branding/bbcn-logo.png",
+        "alt": "Parent organisation logo — Friends of Nepal Reserve",
+        "caption": "Parent organisation branding, not a photograph of this programme or hire space.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://bbcn.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-walking-caf",
+    "name": "Walking Café",
+    "type": "activity",
+    "suburb": "Burnside",
+    "address": "St Timothy's Church, 46 Kendal Avenue",
+    "website": "https://bbcn.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "bbcn.chch@gmail.com",
+    "summary": "Local community walks followed by morning tea at St Timothy's, with a gold coin or koha appreciated.",
+    "directoryPage": 13,
+    "categories": [
+      "Community Groups and Special Interests",
+      "Sports and Exercise"
+    ],
+    "description": "Local community walks followed by morning tea at St Timothy's, with a gold coin or koha appreciated. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 13.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "walk",
+    "times": "July 2025 directory schedule: Monday, 10–11:30am. Confirm current dates and times before attending.",
+    "cost": "Gold coin or koha appreciated, according to the July 2025 directory.",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://bbcn.org.nz/",
+    "demoImages": [
+      {
+        "path": "branding/bbcn-logo.png",
+        "alt": "Parent organisation logo — Walking Café",
+        "caption": "Parent organisation branding, not a photograph of this programme or hire space.",
+        "credit": "Published by the parent organisation; see DEMO_SOURCES.md for the original download and ownership notes.",
+        "sourceUrl": "https://bbcn.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-christchurch-city-council-enquiries-and-reporting",
+    "name": "Christchurch City Council — Enquiries and Reporting",
+    "type": "service",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://ccc.govt.nz/",
+    "publicPhone": "03 941 8999",
+    "publicEmail": "info@ccc.govt.nz",
+    "summary": "Council enquiries and reports about rubbish, noise, parks, water, roads and other local services.",
+    "directoryPage": 14,
+    "categories": ["Government and Community Support"],
+    "description": "Council enquiries and reports about rubbish, noise, parks, water, roads and other local services. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://ccc.govt.nz/"
+  },
+  {
+    "id": "directory-snap-send-solve",
+    "name": "Snap Send Solve",
+    "type": "service",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://www.snapsendsolve.com/",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Report local issues from a phone with a location, photographs and notes using Snap Send Solve.",
+    "directoryPage": 14,
+    "categories": ["Government and Community Support"],
+    "description": "Report local issues from a phone with a location, photographs and notes using Snap Send Solve. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.snapsendsolve.com/"
+  },
+  {
+    "id": "directory-jellie-park-recreation-and-sport-centre",
+    "name": "Jellie Park Recreation and Sport Centre",
+    "type": "service",
+    "suburb": "Burnside",
+    "address": "295 Ilam Road",
+    "website": "https://recandsport.ccc.govt.nz/jellie-park/",
+    "publicPhone": "03 941 6888",
+    "publicEmail": "recandsport@ccc.govt.nz",
+    "summary": "Jellie Park recreation facilities: pools are undergoing maintenance; check the Council website before planning a visit.",
+    "directoryPage": 14,
+    "categories": ["Sports and Exercise", "Recreation and Hobbies"],
+    "description": "The Council website currently reports that indoor pools and associated wet facilities are closed for scheduled maintenance until 2027. Gym and group fitness services continue except for aqua and virtual group fitness classes. Check the official page for current outdoor-pool opening dates, temporary arrangements, bookings and prices.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14. The current Council maintenance notice supersedes the opening hours in the PDF. Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "walk",
+    "times": "Pool facilities have maintenance closures until 2027. Check the live Council opening-hours table; do not rely on the July 2025 directory hours.",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://recandsport.ccc.govt.nz/jellie-park/"
+  },
+  {
+    "id": "directory-rauwhata-bishopdale-library-and-community-centre",
+    "name": "Ōrauwhata: Bishopdale Library and Community Centre",
+    "type": "service",
+    "suburb": "Bishopdale",
+    "address": "13 Bishopdale Court",
+    "website": "https://my.christchurchcitylibraries.com/locations/BP/",
+    "publicPhone": "03 941 7923",
+    "publicEmail": "",
+    "summary": "Public library and community centre in Bishopdale. Check current library hours and activities online.",
+    "directoryPage": 14,
+    "categories": [
+      "Education and Learning",
+      "Community Groups and Special Interests"
+    ],
+    "description": "Public library and community centre in Bishopdale. Check current library hours and activities online. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://my.christchurchcitylibraries.com/locations/BP/",
+    "demoImages": [
+      {
+        "path": "demo/directory/my.webp",
+        "alt": "Parent organisation branding for Ōrauwhata: Bishopdale Library and Community Centre",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://my.christchurchcitylibraries.com/locations/FE/. Copyright remains with its owner.",
+        "sourceUrl": "https://my.christchurchcitylibraries.com/locations/FE/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-fendalton-library",
+    "name": "Fendalton Library",
+    "type": "service",
+    "suburb": "Fendalton",
+    "address": "4 Jeffreys Road",
+    "website": "https://my.christchurchcitylibraries.com/locations/FE/",
+    "publicPhone": "03 941 7923",
+    "publicEmail": "",
+    "summary": "Public library providing books, digital resources, information and community activities in Fendalton.",
+    "directoryPage": 14,
+    "categories": [
+      "Education and Learning",
+      "Community Groups and Special Interests"
+    ],
+    "description": "Public library providing books, digital resources, information and community activities in Fendalton. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://my.christchurchcitylibraries.com/locations/FE/",
+    "demoImages": [
+      {
+        "path": "demo/directory/my.webp",
+        "alt": "Parent organisation branding for Fendalton Library",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://my.christchurchcitylibraries.com/locations/FE/. Copyright remains with its owner.",
+        "sourceUrl": "https://my.christchurchcitylibraries.com/locations/FE/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-upper-riccarton-library",
+    "name": "Upper Riccarton Library",
+    "type": "service",
+    "suburb": "Upper Riccarton",
+    "address": "71 Main South Road",
+    "website": "https://my.christchurchcitylibraries.com/locations/UR/",
+    "publicPhone": "03 941 7923",
+    "publicEmail": "",
+    "summary": "Public library with information, learning resources and community services in Upper Riccarton.",
+    "directoryPage": 14,
+    "categories": [
+      "Education and Learning",
+      "Community Groups and Special Interests"
+    ],
+    "description": "Public library with information, learning resources and community services in Upper Riccarton. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://my.christchurchcitylibraries.com/locations/UR/",
+    "demoImages": [
+      {
+        "path": "demo/directory/my.webp",
+        "alt": "Parent organisation branding for Upper Riccarton Library",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://my.christchurchcitylibraries.com/locations/FE/. Copyright remains with its owner.",
+        "sourceUrl": "https://my.christchurchcitylibraries.com/locations/FE/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-fendalton-service-centre",
+    "name": "Fendalton Service Centre",
+    "type": "service",
+    "suburb": "Fendalton",
+    "address": "4 Jeffreys Road",
+    "website": "https://ccc.govt.nz/contact-us/visit-a-customer-service-hub",
+    "publicPhone": "03 941 8999",
+    "publicEmail": "",
+    "summary": "Council customer services in Fendalton. Confirm current counter services and opening times before visiting.",
+    "directoryPage": 14,
+    "categories": ["Government and Community Support"],
+    "description": "Council customer services in Fendalton. Confirm current counter services and opening times before visiting. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://ccc.govt.nz/contact-us/visit-a-customer-service-hub"
+  },
+  {
+    "id": "directory-christchurch-north-community-patrol",
+    "name": "Christchurch North Community Patrol",
+    "type": "organisation",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://cpnz.org.nz/",
+    "publicPhone": "",
+    "publicEmail": "chchnorthpatrol.chair@gmail.com",
+    "summary": "Volunteer community patrol supporting safer neighbourhoods and working with Police and other local groups.",
+    "directoryPage": 14,
+    "categories": [
+      "Government and Community Support",
+      "Community Groups and Special Interests"
+    ],
+    "description": "Volunteer community patrol supporting safer neighbourhoods and working with Police and other local groups. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Local service details have not been independently reverified; confirm current availability and contact details with the provider.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://cpnz.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/cpnz.webp",
+        "alt": "Parent organisation branding for Christchurch North Community Patrol",
+        "caption": "Parent organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://cpnz.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://cpnz.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-neighbourhood-support-christchurch-area",
+    "name": "Neighbourhood Support Christchurch Area",
+    "type": "organisation",
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://www.canterburyns.net/",
+    "publicPhone": "03 353 8729",
+    "publicEmail": "admin@canterburyns.net",
+    "summary": "Neighbourhood connections, safety information and preparedness support for local communities.",
+    "directoryPage": 14,
+    "categories": [
+      "Government and Community Support",
+      "Community Groups and Special Interests"
+    ],
+    "description": "Neighbourhood connections, safety information and preparedness support for local communities. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://www.canterburyns.net/"
+  },
+  {
+    "id": "directory-netsafe",
+    "name": "Netsafe",
+    "type": "service",
+    "suburb": "New Zealand",
+    "address": "",
+    "website": "https://netsafe.org.nz/",
+    "publicPhone": "0508 638 723",
+    "publicEmail": "help@netsafe.org.nz",
+    "summary": "Confidential online safety advice and support, including scams, bullying and harmful digital communications.",
+    "directoryPage": 14,
+    "categories": [
+      "Government and Community Support",
+      "Health and Welfare Services"
+    ],
+    "description": "Confidential online safety advice and support, including scams, bullying and harmful digital communications. Contact the organisation or follow its public information for current services, participation details and availability.",
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 14.  Public website checked on 4 November 2026; details not explicitly updated here remain from the printed directory.",
+    "illustration": "support",
+    "cost": "Free",
+    "sourceChecked": "4 November 2026",
+    "sourceUrl": "https://netsafe.org.nz/",
+    "demoImages": [
+      {
+        "path": "demo/directory/netsafe.webp",
+        "alt": "Organisation branding for Netsafe",
+        "caption": "Organisation branding from the linked public website; not a photograph of this local programme or venue.",
+        "credit": "Logo/artwork published on https://netsafe.org.nz/. Copyright remains with its owner.",
+        "sourceUrl": "https://netsafe.org.nz/",
+        "kind": "logo",
+        "dark": false
+      }
+    ]
+  },
+  {
+    "id": "directory-waimaero-community-board",
+    "name": "Waimāero Fendalton-Waimairi-Harewood Community Board",
+    "type": "service",
+    "categories": ["Government and Community Support"],
+    "suburb": "Christchurch",
+    "address": "",
+    "website": "https://letstalk.ccc.govt.nz/waimaero-fendalton-waimairi-harewood-community-board",
+    "publicPhone": "",
+    "publicEmail": "",
+    "summary": "Local community board information, participation opportunities and neighbourhood priorities.",
+    "description": "The Burnside Community Directory introduces the Waimāero Fendalton-Waimairi-Harewood Community Board and directs residents to the Council for current contacts, meetings and ways to have a say.",
+    "directoryPage": 2,
+    "sourceNote": "Imported from Burnside Community Directory, Issue 2 (July 2025), page 2. Board name and source link are from the July 2025 directory; current membership is not asserted. Local service details have not been independently reverified; confirm current availability and contact details with the provider. No suitable verified public graphic was available; the card uses a BBFind illustration.",
+    "illustration": "support",
+    "sourceChecked": "July 2025 (directory)",
+    "sourceUrl": "https://letstalk.ccc.govt.nz/waimaero-fendalton-waimairi-harewood-community-board"
+  }
+]

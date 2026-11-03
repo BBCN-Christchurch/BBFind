@@ -1,6 +1,8 @@
 import { emptyListing, type DemoImage, type Listing } from "./domain";
+import { directoryListings } from "./directory";
 
-// Editorial samples from official public pages. No live account/database data.
+// Editorial samples from official public pages and the supplied community directory.
+// No live account/database data.
 const checked = "3 November 2026";
 const church = "https://burnsidechurch.nz";
 const aidans = "https://www.staidans.org.nz";
@@ -481,4 +483,5 @@ export const demoListings: Listing[] = [
       ),
     ],
   }),
+  ...directoryListings,
 ];

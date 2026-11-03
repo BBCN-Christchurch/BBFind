@@ -1,6 +1,6 @@
 # Community demo sources and image credits
 
-Checked on **3 November 2026**. These are editorial sample listings for the `demo` branch, not organisation submissions or BBCN endorsements. Descriptions are paraphrased from official public pages. No registration records, private contact details or live database content are copied.
+Original 17 samples checked on **3 November 2026**. The **4 November 2026** directory import adds 103 records (120 total); see [the import coverage and corrections](docs/DIRECTORY_IMPORT.md) and [new image credits](public/demo/directory/credits.json). Current-page checks and older PDF-only information are distinguished on every imported listing. These are editorial sample listings for the `demo` branch, not organisation submissions or BBCN endorsements. Descriptions are paraphrased from official public pages. No registration records, private contact details or live database content are copied.
 
 ## Listing sources
 
@@ -24,11 +24,11 @@ Checked on **3 November 2026**. These are editorial sample listings for the `dem
 | Whānau Āwhina Plunket — Fendalton Clinic | https://www.plunket.org.nz/plunket-near-me/fendalton-plunket-clinic/ |
 | Kendal Medical Centre (business) | https://www.kendalmedical.co.nz/ and https://www.kendalmedical.co.nz/contact/ |
 
-Public office contact details are included only where published on these sites. Personal contacts from account registration and personal mobile numbers were not used. Published times and fees can change; listing pages link to the current source. A zero venue rate/capacity represents unspecified information, never free hire or zero capacity. Only the two programmes explicitly described as free are marked Free.
+For the original 17 samples, public office contact details are included only where published on these sites. The later import also retains role/service contacts from the supplied PDF, explicitly dated and marked for confirmation where not reverified. Personal contacts from account registration and personal mobile numbers were not used. Published times and fees can change; listing pages link to the current source. A zero venue rate/capacity represents unspecified information, never free hire or zero capacity. Within the original 17 samples, only the two programmes explicitly described as free are marked Free. The later import also marks confirmed free helplines and support services; trials and unknown fees remain excluded.
 
 ## Images
 
-Images are stored locally, unmodified from the public source download, rather than hotlinked to social media. Gallery and listing pages display source credits. Photographs depict the actual venue where identified; programme art and logos are labelled accordingly. No stock photograph is represented as a photograph of a local programme.
+Images are stored locally rather than hotlinked to social media. Original sample assets are unmodified; new import raster graphics are resized and encoded as metadata-free WebP. Gallery and listing pages display source credits. Photographs depict the actual venue where identified; programme art and logos are labelled accordingly. No stock photograph is represented as a photograph of a local programme.
 
 Copyright and trademarks remain with the respective owners. Source attribution documents provenance; it does not assert a Creative Commons licence, transfer ownership or claim that the organisation supplied/approved a directory listing.
 

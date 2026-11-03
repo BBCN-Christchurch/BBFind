@@ -162,7 +162,12 @@ export default function App() {
   const location = useLocation();
   async function refreshListings() {
     try {
-      setListings(await getPublicListings());
+      const loaded = await getPublicListings();
+      setListings(loaded);
+      if (!configured)
+        setLocations([
+          ...new Set([...suburbs, ...loaded.map((item) => item.suburb)]),
+        ]);
       setError("");
     } catch (e) {
       setError((e as Error).message);
@@ -1540,7 +1545,7 @@ function ListingPage() {
             {item.type === "event" ? "About this event" : "A little about us"}
           </h2>
           <p className="preserve">{item.description}</p>
-          {!configured && item.sourceUrl && (
+          {!configured && (item.sourceUrl || item.sourceNote) && (
             <div className="demo-source">
               <strong>About this sample listing</strong>
               <p>
@@ -1548,13 +1553,16 @@ function ListingPage() {
                 not been submitted or approved by the organisation or BBCN.
                 Please confirm current times, costs and availability directly.
               </p>
-              <a
-                href={publicUrl(item.sourceUrl)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                View the official information <ArrowUpRight size={15} />
-              </a>
+              {item.sourceNote && <p>{item.sourceNote}</p>}
+              {item.sourceUrl && (
+                <a
+                  href={publicUrl(item.sourceUrl)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View the official information <ArrowUpRight size={15} />
+                </a>
+              )}
             </div>
           )}
           {!!item.suitableAges?.length && (

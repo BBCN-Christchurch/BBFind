@@ -1,6 +1,6 @@
 # BBFind — your community, connected
 
-**Demo branch:** this version uses 17 sample listings based on official public
+**Demo branch:** this version uses 120 sample listings based on official public
 information about Burnside and Bryndwr organisations, with locally stored real
 venue photos, logos and programme artwork. See [DEMO_SOURCES.md](DEMO_SOURCES.md)
 for sources, image credits and scope. It is not an approved live directory.
@@ -100,3 +100,5 @@ Do not create a Git worktree for ordinary cloud tasks: the existing task checkou
 Events have a dedicated calendar-ordered page, with age, neighbourhood, category and date filters. Organisations can choose suitable ages on listings; BBCN admins manage categories without losing existing associations. See [Events and filters](docs/EVENTS_AND_FILTERS.md).
 
 Approved visitor, organisation and admin workflow improvements are documented in [Workflow improvements](docs/WORKFLOW_IMPROVEMENTS.md), including private incomplete drafts, navigation protection, previews, mobile filtering and review queues.
+
+The July 2025 Burnside directory import is documented in [docs/DIRECTORY_IMPORT.md](docs/DIRECTORY_IMPORT.md), including retained duplicates, corrections, unverified details and image credits.
