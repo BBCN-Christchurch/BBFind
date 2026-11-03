@@ -236,3 +236,42 @@ test("mobile filters collapse and result navigation preserves search and scroll"
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
 });
+
+test("feature controls, selected filters and empty states use their page palette", async ({
+  page,
+}) => {
+  for (const [path, ink, soft] of [
+    ["/events", "rgb(81, 55, 79)", "rgb(246, 237, 243)"],
+    ["/venues", "rgb(98, 68, 46)", "rgb(248, 236, 221)"],
+    ["/find", "rgb(36, 75, 62)", "rgb(237, 242, 230)"],
+  ]) {
+    await page.goto(`${path}?suburb=Burnside&q=doesnotexist`);
+    await openFilters(page);
+    await expect(
+      page.locator(".priority-neighbourhoods button.active"),
+    ).toHaveCSS("background-color", ink);
+    await expect(page.locator(".filter-chip").first()).toHaveCSS("color", ink);
+    await expect(page.locator(".filter-chip").first()).toHaveCSS(
+      "background-color",
+      soft,
+    );
+    await expect(page.locator(".empty h3")).toHaveCSS("color", ink);
+    await expect(page.getByLabel("Free only", { exact: true })).toHaveCSS(
+      "accent-color",
+      ink,
+    );
+    const action = page.locator(".empty .button");
+    await expect(action).toHaveCSS("color", ink);
+    await action.hover();
+    await expect(action).toHaveCSS("background-color", soft);
+  }
+  await page.goto("/venues");
+  await expect(page.locator(".listing-card h3")).toHaveCSS(
+    "color",
+    "rgb(98, 68, 46)",
+  );
+  await expect(page.locator(".listing-card h3 svg")).toHaveCSS(
+    "color",
+    "rgb(98, 68, 46)",
+  );
+});

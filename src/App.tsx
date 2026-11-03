@@ -702,7 +702,7 @@ function Home() {
         </ButtonLink>
       </section>
       <section className="section">
-        <div className="container venue-teaser">
+        <div className="container venue-teaser feature-theme feature-theme-venue">
           <div className="venue-art">
             <Illustration kind="hall" />
             <span className="little-tag">
@@ -794,7 +794,9 @@ export function ListingCard({
     };
   }, [item.id]);
   return (
-    <article className={`listing-card${agenda ? " agenda-card" : ""}`}>
+    <article
+      className={`listing-card feature-theme feature-theme-${item.type === "event" ? "event" : item.type === "venue" ? "venue" : "activity"}${agenda ? " agenda-card" : ""}`}
+    >
       {agenda && (
         <div className="agenda-date" aria-hidden="true">
           <span>
@@ -1021,7 +1023,7 @@ function Directory({
   return (
     <>
       <section
-        className={`page-intro feature-intro ${events ? "intro-events" : venues ? "intro-venues" : "intro-find"}`}
+        className={`page-intro feature-intro feature-theme feature-theme-${events ? "event" : venues ? "venue" : "activity"} ${events ? "intro-events" : venues ? "intro-venues" : "intro-find"}`}
       >
         <div className="container">
           <div className="breadcrumb">
@@ -1126,7 +1128,7 @@ function Directory({
         </div>
       </section>
       <section
-        className={`container directory-layout ${events ? "directory-events" : venues ? "directory-venues" : "directory-find"}`}
+        className={`container directory-layout feature-theme feature-theme-${events ? "event" : venues ? "venue" : "activity"} ${events ? "directory-events" : venues ? "directory-venues" : "directory-find"}`}
       >
         <div className="filter-column">
           <button
@@ -1449,7 +1451,9 @@ function ListingPage() {
       : fallback;
   const primary = listingAction(item);
   return (
-    <div className="container page">
+    <div
+      className={`container page feature-theme feature-theme-${item.type === "event" ? "event" : item.type === "venue" ? "venue" : "activity"}`}
+    >
       <Link className="text-button back-link" to={back}>
         ← Back to results
       </Link>

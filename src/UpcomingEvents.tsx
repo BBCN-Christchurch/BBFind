@@ -62,7 +62,10 @@ export function UpcomingEvents({ listings }: { listings: Listing[] }) {
     });
   }
   return (
-    <section className="upcoming-section" aria-labelledby={heading}>
+    <section
+      className="upcoming-section feature-theme feature-theme-event"
+      aria-labelledby={heading}
+    >
       <div className="container">
         <div className="section-heading">
           <div>

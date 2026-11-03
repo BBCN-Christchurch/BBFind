@@ -12,6 +12,7 @@ import "@fontsource/manrope/latin-600.css";
 import "@fontsource/manrope/latin-700.css";
 import "@fontsource/manrope/latin-800.css";
 import "./styles.css";
+import "./feature-themes.css";
 // GitHub Pages' 404 fallback stores a route in ?route=; restore it before routing.
 const route = new URLSearchParams(location.search).get("route");
 if (route?.startsWith("/") && !route.startsWith("//"))

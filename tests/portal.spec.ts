@@ -1135,3 +1135,86 @@ test("venue detail distinguishes unknown values and offers a supported enquiry a
       .getByRole("link", { name: "Venues for Hire", exact: true }),
   ).toHaveCount(1);
 });
+
+test("event and venue details, previews and unsaved dialogs retain feature colours", async ({
+  page,
+}) => {
+  for (const [type, ink, soft] of [
+    ["event", "rgb(81, 55, 79)", "rgb(246, 237, 243)"],
+    ["venue", "rgb(98, 68, 46)", "rgb(248, 236, 221)"],
+  ]) {
+    await fixture(page, {
+      publicOnly: true,
+      gallery: true,
+      publicRows: [
+        {
+          id,
+          data: {
+            ...content,
+            type,
+            eventStartDate: type === "event" ? "2028-03-01" : "",
+            publicEmail: "contact@example.test",
+            cost: "Free",
+          },
+          featured: false,
+          verified: true,
+        },
+      ],
+    });
+    await page.goto(`http://127.0.0.1:5184/listing/${id}`);
+    await expect(page.locator(".detail-layout h1")).toHaveCSS("color", ink);
+    await expect(page.locator(".contact-panel")).toHaveCSS(
+      "background-color",
+      soft,
+    );
+    await expect(page.locator(".listing-primary-action")).toHaveCSS(
+      "background-color",
+      ink,
+    );
+    await expect(page.locator(".tags > *").first()).toHaveCSS(
+      "background-color",
+      soft,
+    );
+    await page
+      .getByRole("button", {
+        name: "Enlarge A community hall: A room with space to connect",
+      })
+      .click();
+    const gallery = page.getByRole("dialog", { name: "Image gallery" });
+    await expect(gallery).toHaveCSS(
+      "background-color",
+      type === "event" ? "rgb(41, 31, 44)" : "rgb(43, 33, 24)",
+    );
+    await expect(
+      gallery.getByRole("button", { name: "Close gallery" }),
+    ).toHaveCSS("background-color", ink);
+    await page.keyboard.press("Escape");
+  }
+  await fixture(page);
+  await page.goto("http://127.0.0.1:5184/dashboard/new/event");
+  await page
+    .getByLabel("Event name", { exact: true })
+    .fill("A preview of our event");
+  await page
+    .getByRole("button", { name: "Preview listing", exact: true })
+    .click();
+  const preview = page.getByRole("dialog", { name: "Private listing preview" });
+  await expect(preview.locator("h2")).toHaveCSS("color", "rgb(81, 55, 79)");
+  await expect(preview.locator(".message").first()).toHaveCSS(
+    "background-color",
+    "rgb(246, 237, 243)",
+  );
+  await preview
+    .getByRole("button", { name: "Continue editing", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: /Choose another listing type/ })
+    .click();
+  const guard = page.getByRole("dialog", {
+    name: "Save your changes before leaving?",
+  });
+  await expect(guard.locator("h2")).toHaveCSS("color", "rgb(81, 55, 79)");
+  await expect(
+    guard.getByRole("button", { name: "Save draft and leave", exact: true }),
+  ).toHaveCSS("background-color", "rgb(81, 55, 79)");
+});

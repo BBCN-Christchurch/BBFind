@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useBlocker } from "react-router-dom";
 
-type Editor = { dirty: boolean; save: () => Promise<boolean> };
+type Editor = { dirty: boolean; theme?: string; save: () => Promise<boolean> };
 const Context = createContext({
   register: (_editor: Editor | null) => {},
   request: (action: () => void) => action(),
@@ -83,7 +83,7 @@ export function UnsavedProvider({ children }: { children: ReactNode }) {
       {children}
       <dialog
         ref={dialog}
-        className="workflow-dialog"
+        className={`workflow-dialog feature-theme feature-theme-${editor.current?.theme || "activity"}`}
         aria-labelledby="unsaved-heading"
         onCancel={(event) => {
           event.preventDefault();

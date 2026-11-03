@@ -577,7 +577,7 @@ export function ListingChooser({ dashboard = false }: { dashboard?: boolean }) {
           <AccountLink
             key={kind}
             path={`/dashboard/new/${kind}`}
-            className={`listing-choice listing-theme-${kind}`}
+            className={`listing-choice listing-theme-${kind} feature-theme feature-theme-${kind}`}
           >
             <span className="choice-icon">
               <Icon size={32} />
@@ -941,7 +941,7 @@ export function ListingEditor({
   }
   const dirty = JSON.stringify(data) !== baseline.current;
   useEffect(() => {
-    register({ dirty, save: () => save(false, true) });
+    register({ dirty, theme: kind, save: () => save(false, true) });
   });
   useEffect(() => () => register(null), [register]);
   function showIssues(errors: { path: PropertyKey[]; message: string }[]) {
@@ -1048,7 +1048,9 @@ export function ListingEditor({
     </label>
   );
   return (
-    <div className={`listing-editor listing-theme-${kind}`}>
+    <div
+      className={`listing-editor listing-theme-${kind} feature-theme feature-theme-${kind}`}
+    >
       <button
         className="text-button back-link"
         onClick={() => request(onCancel)}
