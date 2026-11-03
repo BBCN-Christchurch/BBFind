@@ -15,7 +15,6 @@ export const suitableAges = [
   "Adult",
   "Senior",
   "Family",
-  "All",
 ] as const;
 export const priorityNeighbourhoods = ["Burnside", "Bryndwr"];
 export function validDate(value: string) {
@@ -54,6 +53,7 @@ export function matchesAge(
 ) {
   return (
     !age ||
+    age === "All" ||
     Boolean(
       listing.suitableAges?.includes(age as (typeof suitableAges)[number]) ||
       listing.suitableAges?.includes("All"),
@@ -133,7 +133,11 @@ const listingFields = z.object({
     ),
   times: z.string().max(1000),
   ageGroups: z.string().max(300),
-  suitableAges: z.array(z.enum(suitableAges)).max(7).default([]),
+  // Accept older saved records without exposing All as a selectable option.
+  suitableAges: z
+    .array(z.enum([...suitableAges, "All"]))
+    .max(7)
+    .default([]),
   eventStartDate: eventDate,
   eventEndDate: eventDate,
   cost: z.string().max(300),

@@ -548,6 +548,9 @@ test("owner adds an event with structured ages and a draft for photos", async ({
     .click();
   await page.getByRole("link", { name: /List an event/ }).click();
   await expect(
+    page.getByRole("checkbox", { name: "All", exact: true }),
+  ).toHaveCount(0);
+  await expect(
     page.getByRole("heading", { name: "Create an event listing" }),
   ).toBeVisible();
   await expect(page.getByLabel("Listing type")).toHaveCount(0);

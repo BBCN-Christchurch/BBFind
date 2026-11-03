@@ -13,7 +13,7 @@ check observed zero remote service requests while browsing the sample directory,
 venue photos and disabled registration page. The built bundle was checked for
 absence of the inherited Supabase URL, public key and account-portal URL.
 
-The browser suite has 78 desktop/mobile checks on this branch, including real local
+The browser suite has 80 desktop/mobile checks on this branch, including real local
 venue-image loading, source credits and keyboard lightbox navigation. Connected
 owner/admin contracts still use explicit local fixtures, not production data.
 The unit suite has 24 checks, including public provenance and the presence of each image asset.
