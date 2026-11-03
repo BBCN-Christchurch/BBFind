@@ -87,10 +87,12 @@ test("free-only search combines with other filters and survives refresh", async 
   await openFilters(page);
   await page.getByLabel("Free only", { exact: true }).check();
   await expect(page.locator(".listing-card")).toHaveCount(
-    demoListings.filter(isFreeListing).length,
+    demoListings.filter((item) => item.type !== "event" && isFreeListing(item))
+      .length,
   );
   await expect(page.locator(".free-label")).toHaveCount(
-    demoListings.filter(isFreeListing).length,
+    demoListings.filter((item) => item.type !== "event" && isFreeListing(item))
+      .length,
   );
   await page.getByLabel("Search the directory").fill("nexus english");
   await expect(page.locator(".listing-card")).toHaveCount(1);
@@ -107,7 +109,9 @@ test("free-only search combines with other filters and survives refresh", async 
   await expect(page.locator(".listing-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Clear all filters" }).click();
   await expect(page.getByLabel("Free only", { exact: true })).not.toBeChecked();
-  await expect(page.locator(".listing-card")).toHaveCount(demoListings.length);
+  await expect(page.locator(".listing-card")).toHaveCount(
+    demoListings.filter((item) => item.type !== "event").length,
+  );
 });
 test("venue filters combine and clear", async ({ page }) => {
   await page.goto("/venues");
@@ -264,6 +268,7 @@ test("requested community samples are searchable and Kendal Medical is a busines
 test("feature pages have clear identities and Get Found follows Venues", async ({
   page,
 }) => {
+  await page.clock.setFixedTime(new Date("2026-11-03T23:00:00Z"));
   for (const [path, theme, label] of [
     ["/find", "intro-find", "Find It"],
     ["/events", "intro-events", "Events"],
@@ -293,10 +298,9 @@ test("feature pages have clear identities and Get Found follows Venues", async (
     page.getByRole("heading", { name: "Coming up locally", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByText("No upcoming events have been published yet.", {
-      exact: false,
-    }),
+    page.getByRole("region", { name: "Upcoming community events" }),
   ).toBeVisible();
+  await expect(page.locator(".events-track .listing-card")).toHaveCount(6);
   await page
     .getByRole("link", { name: "View all events", exact: true })
     .click();
@@ -474,4 +478,43 @@ test("imported brands decode locally and wider-area and age filters find the rig
   await expect(
     page.getByRole("heading", { name: "BestStart Roydvale", exact: true }),
   ).toBeVisible();
+});
+
+test("fifteen fictional events populate calendar presets and expose custom dates only when selected", async ({
+  page,
+}) => {
+  await page.clock.setFixedTime(new Date("2026-11-03T23:00:00Z"));
+  await page.goto("/events");
+  await openFilters(page);
+  const period = page.getByLabel("Show events", { exact: true });
+  await expect(period).toHaveValue("month");
+  await expect(page.locator(".listing-card")).toHaveCount(4);
+  await expect(page.getByLabel("From date", { exact: true })).toHaveCount(0);
+  await period.selectOption("week");
+  await expect(page.locator(".listing-card")).toHaveCount(1);
+  await period.selectOption("next-month");
+  await expect(page.locator(".listing-card")).toHaveCount(3);
+  await period.selectOption("custom");
+  await expect(page.locator(".listing-card")).toHaveCount(15);
+  await expect(page.getByLabel("From date", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("To date", { exact: true })).toBeVisible();
+  await page.getByLabel("From date", { exact: true }).fill("2027-01-01");
+  await page.getByLabel("To date", { exact: true }).fill("2027-02-28");
+  await expect(page.locator(".listing-card")).toHaveCount(8);
+  await page.reload();
+  await openFilters(page);
+  await expect(period).toHaveValue("custom");
+  await expect(page.getByLabel("From date", { exact: true })).toHaveValue(
+    "2027-01-01",
+  );
+  await page
+    .getByRole("link", { name: "Example: New Year Outdoor Games", exact: true })
+    .click();
+  await expect(page.locator(".demo-source")).toContainText(
+    "About this example event",
+  );
+  await expect(page.locator(".demo-source")).toContainText("not a real event");
+  await expect(
+    page.getByRole("link", { name: "Tickets / Register", exact: true }),
+  ).toHaveCount(0);
 });

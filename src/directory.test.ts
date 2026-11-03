@@ -7,11 +7,11 @@ import { initialCategories, isFreeListing } from "./domain";
 describe("printed directory import", () => {
   it("retains existing samples and gives each imported record a unique identity and PDF provenance", () => {
     expect(directoryListings).toHaveLength(103);
-    expect(demoListings).toHaveLength(120);
-    expect(new Set(demoListings.map((item) => item.id)).size).toBe(120);
+    expect(demoListings.filter((item) => !item.example)).toHaveLength(120);
+    expect(new Set(demoListings.map((item) => item.id)).size).toBe(135);
     expect(
       new Set(demoListings.map((item) => item.name.toLowerCase())).size,
-    ).toBe(120);
+    ).toBe(135);
     for (const record of records) {
       expect(record.directoryPage).toBeGreaterThanOrEqual(2);
       expect(record.directoryPage).toBeLessThanOrEqual(14);

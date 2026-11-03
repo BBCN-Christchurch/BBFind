@@ -373,7 +373,7 @@ export default function App() {
         <div className="demo-banner">
           <span className="demo-dot" /> Demonstration directory{" "}
           <span>
-            — real community examples from public sources, for demonstration
+            — community samples and fictional example events, for demonstration
             only.
           </span>
         </div>
@@ -1590,8 +1590,9 @@ function ListingPage() {
                   )}
               </p>
               <small>
-                Dates and times are local to New Zealand. Check with the
-                organiser before attending.
+                {item.example
+                  ? "Fictional dates and times for demonstration only."
+                  : "Dates and times are local to New Zealand. Check with the organiser before attending."}
               </small>
             </section>
           )}
@@ -1601,12 +1602,25 @@ function ListingPage() {
           <p className="preserve">{item.description}</p>
           {!configured && (item.sourceUrl || item.sourceNote) && (
             <div className="demo-source">
-              <strong>About this sample listing</strong>
-              <p>
-                Based on public information checked {item.sourceChecked}. It has
-                not been submitted or approved by the organisation or BBCN.
-                Please confirm current times, costs and availability directly.
-              </p>
+              <strong>
+                {item.example
+                  ? "About this example event"
+                  : "About this sample listing"}
+              </strong>
+              {item.example ? (
+                <p>
+                  This is a fictional example, not a real event. The dates,
+                  location and costs are demonstration details. No booking or
+                  registration is available.
+                </p>
+              ) : (
+                <p>
+                  Based on public information checked {item.sourceChecked}. It
+                  has not been submitted or approved by the organisation or
+                  BBCN. Please confirm current times, costs and availability
+                  directly.
+                </p>
+              )}
               {item.sourceNote && <p>{item.sourceNote}</p>}
               {item.sourceUrl && (
                 <a
@@ -1777,8 +1791,9 @@ function ListingPage() {
             )}
           {!configured && (
             <Message>
-              Community sample listing. Check the organisation’s official
-              website for current information and enquiries.
+              {item.example
+                ? "Fictional example event. No real venue booking, tickets or attendance."
+                : "Community sample listing. Check the organisation’s official website for current information and enquiries."}
             </Message>
           )}
           <button

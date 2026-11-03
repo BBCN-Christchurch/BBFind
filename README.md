@@ -3,7 +3,9 @@
 **Demo branch:** this version uses 120 sample listings based on official public
 information about Burnside and Bryndwr organisations, with locally stored real
 venue photos, logos and programme artwork. See [DEMO_SOURCES.md](DEMO_SOURCES.md)
-for sources, image credits and scope. It is not an approved live directory.
+for sources, image credits and scope. It also includes 15 clearly fictional event
+examples dated 7 November 2026–27 February 2027 (135 records in total). It is not
+an approved live directory.
 `npm run dev` and `npm run build` deliberately use sample data with accounts off,
 even if the host has production Supabase variables. Production remains on `main`.
 

@@ -1,6 +1,6 @@
 # Community demo sources and image credits
 
-Original 17 samples checked on **3 November 2026**. The **4 November 2026** directory import adds 103 records (120 total); see [the import coverage and corrections](docs/DIRECTORY_IMPORT.md) and [new image credits](public/demo/directory/credits.json). Current-page checks and older PDF-only information are distinguished on every imported listing. These are editorial sample listings for the `demo` branch, not organisation submissions or BBCN endorsements. Descriptions are paraphrased from official public pages. No registration records, private contact details or live database content are copied.
+Original 17 samples checked on **3 November 2026**. The **4 November 2026** directory import adds 103 records (120 community samples); see [the import coverage and corrections](docs/DIRECTORY_IMPORT.md) and [new image credits](public/demo/directory/credits.json). Current-page checks and older PDF-only information are distinguished on every imported listing. These are editorial sample listings for the `demo` branch, not organisation submissions or BBCN endorsements. Descriptions are paraphrased from official public pages. No registration records, private contact details or live database content are copied.
 
 ## Listing sources
 
@@ -67,3 +67,35 @@ Businesses and Services and Health and Welfare Services. Its flower image is the
 illustrative photograph used on the practice website; it is not presented as the
 clinic premises. Elim, the tennis club and Plunket use official website branding.
 No unknown membership, consultation or clinic charge is labelled Free.
+
+## Fictional calendar examples — 4 November 2026
+
+At the user’s request, 15 explicitly fictional events were added only to demo,
+bringing its total to 135 records while retaining all 120 sourced samples. These
+are not sourced from social media, submitted by organisations or advertised as
+real activities. Dates, prices, locations and age groups are illustrative. There
+are no real venue bookings, contact details, ticket links or registration actions.
+Names and descriptions label each event as an example, including in the home
+carousel; detail pages explain the fiction. Original BBFind illustrations are used.
+
+Dates are fixed for repeatable calendar demonstrations, not automatically moved
+forward as though the events were recurring. Update or replace this example set
+when demonstrating the site after February 2027.
+
+| Fictional date(s) | Example event | Neighbourhood |
+| --- | --- | --- |
+| 2026-11-07 | Neighbourhood Picnic | Burnside |
+| 2026-11-14 | Creative Craft Afternoon | Bryndwr |
+| 2026-11-21 | Local Music Evening | Burnside |
+| 2026-11-28 | Community Garden Workshop | Bryndwr |
+| 2026-12-05 | Summer Play Morning | Burnside |
+| 2026-12-12 – 2026-12-13 | Festive Makers Weekend | Bryndwr |
+| 2026-12-19 | End-of-Year Community Walk | Burnside |
+| 2027-01-09 | New Year Outdoor Games | Bryndwr |
+| 2027-01-16 | Try Something New Sports Day | Burnside |
+| 2027-01-23 – 2027-01-24 | Community Art Weekend | Bryndwr |
+| 2027-01-30 | Twilight Neighbourhood Market | Burnside |
+| 2027-02-06 | Summer Neighbours’ Picnic | Bryndwr |
+| 2027-02-13 | Family Science Morning | Burnside |
+| 2027-02-20 | Community Skill Share | Bryndwr |
+| 2027-02-27 | Summer Music and Food Afternoon | Burnside |

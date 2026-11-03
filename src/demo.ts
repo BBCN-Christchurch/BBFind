@@ -1,5 +1,6 @@
 import { emptyListing, type DemoImage, type Listing } from "./domain";
 import { directoryListings } from "./directory";
+import { demoEvents } from "./demo-events";
 
 // Editorial samples from official public pages and the supplied community directory.
 // No live account/database data.
@@ -484,4 +485,5 @@ export const demoListings: Listing[] = [
     ],
   }),
   ...directoryListings,
+  ...demoEvents,
 ];

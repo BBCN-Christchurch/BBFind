@@ -151,6 +151,8 @@ describe("directory data and search", () => {
     for (const listing of demoListings) {
       if (listing.sourceUrl)
         expect(new URL(listing.sourceUrl).protocol).toBe("https:");
+      else if (listing.example)
+        expect(listing.sourceNote).toContain("Fictional example");
       else expect(listing.sourceNote).toContain("Burnside Community Directory");
       expect(listing.verified).not.toBe(true);
       if (!listing.demoImages?.length)

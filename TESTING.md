@@ -13,10 +13,10 @@ check observed zero remote service requests while browsing the sample directory,
 venue photos and disabled registration page. The built bundle was checked for
 absence of the inherited Supabase URL, public key and account-portal URL.
 
-The browser suite has 80 desktop/mobile checks on this branch, including real local
+The browser suite has 82 desktop/mobile checks on this branch, including real local
 venue-image loading, source credits and keyboard lightbox navigation. Connected
 owner/admin contracts still use explicit local fixtures, not production data.
-The unit suite has 25 checks, including public provenance and the presence of each image asset.
+The unit suite has 27 checks, including public provenance and the presence of each image asset.
 
 Merged main at `68734d3` into demo, retaining all 17 sample records, source
 notes and image assets unchanged. Events, tailored listing workflows, filters and
@@ -94,3 +94,10 @@ Both branches use This Week (Monday–Sunday), This Month (default), Next Month
 and Custom. Custom reveals date inputs; overlapping multi-day events are included.
 NZ calendar boundary, leap-year and daylight-saving checks pass. Old date links
 remain usable and the home View all events link includes all future months.
+
+## Fictional calendar examples — 4 November 2026
+
+Fifteen example events span November 2026–February 2027, including two multi-day
+weekends and a mix of free/paid and age selections. Tests check fictional labels,
+absence of real booking actions, all date presets, persisted custom ranges and
+the now-populated home carousel. Original sourced community records are retained.
