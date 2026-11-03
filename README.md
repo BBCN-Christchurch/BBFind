@@ -87,3 +87,5 @@ If Chromium is already installed, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/c
 - [Original brief](docs/PROJECT_BRIEF.md) and [image requirements](docs/IMAGE_REQUIREMENTS.md)
 
 Do not create a Git worktree for ordinary cloud tasks: the existing task checkout is already isolated. No paid services, event system or GitHub-hosted private data are introduced.
+
+Events have a dedicated calendar-ordered page, with age, neighbourhood, category and date filters. Organisations can choose suitable ages on listings; BBCN admins manage categories without losing existing associations. See [Events and filters](docs/EVENTS_AND_FILTERS.md).

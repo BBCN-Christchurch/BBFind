@@ -28,8 +28,10 @@ Use All Listings to edit, feature/verify, archive, restore, unpublish or delete.
 
 Private organisation contacts appear only in the admin Organisation section and that organisation's own settings. Deletion requests appear here too. Permanently deleting an account is irreversible and requires an existing request. Remove administrator access separately before deleting an admin account. Run documented storage cleanup afterwards.
 
-Category/location changes take effect in the database immediately; refresh the frontend to reload filter choices. Renaming reassigns existing listing terms. Deactivation preserves old associations but prevents new selection. Category cycles are rejected.
+Category/location changes take effect immediately and refresh the current browser’s directory filters and listings automatically. Other visitors see changes when they reload. Renaming reassigns existing listing terms. Deactivation preserves old associations but prevents new selection. Category cycles are rejected.
 
 ## Before launch
 
 Assign BBCN people to review submissions, respond to privacy/deletion requests, monitor free quotas, operate backups and test restoration. Set up the notification worker and verify delivery; dashboard status alone does not establish that email is working. Auth-provider operational logs may still exist even though the app does not implement audit/history features.
+
+Events use the same listing and image review queue. See [Events and filters](docs/EVENTS_AND_FILTERS.md) for event dates, suitable ages and preserving retired category associations.

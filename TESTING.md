@@ -1,16 +1,16 @@
-# Validation record — updated 2 November 2026
+# Validation record — updated 3 November 2026
 
 | Check | Result and scope |
 | --- | --- |
 | Dependency install / build | Frozen installation, TypeScript and production build passed. |
-| Unit/media tests | 15 passed: search, explicit Free classification versus unknown/conditional fees, URL/form validation, image dimensions and metadata removal, malformed images, multipart body limits, and rejection of privileged keys/insecure URLs in public configuration. |
-| Browser contract tests | 40 desktop/mobile tests passed, including photos before submission, preventing submission during uploads, Free selection and combined/persistent search filters, submitted registration/reset notices, cleared private fields, error/retry states, verification resends, expired-link feedback and automated accessibility scans of the public pages and submitted notice. Portal/Auth contract tests use mocked transport. |
-| SQL/RLS | 45 passed on PostgreSQL 17, using a disposable auth/storage schema harness. |
+| Unit/media tests | 17 passed: search, explicit Free classification versus unknown/conditional fees, URL/form validation, image dimensions and metadata removal, malformed images, multipart body limits, and rejection of privileged keys/insecure URLs in public configuration. |
+| Browser contract tests | 46 desktop/mobile tests passed, including event creation, chronological/ongoing/date-range filtering, structured ages, priority neighbourhoods and immediate category management refresh, as well as photos before submission, preventing submission during uploads, Free selection and combined/persistent search filters, submitted registration/reset notices, cleared private fields, error/retry states, verification resends, expired-link feedback and automated accessibility scans of the public pages and submitted notice. Portal/Auth contract tests use mocked transport. |
+| SQL/RLS | 57 passed on PostgreSQL 17, using a disposable auth/storage schema harness. |
 | Actual Supabase service integration | 50 passed against PostgreSQL 17, GoTrue Auth, PostgREST, Storage, Edge Runtime and Mailpit. Includes actual HTTP/storage permissions, local verification/reset email delivery and owner/admin/visitor browser workflows with no API mocks. |
 | Dependency scanning | No vulnerabilities in the last successful audit; rerun with package-lock changes. |
 | Branding | BBCN website reference, green #138a59 and actual public mark verified. |
 
-`npm run test:integration` uses a compact disposable stack rather than the oversized all-in-one Supabase PostgreSQL image. It generates short-lived local credentials outside the repository, runs the application migration and actual services' migrations, intercepts email locally, and removes test resources. The JWT helper functions match Supabase/PostgREST claims. This tests application behavior and access control; it is not a deployment of the Supabase management platform.
+`npm run test:integration` uses a compact disposable stack rather than the oversized all-in-one Supabase PostgreSQL image. It generates short-lived local credentials outside the repository, runs all application migrations and actual services' migrations, intercepts email locally, and removes test resources. The JWT helper functions match Supabase/PostgREST claims. This tests application behavior and access control; it is not a deployment of the Supabase management platform.
 
 Integration work found and fixed a real compatibility defect: the original image codec relied on native Node addons that are unsupported in Edge Runtime. The processor now uses portable PNG/JPEG codecs, bounds decompression, validates CRCs, strips source metadata, and limits the complete multipart stream before parsing. Test-only ImageScript remains an independent fixture generator/decoder.
 
@@ -45,3 +45,5 @@ The read-only checker is also exercised against the compact real-service stack. 
 The Supabase public configuration and management access became available. A read-only inspection found an empty, healthy BBFind project. The initial schema was installed transactionally and recorded, Auth minimum length raised to 12 with verification retained, public signup closed for pre-launch setup, and both functions deployed ACTIVE. Public directory/category reads, private-table denials, SQL privilege checks and unauthenticated/origin/method function gates passed. No real email, account creation or authenticated hosted image upload was attempted; SMTP and the portal are still pending. See DEPLOYMENT_STATUS.md for scope and EMAIL_SETUP.md for the next prerequisite.
 
 Browser contract tests explicitly clear inherited live client configuration, use separate ports 5183/5184, and never reuse a development server. The real-service UI harness also forces its local origin/base path. This keeps local tests on fixtures/temporary services when the cloud environment has live Supabase variables.
+
+The event/age migration was checked with legacy records, real calendar dates, invalid/reversed dates, enum ages, event moderation retaining approved dates, retired-category editing, and denial of new inactive-category selections. See [Events and filters](docs/EVENTS_AND_FILTERS.md).

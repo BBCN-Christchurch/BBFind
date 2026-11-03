@@ -2339,3 +2339,53 @@ main:focus {
 .parent-brand small {
   line-height: 1.6;
 }
+.priority-neighbourhoods {
+  background: #edf2e6;
+  border: 1px solid #c4d3b7;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+.priority-neighbourhoods small {
+  display: block;
+  color: #214d40;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.priority-neighbourhoods > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.priority-neighbourhoods button {
+  border: 1px solid #365b4b;
+  border-radius: 20px;
+  padding: 7px 12px;
+  background: white;
+  color: #214d40;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.priority-neighbourhoods button.active {
+  background: #214d40;
+  color: white;
+}
+.listing-card .event-date {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  color: #214d40;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.event-date-panel {
+  background: #edf2e6;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 24px 0;
+}
+.event-date-panel h2 {
+  margin-top: 0;
+}

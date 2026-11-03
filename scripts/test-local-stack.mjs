@@ -1,7 +1,14 @@
 import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
 import { randomBytes, createHmac } from "node:crypto";
-import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
+import {
+  mkdtemp,
+  mkdir,
+  writeFile,
+  readFile,
+  readdir,
+  rm,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 const exec = promisify(execFile),
@@ -208,9 +215,11 @@ try {
     return result.includes("t");
   });
   await sql(await readFile("tests/local-stack/claims.sql", "utf8"));
-  await sql(
-    await readFile("supabase/migrations/202610270001_directory.sql", "utf8"),
-  );
+  for (const migration of (await readdir("supabase/migrations"))
+    .filter((f) => f.endsWith(".sql"))
+    .sort()) {
+    await sql(await readFile(`supabase/migrations/${migration}`, "utf8"));
+  }
   await sql(
     "grant usage on schema storage to anon,authenticated,service_role; grant all on all tables in schema storage to anon,authenticated,service_role; grant usage,select on all sequences in schema storage to anon,authenticated,service_role; notify pgrst, 'reload schema';",
   );

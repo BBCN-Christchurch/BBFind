@@ -11,6 +11,14 @@ insert into public.administrator_roles values('00000000-0000-4000-8000-000000000
 select set_config('test.content','{"name":"Community test programme","summary":"A locally tested community programme.","description":"This is an approved public description with no registration contact details.","type":"programme","categories":["Education and Learning"],"suburb":"Burnside","address":"","website":"","publicEmail":"","publicPhone":"","publicContact":"","socialLinks":"","times":"","ageGroups":"","cost":"","accessibility":"","capacity":0,"roomType":"","kitchen":false,"accessible":false,"outdoor":false,"wifi":false,"parking":false,"av":false,"toilets":false,"facilities":"","suitableFor":"","availability":"","bookingUrl":"","price":0,"spaces":""}',false);
 select public.test_assert(not public.valid_listing(null),'null listing content rejected');
 select public.test_assert(not public.valid_image_metadata(null),'null image metadata rejected');
+select public.test_assert(public.valid_listing(current_setting('test.content')::jsonb),'legacy listings remain valid without new fields');
+select public.test_assert(not public.valid_listing(current_setting('test.content')::jsonb || '{"type":"event"}'),'events require a start date');
+select public.test_assert(not public.valid_listing(current_setting('test.content')::jsonb || '{"type":"event","eventStartDate":"2027-02-29"}'),'impossible event date rejected');
+select public.test_assert(not public.valid_listing(current_setting('test.content')::jsonb || '{"type":"event","eventStartDate":"2028-02-29","eventEndDate":"2028-02-28"}'),'end before start rejected');
+select public.test_assert(not public.valid_listing(current_setting('test.content')::jsonb || '{"suitableAges":["Unknown"]}'),'unknown age rejected');
+select public.test_assert(not public.valid_listing(current_setting('test.content')::jsonb || '{"suitableAges":["Adult","Adult"]}'),'duplicate ages rejected');
+select public.test_assert(public.valid_listing(current_setting('test.content')::jsonb || '{"type":"event","eventStartDate":"2028-02-29","suitableAges":["Family","0-5"]}'),'event and structured ages accepted');
+
 set role authenticated;
 set request.jwt.claim.sub='00000000-0000-4000-8000-000000000001';
 select public.test_assert(not public.is_admin(),'ordinary account is not an administrator');
@@ -97,6 +105,23 @@ select public.test_assert(exists(select 1 from public.categories where name='Tes
 select public.test_denied($q$select public.manage_taxonomy('categories',(select id from public.categories where name='Education and Learning'),'Education and Learning',true,(select id from public.categories where name='Test subcategory'))$q$,'category cycles rejected');
 select public.manage_taxonomy('categories',(select id from public.categories where name='Education and Learning'),'Learning together',true,null);
 select public.test_assert((select data->'categories' ? 'Learning together' from public.directory_search()),'category rename reassigns public associations');
+
+set request.jwt.claim.sub='00000000-0000-4000-8000-000000000001';
+select set_config('test.event_content',(current_setting('test.content')::jsonb || '{"type":"event","name":"Test community event","categories":["Learning together"],"eventStartDate":"2028-02-29","eventEndDate":"2028-03-01","suitableAges":["Family","0-5"]}')::text,false);
+select set_config('test.event',public.save_listing(null,current_setting('test.event_content')::jsonb,true)::text,false);
+select public.test_assert(not exists(select 1 from public.directory_search() where id=current_setting('test.event')::uuid),'pending event is private');
+select public.test_denied($q$select public.manage_taxonomy('categories',null,'Unauthorised',true,null)$q$,'owner cannot manage categories');
+set request.jwt.claim.sub='00000000-0000-4000-8000-000000000003';
+select public.review_listing(current_setting('test.event')::uuid,'approve','',current_setting('test.event_content')::jsonb);
+select public.manage_taxonomy('categories',(select id from public.categories where name='Learning together'),'Learning together',false,null);
+set request.jwt.claim.sub='00000000-0000-4000-8000-000000000001';
+select public.save_listing(current_setting('test.event')::uuid,current_setting('test.event_content')::jsonb || '{"eventStartDate":"2028-03-01","eventEndDate":"2028-03-02"}',true);
+select public.test_assert((select data->>'eventStartDate' from public.directory_search() where id=current_setting('test.event')::uuid)='2028-02-29','event edit retains approved dates until review');
+select public.test_denied($q$select public.save_listing(null,current_setting('test.event_content')::jsonb,false)$q$,'new listing cannot select inactive category');
+set request.jwt.claim.sub='00000000-0000-4000-8000-000000000003';
+select public.review_listing(current_setting('test.event')::uuid,'approve','',current_setting('test.event_content')::jsonb || '{"eventStartDate":"2028-03-01","eventEndDate":"2028-03-02"}');
+select public.test_assert((select data->'suitableAges' from public.directory_search() where id=current_setting('test.event')::uuid)='["Family","0-5"]'::jsonb,'approved structured ages retained');
+select public.manage_taxonomy('categories',(select id from public.categories where name='Learning together'),'Learning together',true,null);
 set request.jwt.claim.sub='00000000-0000-4000-8000-000000000001';
 select public.test_assert((public.export_account()->'account'->>'owner_id')=auth.uid()::text,'private export scoped to owner');
 select public.request_deletion();

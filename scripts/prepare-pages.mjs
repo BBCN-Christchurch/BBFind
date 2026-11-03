@@ -22,7 +22,7 @@ if (site) {
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll('"', "&quot;");
-  const routes = ["", "find", "venues", "get-found", "about"];
+  const routes = ["", "find", "events", "venues", "get-found", "about"];
   const url = process.env.VITE_SUPABASE_URL,
     key = process.env.VITE_SUPABASE_ANON_KEY;
   const listings = [];

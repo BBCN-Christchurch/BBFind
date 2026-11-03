@@ -49,3 +49,7 @@ For complete backups:
 Do not assume a database dump includes image files. The backup scripts refuse destinations inside the checkout and refuse to overwrite files. Private data must never be committed or uploaded as GitHub Actions artifacts.
 
 `node scripts/cleanup-storage.mjs` performs a dry run. After an appropriate backup and while imports are stopped, run with `--apply` to remove unreferenced files older than 24 hours. No history feature depends on retaining removed/replaced image files.
+
+## Events and structured ages
+
+The additive `202611030001_events_ages.sql` migration allows the `event` listing type, ISO `eventStartDate` / optional `eventEndDate`, and `suitableAges` choices. Legacy records remain valid without these fields. Retired taxonomy terms may be retained only by listings already associated with them. See [Events and filters](docs/EVENTS_AND_FILTERS.md).

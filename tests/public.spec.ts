@@ -115,6 +115,7 @@ test("navigation, mobile layout and missing pages", async ({ page }, info) => {
 });
 test("keyboard skip link reaches main content", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await page.keyboard.press("Tab");
   await expect(
     page.getByRole("link", { name: "Skip to content" }),

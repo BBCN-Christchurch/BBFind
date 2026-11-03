@@ -55,6 +55,10 @@ import {
 } from "./api";
 import {
   initialCategories,
+  suitableAges,
+  matchesAge,
+  localToday,
+  formatEventDate,
   isFreeListing,
   matchesSearch,
   publicUrl,
@@ -66,11 +70,13 @@ import { Illustration, Neighbourhood } from "./Illustration";
 import { AuthPage, Dashboard, ResetPassword } from "./Accounts";
 import { Admin } from "./Admin";
 import { ImageGallery } from "./Images";
+import { NeighbourhoodOptions, PriorityNeighbourhoods } from "./Neighbourhood";
 export const AppContext = createContext<{
   auth: SessionContext;
   refreshAuth: () => Promise<void>;
   listings: Listing[];
   refreshListings: () => Promise<void>;
+  refreshTaxonomy: () => Promise<void>;
   categories: string[];
   locations: string[];
 }>({
@@ -78,6 +84,7 @@ export const AppContext = createContext<{
   refreshAuth: async () => {},
   listings: [],
   refreshListings: async () => {},
+  refreshTaxonomy: async () => {},
   categories: initialCategories,
   locations: suburbs,
 });
@@ -157,6 +164,17 @@ export default function App() {
       setLoading(false);
     }
   }
+  async function refreshTaxonomy() {
+    if (!db) return;
+    const [c, l] = await Promise.all([
+      db.from("categories").select("name").eq("active", true).order("name"),
+      db.from("locations").select("name").eq("active", true).order("name"),
+    ]);
+    if (c.error) throw c.error;
+    if (l.error) throw l.error;
+    setCategories(c.data.map((v) => v.name));
+    setLocations(l.data.map((v) => v.name));
+  }
   async function refreshAuth() {
     if (!db) return;
     const {
@@ -171,13 +189,7 @@ export default function App() {
     const { data } = db.auth.onAuthStateChange(() => {
       setTimeout(() => void refreshAuth().catch((e) => setError(e.message)), 0);
     });
-    void Promise.all([
-      db.from("categories").select("name").eq("active", true).order("name"),
-      db.from("locations").select("name").eq("active", true).order("name"),
-    ]).then(([c, l]) => {
-      if (c.data) setCategories(c.data.map((v) => v.name));
-      if (l.data) setLocations(l.data.map((v) => v.name));
-    });
+    void refreshTaxonomy().catch((e) => setError(e.message));
     return () => data.subscription.unsubscribe();
   }, []);
   useEffect(() => {
@@ -190,7 +202,7 @@ export default function App() {
       ? `${detail.name} — BBFind`
       : location.pathname === "/"
         ? "BBFind — Your community, connected."
-        : `${location.pathname.startsWith("/venues") ? "Venues for hire" : location.pathname.startsWith("/dashboard") ? "Your organisation" : location.pathname.startsWith("/admin") ? "BBCN administration" : "Community directory"} — BBFind`;
+        : `${location.pathname.startsWith("/events") ? "Community events" : location.pathname.startsWith("/venues") ? "Venues for hire" : location.pathname.startsWith("/dashboard") ? "Your organisation" : location.pathname.startsWith("/admin") ? "BBCN administration" : "Community directory"} — BBFind`;
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute(
       "content",
@@ -218,13 +230,26 @@ export default function App() {
       script.textContent = JSON.stringify({
         "@context": "https://schema.org",
         "@type":
-          detail.type === "venue"
-            ? "Place"
-            : detail.type === "business"
-              ? "LocalBusiness"
-              : detail.type === "organisation"
-                ? "Organization"
-                : "Service",
+          detail.type === "event"
+            ? "Event"
+            : detail.type === "venue"
+              ? "Place"
+              : detail.type === "business"
+                ? "LocalBusiness"
+                : detail.type === "organisation"
+                  ? "Organization"
+                  : "Service",
+        ...(detail.type === "event"
+          ? {
+              startDate: detail.eventStartDate,
+              ...(detail.eventEndDate ? { endDate: detail.eventEndDate } : {}),
+              location: {
+                "@type": "Place",
+                name: detail.address || detail.suburb,
+                address: detail.address || detail.suburb,
+              },
+            }
+          : {}),
         name: detail.name,
         description: detail.summary,
         ...(site ? { url: site + location.pathname } : {}),
@@ -262,6 +287,7 @@ export default function App() {
         refreshListings,
         categories,
         locations,
+        refreshTaxonomy,
       }}
     >
       <a className="skip" href="#main">
@@ -300,6 +326,7 @@ export default function App() {
               Home
             </NavLink>
             <NavLink to="/find">Find It</NavLink>
+            <NavLink to="/events">Events</NavLink>
             <NavLink to="/get-found">Get Found</NavLink>
             <NavLink to="/venues">Venues for Hire</NavLink>
             <NavLink to="/about">About</NavLink>
@@ -342,8 +369,9 @@ export default function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/find" element={<Directory />} />
-            <Route path="/venues" element={<Directory venues />} />
+            <Route path="/find" element={<Directory key="find" />} />
+            <Route path="/events" element={<Directory key="events" events />} />
+            <Route path="/venues" element={<Directory key="venues" venues />} />
             <Route path="/listing/:id" element={<ListingPage />} />
             <Route path="/get-found" element={<GetFound />} />
             <Route path="/about" element={<About />} />
@@ -396,6 +424,7 @@ export default function App() {
           <div>
             <strong>Find your community</strong>
             <Link to="/find">Explore the directory</Link>
+            <Link to="/events">Community events</Link>
             <Link to="/venues">Venues for hire</Link>
             <Link to="/get-found">Add your organisation</Link>
           </div>
@@ -504,8 +533,16 @@ const categoryTiles = [
   },
 ];
 function Home() {
-  const { listings } = useApp();
+  const { listings, categories } = useApp();
   const featured = listings.filter((l) => l.featured).slice(0, 3);
+  const homeCategories = [
+    ...new Set([
+      ...categoryTiles
+        .map((tile) => tile.value)
+        .filter((value) => categories.includes(value)),
+      ...categories,
+    ]),
+  ].slice(0, 6);
   return (
     <>
       <section className="hero">
@@ -566,19 +603,30 @@ function Home() {
             </Link>
           </div>
           <div className="category-grid">
-            {categoryTiles.map(({ name, value, icon: Icon, color }) => (
-              <Link
-                className="category-tile"
-                to={`/find?category=${encodeURIComponent(value)}`}
-                key={value}
-              >
-                <span className={`category-icon ${color}`}>
-                  <Icon size={25} strokeWidth={1.6} />
-                </span>
-                <span>{name}</span>
-                <ArrowUpRight size={17} />
-              </Link>
-            ))}
+            {homeCategories.map((value) => {
+              const {
+                name,
+                icon: Icon,
+                color,
+              } = categoryTiles.find((t) => t.value === value) || {
+                name: value,
+                icon: Users,
+                color: "green",
+              };
+              return (
+                <Link
+                  className="category-tile"
+                  to={`/find?category=${encodeURIComponent(value)}`}
+                  key={value}
+                >
+                  <span className={`category-icon ${color}`}>
+                    <Icon size={25} strokeWidth={1.6} />
+                  </span>
+                  <span>{name}</span>
+                  <ArrowUpRight size={17} />
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -735,6 +783,17 @@ export function ListingCard({ item }: { item: Listing }) {
           )}
           {isFreeListing(item) && <span className="free-label">Free</span>}
         </span>
+        {item.type === "event" && (
+          <p className="event-date">
+            <Clock size={15} />
+            <time dateTime={item.eventStartDate}>
+              {formatEventDate(item.eventStartDate)}
+            </time>
+            {item.eventEndDate && item.eventEndDate !== item.eventStartDate && (
+              <> – {formatEventDate(item.eventEndDate)}</>
+            )}
+          </p>
+        )}
         <h3>
           <Link to={`/listing/${item.id}`}>
             {item.name}
@@ -768,7 +827,13 @@ function Empty() {
     </div>
   );
 }
-function Directory({ venues = false }: { venues?: boolean }) {
+function Directory({
+  venues = false,
+  events = false,
+}: {
+  venues?: boolean;
+  events?: boolean;
+}) {
   const { listings, categories, locations } = useApp();
   const [urlParams, setParams] = useSearchParams();
   const [params, setLocalParams] = useState(urlParams);
@@ -799,10 +864,30 @@ function Directory({ venues = false }: { venues?: boolean }) {
     category = params.get("category") || "",
     suburb = params.get("suburb") || "",
     sort = params.get("sort") || "recommended";
+  const availableCategories = [
+    ...new Set([...categories, ...listings.flatMap((l) => l.categories)]),
+  ].sort((a, b) => a.localeCompare(b));
+  const availableLocations = [
+    ...new Set([...locations, ...listings.map((l) => l.suburb)]),
+  ];
+  const today = localToday();
   const filtered = listings
     .filter(
       (l) =>
-        (!venues || l.type === "venue") &&
+        (events
+          ? l.type === "event" && Boolean(l.eventStartDate)
+          : venues
+            ? l.type === "venue"
+            : l.type !== "event") &&
+        matchesAge(l, params.get("age") || "") &&
+        (!events ||
+          (((params.get("period") || "upcoming") === "all" ||
+            (params.get("period") === "past"
+              ? (l.eventEndDate || l.eventStartDate) < today
+              : (l.eventEndDate || l.eventStartDate) >= today)) &&
+            (!params.get("from") ||
+              (l.eventEndDate || l.eventStartDate) >= params.get("from")!) &&
+            (!params.get("to") || l.eventStartDate <= params.get("to")!))) &&
         matchesSearch(l, q) &&
         (!category || l.categories.includes(category)) &&
         (!suburb || l.suburb === suburb) &&
@@ -826,12 +911,15 @@ function Directory({ venues = false }: { venues?: boolean }) {
           (l.price > 0 && l.price <= Number(params.get("price")))),
     )
     .sort((a, b) =>
-      sort === "name"
-        ? a.name.localeCompare(b.name)
-        : sort === "capacity"
-          ? a.capacity - b.capacity
-          : Number(b.featured) - Number(a.featured) ||
-            a.name.localeCompare(b.name),
+      events
+        ? a.eventStartDate.localeCompare(b.eventStartDate) ||
+          a.name.localeCompare(b.name)
+        : sort === "name"
+          ? a.name.localeCompare(b.name)
+          : sort === "capacity"
+            ? a.capacity - b.capacity
+            : Number(b.featured) - Number(a.featured) ||
+              a.name.localeCompare(b.name),
     );
   return (
     <>
@@ -840,20 +928,28 @@ function Directory({ venues = false }: { venues?: boolean }) {
           <div className="breadcrumb">
             <Link to="/">Home</Link>
             <ChevronRight size={12} />
-            {venues ? "Venues for hire" : "Find It"}
+            {events ? "Events" : venues ? "Venues for hire" : "Find It"}
           </div>
           <span className="eyebrow">
-            {venues
-              ? "A SPACE FOR EVERY OCCASION"
-              : "A WORLD OF LOCAL POSSIBILITIES"}
+            {events
+              ? "WHAT’S HAPPENING LOCALLY"
+              : venues
+                ? "A SPACE FOR EVERY OCCASION"
+                : "A WORLD OF LOCAL POSSIBILITIES"}
           </span>
           <h1>
-            {venues ? "Bring people together." : "Find your kind of community."}
+            {events
+              ? "Your community calendar."
+              : venues
+                ? "Bring people together."
+                : "Find your kind of community."}
           </h1>
           <p>
-            {venues
-              ? "Discover local rooms, halls and spaces for your next gathering."
-              : "People, places and possibilities. There’s something here for you."}
+            {events
+              ? "Discover upcoming events in calendar date order, from local gatherings to special occasions."
+              : venues
+                ? "Discover local rooms, halls and spaces for your next gathering."
+                : "People, places and possibilities. There’s something here for you."}
           </p>
           <form
             className="search-box"
@@ -868,9 +964,11 @@ function Directory({ venues = false }: { venues?: boolean }) {
               id="directory-search"
               value={q}
               placeholder={
-                venues
-                  ? "Search venues, facilities or activities…"
-                  : "Search names, interests, activities…"
+                events
+                  ? "Search events, names or interests…"
+                  : venues
+                    ? "Search venues, facilities or activities…"
+                    : "Search names, interests, activities…"
               }
               onChange={(e) => set("q", e.target.value)}
             />
@@ -900,11 +998,16 @@ function Directory({ venues = false }: { venues?: boolean }) {
               onChange={(e) => set("category", e.target.value)}
             >
               <option value="">All categories</option>
-              {categories.map((c) => (
+              {availableCategories.map((c) => (
                 <option key={c}>{c}</option>
               ))}
             </select>
           </label>
+          <PriorityNeighbourhoods
+            locations={availableLocations}
+            value={suburb}
+            onChange={(v) => set("suburb", v)}
+          />
           <label>
             Neighbourhood
             <select
@@ -913,11 +1016,55 @@ function Directory({ venues = false }: { venues?: boolean }) {
               onChange={(e) => set("suburb", e.target.value)}
             >
               <option value="">All neighbourhoods</option>
-              {locations.map((s) => (
-                <option key={s}>{s}</option>
+              <NeighbourhoodOptions locations={availableLocations} />
+            </select>
+          </label>
+          <label>
+            Suitable Ages
+            <select
+              aria-label="Suitable Ages"
+              value={params.get("age") || ""}
+              onChange={(e) => set("age", e.target.value)}
+            >
+              <option value="">Any age</option>
+              {suitableAges.map((age) => (
+                <option key={age}>{age}</option>
               ))}
             </select>
           </label>
+          {events && (
+            <>
+              <label>
+                Show events
+                <select
+                  aria-label="Show events"
+                  value={params.get("period") || "upcoming"}
+                  onChange={(e) => set("period", e.target.value)}
+                >
+                  <option value="upcoming">Upcoming & ongoing</option>
+                  <option value="all">All dates</option>
+                  <option value="past">Past events</option>
+                </select>
+              </label>
+              <label>
+                From date
+                <input
+                  type="date"
+                  value={params.get("from") || ""}
+                  onChange={(e) => set("from", e.target.value)}
+                />
+              </label>
+              <label>
+                To date
+                <input
+                  type="date"
+                  min={params.get("from") || undefined}
+                  value={params.get("to") || ""}
+                  onChange={(e) => set("to", e.target.value)}
+                />
+              </label>
+            </>
+          )}
           <label className="check-label">
             <input
               type="checkbox"
@@ -997,17 +1144,21 @@ function Directory({ venues = false }: { venues?: boolean }) {
               {filtered.length === 1 ? "possibility" : "possibilities"} to
               explore
             </span>
-            <label className="sort-label">
-              Sort by
-              <select
-                value={sort}
-                onChange={(e) => set("sort", e.target.value)}
-              >
-                <option value="recommended">Recommended</option>
-                <option value="name">Name A–Z</option>
-                {venues && <option value="capacity">Capacity</option>}
-              </select>
-            </label>
+            {events ? (
+              <span className="help">Event date · earliest first</span>
+            ) : (
+              <label className="sort-label">
+                Sort by
+                <select
+                  value={sort}
+                  onChange={(e) => set("sort", e.target.value)}
+                >
+                  <option value="recommended">Recommended</option>
+                  <option value="name">Name A–Z</option>
+                  {venues && <option value="capacity">Capacity</option>}
+                </select>
+              </label>
+            )}
           </div>
           <div className="listing-grid two">
             {filtered.map((item) => (
@@ -1049,7 +1200,9 @@ function ListingPage() {
   return (
     <div className="container page">
       <div className="breadcrumb">
-        <Link to="/find">Find It</Link>
+        <Link to={item.type === "event" ? "/events" : "/find"}>
+          {item.type === "event" ? "Events" : "Find It"}
+        </Link>
         <ChevronRight size={12} />
         {item.name}
       </div>
@@ -1063,7 +1216,10 @@ function ListingPage() {
           <p className="lead">{item.summary}</p>
           <div className="tags">
             {item.categories.map((c) => (
-              <Link key={c} to={`/find?category=${encodeURIComponent(c)}`}>
+              <Link
+                key={c}
+                to={`${item.type === "event" ? "/events" : "/find"}?category=${encodeURIComponent(c)}`}
+              >
                 {c}
               </Link>
             ))}
@@ -1084,8 +1240,40 @@ function ListingPage() {
           {imageError && (
             <Message error>Could not load gallery: {imageError}</Message>
           )}
-          <h2>A little about us</h2>
+          {item.type === "event" && (
+            <section className="event-date-panel">
+              <h2>When it’s happening</h2>
+              <p>
+                <time dateTime={item.eventStartDate}>
+                  {formatEventDate(item.eventStartDate)}
+                </time>
+                {item.eventEndDate &&
+                  item.eventEndDate !== item.eventStartDate && (
+                    <>
+                      {" "}
+                      –{" "}
+                      <time dateTime={item.eventEndDate}>
+                        {formatEventDate(item.eventEndDate)}
+                      </time>
+                    </>
+                  )}
+              </p>
+              <small>
+                Dates and times are local to New Zealand. Check with the
+                organiser before attending.
+              </small>
+            </section>
+          )}
+          <h2>
+            {item.type === "event" ? "About this event" : "A little about us"}
+          </h2>
           <p className="preserve">{item.description}</p>
+          {!!item.suitableAges?.length && (
+            <>
+              <h3>Suitable ages</h3>
+              <p>{item.suitableAges.join(", ")}</p>
+            </>
+          )}
           {item.ageGroups && (
             <>
               <h3>Who it’s for</h3>

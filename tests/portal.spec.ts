@@ -30,6 +30,14 @@ async function fixture(
   } = {},
 ) {
   const requests: { name: string; body: any }[] = [];
+  const categoryRows = [
+    {
+      id: "category-1",
+      name: "Education and Learning",
+      active: true,
+      parent_id: null as string | null,
+    },
+  ];
   const fixtureImage = await new Image(300, 200).fill(0x789366ff).encode();
   if (!publicOnly)
     await page.addInitScript(
@@ -126,6 +134,22 @@ async function fixture(
         };
         const existing = items.findIndex((i) => i.id === id);
         existing < 0 ? items.push(next) : items.splice(existing, 1, next);
+      } else if (name === "manage_taxonomy") {
+        const category = categoryRows.find((c) => c.id === body.record_id);
+        if (category)
+          Object.assign(category, {
+            name: body.record_name,
+            active: body.is_active,
+            parent_id: body.parent_id,
+          });
+        else
+          categoryRows.push({
+            id: "category-2",
+            name: body.record_name,
+            active: body.is_active,
+            parent_id: body.parent_id,
+          });
+        data = null;
       } else if (name === "review_listing") {
         const row = items.find((i) => i.id === body.listing_id);
         row.published = row.proposed;
@@ -145,9 +169,10 @@ async function fixture(
       };
       data = req.headers()["accept"]?.includes("object") ? account : [account];
     } else if (path.includes("/categories"))
-      data = [
-        { id: "category-1", name: "Education and Learning", active: true },
-      ];
+      data =
+        url.searchParams.get("active") === "eq.true"
+          ? categoryRows.filter((c) => c.active)
+          : categoryRows;
     else if (path.includes("/locations"))
       data = [{ id: "location-1", name: "Burnside", active: true }];
     else if (path.includes("/listings")) data = items;
@@ -363,4 +388,203 @@ test("approved gallery opens and closes with keyboard focus restored", async ({
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(opener).toBeFocused();
+});
+
+test("events are date ordered, include ongoing events, and combine age, place, free and date filters", async ({
+  page,
+}) => {
+  // Fix time so the same event-boundary behavior is tested every day.
+  await page.clock.setFixedTime(new Date("2028-02-28T23:30:00Z"));
+  const row = (
+    key: string,
+    name: string,
+    start: string,
+    end: string,
+    age: string[],
+    suburb = "Burnside",
+    featured = false,
+  ) => ({
+    id: key,
+    data: {
+      ...content,
+      name,
+      type: "event",
+      eventStartDate: start,
+      eventEndDate: end,
+      suitableAges: age,
+      suburb,
+      cost: "Free",
+    },
+    featured,
+    verified: false,
+  });
+  await fixture(page, {
+    publicOnly: true,
+    publicRows: [
+      row(
+        "late",
+        "Later featured event",
+        "2028-03-05",
+        "",
+        ["Adult"],
+        "Burnside",
+        true,
+      ),
+      row("past", "Past event", "2028-02-28", "", ["All"]),
+      row(
+        "today",
+        "Today family event",
+        "2028-02-29",
+        "",
+        ["Family"],
+        "Bryndwr",
+      ),
+      row("ongoing", "Ongoing event", "2028-02-27", "2028-03-02", ["All"]),
+      {
+        id: "regular",
+        data: {
+          ...content,
+          name: "Regular activity",
+          type: "activity",
+          suitableAges: ["All"],
+        },
+        featured: false,
+        verified: false,
+      },
+    ],
+  });
+  await page.goto("http://127.0.0.1:5184/events");
+  await expect(
+    page.getByRole("heading", { name: "Your community calendar." }),
+  ).toBeVisible();
+  await expect(page.locator(".listing-card h3")).toHaveText([
+    "Ongoing event",
+    "Today family event",
+    "Later featured event",
+  ]);
+  await page
+    .getByLabel("Suitable Ages", { exact: true })
+    .selectOption("Family");
+  await expect(page.locator(".listing-card")).toHaveCount(2);
+  await page.getByRole("button", { name: "Bryndwr", exact: true }).click();
+  await page.getByLabel("Free only", { exact: true }).check();
+  await expect(page.locator(".listing-card h3")).toHaveText([
+    "Today family event",
+  ]);
+  await page.reload();
+  await expect(page.getByLabel("Suitable Ages", { exact: true })).toHaveValue(
+    "Family",
+  );
+  await expect(
+    page.getByRole("button", { name: "Bryndwr", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Clear all filters" }).click();
+  await page.getByLabel("From date", { exact: true }).fill("2028-03-01");
+  await page.getByLabel("To date", { exact: true }).fill("2028-03-02");
+  await expect(page.locator(".listing-card h3")).toHaveText(["Ongoing event"]);
+  await page.getByRole("link", { name: "Ongoing event", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "When it’s happening" }),
+  ).toBeVisible();
+  await expect(page.locator(".event-date-panel")).toContainText(
+    "27 February 2028",
+  );
+  await page.goto("http://127.0.0.1:5184/events?period=past");
+  await expect(page.locator(".listing-card h3")).toHaveText(["Past event"]);
+  await page.goto("http://127.0.0.1:5184/find?age=Senior");
+  await expect(page.locator(".listing-card h3")).toHaveText([
+    "Regular activity",
+  ]);
+});
+
+test("owner adds an event with structured ages and a draft for photos", async ({
+  page,
+}) => {
+  const requests = await fixture(page);
+  await page.goto("http://127.0.0.1:5184/dashboard");
+  await page.getByRole("button", { name: "Add an event", exact: true }).click();
+  await expect(page.getByLabel("Listing type")).toHaveValue("event");
+  await page
+    .getByLabel("Listing name", { exact: true })
+    .fill("Our community event");
+  await page
+    .getByLabel("Short introduction")
+    .fill("A special gathering for our local families.");
+  await page
+    .getByLabel("Full description")
+    .fill("Join our community for an afternoon of music and activities.");
+  await page.getByLabel("Education and Learning", { exact: true }).check();
+  await page
+    .getByRole("button", { name: "Save draft to add photos", exact: true })
+    .click();
+  await expect(page.getByRole("alert")).toContainText(
+    "Choose the event start date",
+  );
+  expect(requests.some((r) => r.name === "save_listing")).toBe(false);
+  await page.getByLabel("Event start date", { exact: true }).fill("2028-02-29");
+  await page.getByLabel("Event end date (optional)").fill("2028-03-01");
+  await page.getByLabel("Family", { exact: true }).check();
+  await page.getByLabel("0-5", { exact: true }).check();
+  await page
+    .getByRole("button", { name: "Save draft to add photos", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Photos & images" }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Submit for review", exact: true })
+    .click();
+  await expect(
+    page.getByText("Awaiting review", { exact: true }),
+  ).toBeVisible();
+  const saves = requests.filter((r) => r.name === "save_listing");
+  expect(saves.map((r) => r.body.submit)).toEqual([false, true]);
+  expect(saves[1].body.content).toMatchObject({
+    type: "event",
+    eventStartDate: "2028-02-29",
+    eventEndDate: "2028-03-01",
+    suitableAges: ["Family", "0-5"],
+  });
+});
+
+test("admin can add and rename categories with immediate directory filter refresh", async ({
+  page,
+}) => {
+  const requests = await fixture(page, { admin: true });
+  await page.goto("http://127.0.0.1:5184/admin");
+  await page
+    .getByRole("button", { name: "Categories & locations", exact: true })
+    .click();
+  await page.getByRole("button", { name: "Edit", exact: true }).click();
+  await page.getByLabel("Name", { exact: true }).fill("Learning together");
+  await page.getByRole("button", { name: "Save changes", exact: true }).click();
+  await expect(
+    page.getByText(
+      "Saved. Directory filters and existing listings are up to date.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await page.getByLabel("Name", { exact: true }).fill("Community celebrations");
+  await page.getByRole("button", { name: "Add", exact: true }).click();
+  await expect(page.locator(".taxonomy-list")).toContainText(
+    "Community celebrations",
+  );
+  if (await page.getByRole("button", { name: "Open navigation" }).isVisible())
+    await page.getByRole("button", { name: "Open navigation" }).click();
+  await page
+    .getByRole("navigation")
+    .getByRole("link", { name: "Find It", exact: true })
+    .click();
+  await expect(
+    page.getByLabel("Category", { exact: true }).locator("option"),
+  ).toHaveText([
+    "All categories",
+    "Community celebrations",
+    "Learning together",
+  ]);
+  expect(
+    requests
+      .filter((r) => r.name === "manage_taxonomy")
+      .map((r) => r.body.record_name),
+  ).toEqual(["Learning together", "Community celebrations"]);
 });

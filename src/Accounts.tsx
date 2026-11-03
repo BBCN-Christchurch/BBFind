@@ -30,11 +30,13 @@ import {
   isFreeListing,
   listingSchema,
   listingTypes,
+  suitableAges,
   type ListingData,
   type ManagedListing,
 } from "./domain";
 import { AccountLink, Message, useApp } from "./App";
 import { ImageManager } from "./Images";
+import { NeighbourhoodOptions, PriorityNeighbourhoods } from "./Neighbourhood";
 type EmailSubmission = {
   kind: "registration" | "verification" | "reset";
   email: string;
@@ -512,7 +514,9 @@ export function ResetPassword() {
 export function Dashboard() {
   const { auth, refreshAuth, refreshListings } = useApp();
   const [items, setItems] = useState<ManagedListing[]>([]),
-    [selected, setSelected] = useState<ManagedListing | "new" | null>(null),
+    [selected, setSelected] = useState<
+      ManagedListing | "new" | "new-event" | null
+    >(null),
     [tab, setTab] = useState("listings"),
     [error, setError] = useState(""),
     [loading, setLoading] = useState(true);
@@ -588,7 +592,8 @@ export function Dashboard() {
         <AccountSettings account={auth.account} />
       ) : selected ? (
         <ListingEditor
-          item={selected === "new" ? undefined : selected}
+          item={typeof selected === "string" ? undefined : selected}
+          initialType={selected === "new-event" ? "event" : "organisation"}
           onCancel={() => setSelected(null)}
           onSaved={async (id) => {
             await refresh();
@@ -620,14 +625,23 @@ export function Dashboard() {
           </div>
           <div className="section-heading">
             <h2>Your listings</h2>
-            <button
-              className="button"
-              onClick={() => setSelected("new")}
-              disabled={!auth.account || auth.account.suspended}
-            >
-              <FilePlus2 size={17} />
-              Create a listing
-            </button>
+            <div className="button-row">
+              <button
+                className="button secondary"
+                onClick={() => setSelected("new-event")}
+                disabled={!auth.account || auth.account.suspended}
+              >
+                Add an event
+              </button>
+              <button
+                className="button"
+                onClick={() => setSelected("new")}
+                disabled={!auth.account || auth.account.suspended}
+              >
+                <FilePlus2 size={17} />
+                Create a listing
+              </button>
+            </div>
           </div>
           {loading ? (
             <p role="status">Loading your listings…</p>
@@ -636,8 +650,8 @@ export function Dashboard() {
               <Users size={34} />
               <h3>Let’s introduce you.</h3>
               <p>
-                Add your organisation, a programme, a service or a venue. You
-                can save a draft before submitting.
+                Add your organisation, a programme, an event, a service or a
+                venue. You can save a draft before submitting.
               </p>
               <button className="button" onClick={() => setSelected("new")}>
                 Create your first listing <ArrowRight size={16} />
@@ -701,8 +715,10 @@ export function ListingEditor({
   onSaved,
   onCancel,
   admin = false,
+  initialType = "organisation",
 }: {
   item?: ManagedListing;
+  initialType?: ListingData["type"];
   onSaved: (id: string) => void | Promise<void>;
   onCancel: () => void;
   admin?: boolean;
@@ -712,6 +728,7 @@ export function ListingEditor({
   const costId = `${formId}-cost`;
   const [data, setData] = useState<ListingData>({
       ...emptyListing,
+      type: initialType,
       ...item?.proposed,
     }),
     [error, setError] = useState(""),
@@ -720,8 +737,8 @@ export function ListingEditor({
     [imagesBusy, setImagesBusy] = useState(false);
   const locked = item?.status === "pending_review" && !admin;
   useEffect(() => {
-    setData({ ...emptyListing, ...item?.proposed });
-  }, [item?.id, item?.status]);
+    setData({ ...emptyListing, type: initialType, ...item?.proposed });
+  }, [item?.id, item?.status, initialType]);
   function field<K extends keyof ListingData>(name: K, value: ListingData[K]) {
     setData((d) => ({ ...d, [name]: value }));
   }
@@ -847,6 +864,10 @@ export function ListingEditor({
               </label>
               {input("name", "Listing name")}
             </div>
+            <p className="help">
+              Choose Event for a dated occasion shown on the Events page, or
+              Activity / Programme for regular ongoing listings.
+            </p>
             {input("summary", "Short introduction (10–220 characters)")}
             {input("description", "Full description", { area: true })}
             <fieldset>
@@ -854,7 +875,7 @@ export function ListingEditor({
                 Categories <small>Select up to 10</small>
               </legend>
               <div className="category-checks">
-                {categories.map((c) => (
+                {[...new Set([...categories, ...data.categories])].map((c) => (
                   <label key={c} className="check-label">
                     <input
                       type="checkbox"
@@ -876,6 +897,11 @@ export function ListingEditor({
           </section>
           <section className="form-section">
             <h3>Where & when</h3>
+            <PriorityNeighbourhoods
+              locations={locations}
+              value={data.suburb}
+              onChange={(v) => v && field("suburb", v)}
+            />
             <div className="form-grid">
               <label>
                 Neighbourhood
@@ -883,16 +909,87 @@ export function ListingEditor({
                   value={data.suburb}
                   onChange={(e) => field("suburb", e.target.value)}
                 >
-                  {[...new Set([...locations, data.suburb])].map((s) => (
-                    <option key={s}>{s}</option>
-                  ))}
+                  <NeighbourhoodOptions
+                    locations={[...new Set([...locations, data.suburb])]}
+                  />
                 </select>
               </label>
               {input("address", "Public address")}
             </div>
-            {input("times", "Opening hours or meeting times", { area: true })}
+            {data.type === "event" && (
+              <>
+                <div className="form-grid">
+                  <label>
+                    Event start date
+                    <input
+                      type="date"
+                      required
+                      min="1900-01-01"
+                      max="2100-12-31"
+                      value={data.eventStartDate}
+                      onChange={(e) => field("eventStartDate", e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Event end date (optional)
+                    <input
+                      type="date"
+                      min={data.eventStartDate || "1900-01-01"}
+                      max="2100-12-31"
+                      value={data.eventEndDate}
+                      onChange={(e) => field("eventEndDate", e.target.value)}
+                    />
+                  </label>
+                </div>
+                <p className="help">
+                  Leave the end date blank for a one-day event. For separate
+                  occurrences, create a listing for each date. Dates and times
+                  are local to New Zealand.
+                </p>
+              </>
+            )}
+            {input(
+              "times",
+              data.type === "event"
+                ? "Event times and arrival information"
+                : "Opening hours or meeting times",
+              { area: true },
+            )}
+            <fieldset>
+              <legend>Suitable Ages</legend>
+              <p className="help">
+                Choose all that apply. Select All only when suitable for every
+                age.
+              </p>
+              <div className="category-checks">
+                {suitableAges.map((age) => (
+                  <label key={age} className="check-label">
+                    <input
+                      type="checkbox"
+                      checked={data.suitableAges.includes(age)}
+                      onChange={(e) =>
+                        field(
+                          "suitableAges",
+                          e.target.checked
+                            ? age === "All"
+                              ? ["All"]
+                              : [
+                                  ...data.suitableAges.filter(
+                                    (a) => a !== "All",
+                                  ),
+                                  age,
+                                ]
+                            : data.suitableAges.filter((a) => a !== age),
+                        )
+                      }
+                    />
+                    {age}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
             <div className="form-grid">
-              {input("ageGroups", "Age groups catered for")}
+              {input("ageGroups", "Additional age information (optional)")}
               <div className="cost-field">
                 <label htmlFor={costId}>Cost or membership information</label>
                 <div className="cost-options">

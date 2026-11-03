@@ -490,6 +490,8 @@ function ListingReview({ data }: { data: Record<string, unknown> }) {
   );
 }
 function Taxonomy({ onError }: { onError: (s: string) => void }) {
+  const { refreshTaxonomy, refreshListings } = useApp();
+  const [message, setMessage] = useState("");
   const [kind, setKind] = useState("categories"),
     [rows, setRows] = useState<
       { id: string; name: string; active: boolean; parent_id: string | null }[]
@@ -508,22 +510,33 @@ function Taxonomy({ onError }: { onError: (s: string) => void }) {
     void refresh().catch((e) => onError(e.message));
     setEdit(null);
     setName("");
+    setParent("");
+    setMessage("");
   }, [kind]);
   async function save(e: FormEvent) {
     e.preventDefault();
     setBusy(true);
+    onError("");
+    setMessage("");
     try {
       await rpc("manage_taxonomy", {
         table_name: kind,
         record_id: edit,
-        record_name: name,
-        is_active: true,
+        record_name: name.trim(),
+        is_active: edit
+          ? (rows.find((r) => r.id === edit)?.active ?? true)
+          : true,
         parent_id: parent || null,
       });
       setName("");
       setParent("");
       setEdit(null);
       await refresh();
+      await refreshTaxonomy();
+      await refreshListings();
+      setMessage(
+        "Saved. Directory filters and existing listings are up to date.",
+      );
     } catch (e) {
       onError((e as Error).message);
     } finally {
@@ -535,18 +548,21 @@ function Taxonomy({ onError }: { onError: (s: string) => void }) {
       <div className="button-row">
         <button
           className={`button ${kind === "categories" ? "" : "secondary"}`}
+          disabled={busy}
           onClick={() => setKind("categories")}
         >
           Categories
         </button>
         <button
           className={`button ${kind === "locations" ? "" : "secondary"}`}
+          disabled={busy}
           onClick={() => setKind("locations")}
         >
           Locations
         </button>
       </div>
       <h2>Manage {kind}</h2>
+      {message && <Message>{message}</Message>}
       <p>
         Renaming a term updates its existing listings. Inactive terms stay
         attached to existing records, but are unavailable for new selections.
@@ -603,6 +619,7 @@ function Taxonomy({ onError }: { onError: (s: string) => void }) {
             </span>
             <button
               className="text-button"
+              disabled={busy}
               onClick={() => {
                 setEdit(r.id);
                 setName(r.name);
@@ -615,6 +632,8 @@ function Taxonomy({ onError }: { onError: (s: string) => void }) {
               className="text-button"
               disabled={busy}
               onClick={async () => {
+                setBusy(true);
+                onError("");
                 try {
                   await rpc("manage_taxonomy", {
                     table_name: kind,
@@ -624,8 +643,12 @@ function Taxonomy({ onError }: { onError: (s: string) => void }) {
                     parent_id: r.parent_id,
                   });
                   await refresh();
+                  await refreshTaxonomy();
+                  await refreshListings();
                 } catch (e) {
                   onError((e as Error).message);
+                } finally {
+                  setBusy(false);
                 }
               }}
             >
@@ -635,8 +658,10 @@ function Taxonomy({ onError }: { onError: (s: string) => void }) {
         ))}
       </ul>
       <Message>
-        Refresh the directory after changing categories or locations to load the
-        updated filter choices.
+        Changes update the directory immediately. Renaming preserves listing
+        associations; deactivating hides a term from new selections while
+        keeping it on existing listings. Categories cannot be permanently
+        deleted here.
       </Message>
     </div>
   );

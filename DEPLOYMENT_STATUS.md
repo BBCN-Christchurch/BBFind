@@ -34,3 +34,18 @@ No account was created, no email was sent, and no hosted listing/image content w
 6. **Operations:** complete the privacy contact/retention decisions and production backup/restore drill. Keep credentials out of source and public build variables.
 
 SUPABASE_SETUP.md remains the installation reference. Do not rerun the initial migration: it is now installed and recorded.
+
+## Events and filters update — 3 November 2026
+
+Applied additive migration `202611030001_events_ages.sql` to the existing BBFind
+project and recorded it in Supabase migration history. It replaces validation
+and listing-save functions, allows events with real ordered dates and structured
+age choices, and permits existing listings to retain retired taxonomy terms.
+The two existing listing records were retained; no listing, account, image,
+category or location content was created, renamed or deleted by this migration.
+Anonymous listing-write access remains denied; authenticated saves still require
+verified owner/admin permissions and the existing review workflow.
+
+Local verification passed: 17 unit tests, 57 SQL/RLS checks, 46 desktop/mobile
+browser tests (including automated accessibility scans), and 50 actual-service
+integration checks. This update does not change the separate `demo` branch.

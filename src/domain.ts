@@ -6,7 +6,67 @@ export const listingTypes = [
   "service",
   "business",
   "venue",
+  "event",
 ] as const;
+export const suitableAges = [
+  "0-5",
+  "5-12",
+  "13-20",
+  "Adult",
+  "Senior",
+  "Family",
+  "All",
+] as const;
+export const priorityNeighbourhoods = ["Burnside", "Bryndwr"];
+export function validDate(value: string) {
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/.test(value) ||
+    value < "1900-01-01" ||
+    value > "2100-12-31"
+  )
+    return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return (
+    !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value
+  );
+}
+export function localToday() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Pacific/Auckland",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+}
+export function formatEventDate(value: string) {
+  return validDate(value)
+    ? new Intl.DateTimeFormat("en-NZ", {
+        timeZone: "Pacific/Auckland",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }).format(new Date(`${value}T00:00:00Z`))
+    : "Date to be confirmed";
+}
+export function matchesAge(
+  listing: Pick<ListingData, "suitableAges">,
+  age: string,
+) {
+  return (
+    !age ||
+    Boolean(
+      listing.suitableAges?.includes(age as (typeof suitableAges)[number]) ||
+      listing.suitableAges?.includes("All"),
+    )
+  );
+}
+const eventDate = z
+  .string()
+  .refine(
+    (v) => !v || validDate(v),
+    "Enter a valid date between 1900 and 2100.",
+  )
+  .default("");
 export const suburbs = [
   "Burnside",
   "Bryndwr",
@@ -43,56 +103,77 @@ const safeUrl = z
     (v) => !v || /^https?:\/\//i.test(v),
     "Use a full http:// or https:// address.",
   );
-export const listingSchema = z.object({
-  name: z.string().trim().min(3, "Enter at least 3 characters.").max(150),
-  summary: z
-    .string()
-    .trim()
-    .min(10, "Add a short introduction (at least 10 characters).")
-    .max(220),
-  description: z
-    .string()
-    .trim()
-    .min(20, "Tell visitors a little more (at least 20 characters).")
-    .max(10000),
-  type: z.enum(listingTypes),
-  categories: z
-    .array(z.string().min(1).max(150))
-    .min(1, "Choose a category.")
-    .max(10),
-  suburb: z.string().trim().min(2).max(100),
-  address: z.string().max(300),
-  website: safeUrl,
-  publicEmail: z.union([z.literal(""), z.string().email()]),
-  publicPhone: z.string().max(80),
-  publicContact: z.string().max(100),
-  socialLinks: z
-    .string()
-    .max(2000)
-    .refine(
-      (v) => !v || v.split("\n").every((s) => /^https?:\/\//i.test(s.trim())),
-      "Use one full web address per line.",
-    ),
-  times: z.string().max(1000),
-  ageGroups: z.string().max(300),
-  cost: z.string().max(300),
-  accessibility: z.string().max(1000),
-  capacity: z.number().int().min(0).max(100000),
-  roomType: z.string().max(150),
-  kitchen: z.boolean(),
-  accessible: z.boolean(),
-  outdoor: z.boolean(),
-  wifi: z.boolean(),
-  parking: z.boolean(),
-  av: z.boolean(),
-  toilets: z.boolean(),
-  facilities: z.string().max(2000),
-  suitableFor: z.string().max(1000),
-  availability: z.string().max(1000),
-  bookingUrl: safeUrl,
-  price: z.number().min(0).max(100000),
-  spaces: z.string().max(3000),
-});
+export const listingSchema = z
+  .object({
+    name: z.string().trim().min(3, "Enter at least 3 characters.").max(150),
+    summary: z
+      .string()
+      .trim()
+      .min(10, "Add a short introduction (at least 10 characters).")
+      .max(220),
+    description: z
+      .string()
+      .trim()
+      .min(20, "Tell visitors a little more (at least 20 characters).")
+      .max(10000),
+    type: z.enum(listingTypes),
+    categories: z
+      .array(z.string().min(1).max(150))
+      .min(1, "Choose a category.")
+      .max(10),
+    suburb: z.string().trim().min(2).max(100),
+    address: z.string().max(300),
+    website: safeUrl,
+    publicEmail: z.union([z.literal(""), z.string().email()]),
+    publicPhone: z.string().max(80),
+    publicContact: z.string().max(100),
+    socialLinks: z
+      .string()
+      .max(2000)
+      .refine(
+        (v) => !v || v.split("\n").every((s) => /^https?:\/\//i.test(s.trim())),
+        "Use one full web address per line.",
+      ),
+    times: z.string().max(1000),
+    ageGroups: z.string().max(300),
+    suitableAges: z.array(z.enum(suitableAges)).max(7).default([]),
+    eventStartDate: eventDate,
+    eventEndDate: eventDate,
+    cost: z.string().max(300),
+    accessibility: z.string().max(1000),
+    capacity: z.number().int().min(0).max(100000),
+    roomType: z.string().max(150),
+    kitchen: z.boolean(),
+    accessible: z.boolean(),
+    outdoor: z.boolean(),
+    wifi: z.boolean(),
+    parking: z.boolean(),
+    av: z.boolean(),
+    toilets: z.boolean(),
+    facilities: z.string().max(2000),
+    suitableFor: z.string().max(1000),
+    availability: z.string().max(1000),
+    bookingUrl: safeUrl,
+    price: z.number().min(0).max(100000),
+    spaces: z.string().max(3000),
+  })
+  .superRefine((data, ctx) => {
+    if (data.type === "event" && !data.eventStartDate)
+      ctx.addIssue({
+        code: "custom",
+        path: ["eventStartDate"],
+        message: "Choose the event start date.",
+      });
+    if (
+      data.eventEndDate &&
+      (!data.eventStartDate || data.eventEndDate < data.eventStartDate)
+    )
+      ctx.addIssue({
+        code: "custom",
+        path: ["eventEndDate"],
+        message: "The end date must be on or after the start date.",
+      });
+  });
 export type ListingData = z.infer<typeof listingSchema>;
 export function isFreeListing(
   listing: Pick<ListingData, "cost" | "type" | "price">,
@@ -154,6 +235,9 @@ export const emptyListing: ListingData = {
   socialLinks: "",
   times: "",
   ageGroups: "",
+  suitableAges: [],
+  eventStartDate: "",
+  eventEndDate: "",
   cost: "",
   accessibility: "",
   capacity: 0,
