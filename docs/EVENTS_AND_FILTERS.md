@@ -59,3 +59,18 @@ rather than `supabase db push`. Do not rerun the initial migration.
 
 Run `npm test`, `npm run test:sql`, `npm run test:e2e`, and
 `npm run test:integration` using the documented disposable local fixtures.
+
+## Distinct pages and home highlights
+
+Find It uses the green community directory identity. Events uses a plum calendar
+header and an agenda grouped by event-start month, with visible date tiles.
+Venues for Hire uses a warm space-focused header, larger venue images and
+facility badges. Each page has a labelled feature badge as well as its own colour
+and layout. The menu places Get Found immediately after Venues for Hire.
+
+The home page highlights up to six approved upcoming/ongoing events, ordered by
+start date. The carousel supports swipe/native scrolling, previous/next buttons,
+keyboard arrows when its track is focused, and normal tab navigation to event
+links. It does not autoplay and respects reduced motion. Past events and private
+proposals are excluded; with no published upcoming events it shows an honest
+empty state and a link to the calendar.

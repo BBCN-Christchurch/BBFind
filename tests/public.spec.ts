@@ -123,3 +123,45 @@ test("keyboard skip link reaches main content", async ({ page }) => {
   await page.keyboard.press("Enter");
   await expect(page.locator("#main")).toBeFocused();
 });
+
+test("feature pages have clear identities and Get Found follows Venues", async ({
+  page,
+}) => {
+  for (const [path, theme, label] of [
+    ["/find", "intro-find", "Find It"],
+    ["/events", "intro-events", "Events"],
+    ["/venues", "intro-venues", "Venues for Hire"],
+  ]) {
+    await page.goto(path);
+    await expect(page.locator(".feature-intro")).toHaveClass(new RegExp(theme));
+    await expect(page.locator(".feature-label")).toHaveText(label);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+  if (await page.getByRole("button", { name: "Open navigation" }).isVisible())
+    await page.getByRole("button", { name: "Open navigation" }).click();
+  await expect(page.getByRole("navigation").locator("a")).toHaveText([
+    "Home",
+    "Find It",
+    "Events",
+    "Venues for Hire",
+    "Get Found",
+    "About",
+  ]);
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", { name: "Coming up locally", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("No upcoming events have been published yet.", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await page
+    .getByRole("link", { name: "View all events", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/events$/);
+});

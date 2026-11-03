@@ -2389,3 +2389,377 @@ main:focus {
 .event-date-panel h2 {
   margin-top: 0;
 }
+
+/* Distinct feature identities: community directory, calendar, and venue finder. */
+.feature-intro .feature-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 275px;
+  align-items: center;
+  gap: 60px;
+}
+.feature-intro .feature-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid currentColor;
+  border-radius: 30px;
+  padding: 7px 13px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 22px;
+}
+.feature-intro .eyebrow {
+  display: block;
+}
+.feature-intro .search-box {
+  width: 100%;
+}
+.feature-art {
+  position: relative;
+  border-radius: 90px 90px 12px 12px;
+  overflow: hidden;
+  border: 1px solid #bac8af;
+  transform: rotate(2deg);
+}
+.feature-art > svg {
+  display: block;
+  width: 100%;
+  min-height: 200px;
+  object-fit: cover;
+}
+.feature-art-note {
+  display: block;
+  background: #edf2e6;
+  color: #244b3e;
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+.intro-events {
+  background: #51374f;
+  color: #fffaf4;
+  border-bottom: 7px solid #cba9bc;
+}
+.intro-events h1,
+.intro-events .feature-label {
+  color: #fffaf4;
+}
+.intro-events .breadcrumb,
+.intro-events .eyebrow,
+.intro-events p {
+  color: #f2e4ed;
+}
+.intro-events .search-box {
+  color: #51374f;
+  background: #fffdf9;
+}
+.intro-events .feature-art {
+  border-radius: 14px;
+  border: 1px solid #ad8b9e;
+  transform: rotate(-3deg);
+  background: #f6ebf0;
+  color: #51374f;
+  box-shadow: 12px 12px 0 #ffffff12;
+}
+.calendar-art {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 22px;
+  gap: 20px;
+}
+.calendar-art > span {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+.calendar-art strong {
+  font-family: Manrope, sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+.directory-events .filters {
+  background: #f8f1f5;
+  border-color: #ddcbd5;
+}
+.directory-events .filters h2,
+.directory-events .results-toolbar {
+  color: #51374f;
+}
+.agenda-month {
+  font-size: 1.15rem;
+  color: #51374f;
+  border-bottom: 2px solid #ddcbd5;
+  margin: 10px 0 18px;
+  padding-bottom: 12px;
+}
+.event-agenda > div + div .agenda-month {
+  margin-top: 30px;
+}
+.agenda-card {
+  display: grid;
+  grid-template-columns: 70px 125px minmax(0, 1fr);
+  align-items: center;
+  border-color: #ddcbd5;
+  margin-bottom: 16px;
+}
+.agenda-date {
+  align-self: stretch;
+  background: #f3e6ee;
+  color: #51374f;
+  text-align: center;
+  padding: 24px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.agenda-date span {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.agenda-date strong {
+  font-family: Manrope, sans-serif;
+  font-size: 2.05rem;
+  line-height: 1.4;
+}
+.agenda-card .card-visual {
+  aspect-ratio: 1;
+  margin-left: 12px;
+  border-radius: 8px;
+}
+.agenda-card .card-type {
+  display: none;
+}
+.agenda-card .card-body {
+  padding: 18px;
+}
+.agenda-card .card-body h3 {
+  margin: 8px 0;
+}
+.agenda-card .card-body > p {
+  margin-bottom: 12px;
+}
+.agenda-card .card-bottom {
+  padding-bottom: 0;
+}
+.agenda-card .event-date {
+  color: #68415f;
+  margin-top: 8px;
+}
+.intro-venues {
+  background: #f4e6d5;
+  border-bottom: 7px solid #b58d64;
+}
+.intro-venues h1,
+.intro-venues .eyebrow,
+.intro-venues .feature-label {
+  color: #62442e;
+}
+.intro-venues p {
+  color: #6a503c;
+}
+.venue-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 15px 0;
+}
+.venue-facts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f4e6d5;
+  color: #62442e;
+  border-radius: 5px;
+  padding: 6px 9px;
+  font-size: 0.72rem;
+}
+.intro-venues .feature-art {
+  border-color: #c4a17d;
+  border-radius: 12px;
+  box-shadow: 12px 12px 0 #d8be9d80;
+}
+.intro-venues .feature-art-note {
+  background: #62442e;
+  color: #fff8ee;
+}
+.directory-venues .filters {
+  background: #faf3e9;
+  border-color: #ddcbb5;
+}
+.directory-venues .filters h2 {
+  color: #62442e;
+}
+.venue-results .listing-card {
+  border-color: #ddcbb5;
+  border-radius: 4px 4px 14px 14px;
+}
+.venue-results .card-visual {
+  aspect-ratio: 1.45;
+}
+.venue-results .card-type {
+  background: #62442e;
+  color: #fff8ee;
+}
+.venue-results .card-bottom {
+  border-color: #ddcbb5;
+}
+.upcoming-section {
+  background: #faf4f7;
+  border-bottom: 1px solid #e5d6df;
+  padding: 55px 0 40px;
+}
+.upcoming-section .section-heading h2,
+.upcoming-section .eyebrow,
+.upcoming-section .arrow-link {
+  color: #51374f;
+}
+.upcoming-section .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 16px;
+}
+.carousel-controls > span {
+  color: #6b5262;
+  font-size: 0.78rem;
+}
+.carousel-controls > div {
+  display: flex;
+  gap: 8px;
+}
+.carousel-controls button {
+  border: 1px solid #bfa3b4;
+  color: #51374f;
+  border-radius: 50%;
+  background: #fffefa;
+  width: 42px;
+  height: 42px;
+}
+.carousel-controls button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+.events-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 2px;
+  padding: 5px 2px 18px;
+  scrollbar-color: #926b84 #f0e2eb;
+}
+.event-slide {
+  flex: 0 0 min(82vw, 350px);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.event-slide .listing-card {
+  height: 100%;
+  border-color: #ddcbd5;
+}
+.event-slide .card-body {
+  padding-bottom: 4px;
+}
+.event-slide .card-type {
+  color: #51374f;
+  background: #f6ebf0;
+}
+.event-slide .event-date {
+  color: #68415f;
+}
+.upcoming-empty {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  color: #68415f;
+  border: 1px dashed #bea2b3;
+  border-radius: 12px;
+  padding: 26px;
+  background: #fffafc;
+}
+.upcoming-empty > svg {
+  flex-shrink: 0;
+}
+.upcoming-empty h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+.upcoming-empty p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+@media (max-width: 1050px) {
+  .feature-intro .feature-intro-grid {
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 30px;
+  }
+  .agenda-card {
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
+  .agenda-card .card-visual {
+    display: none;
+  }
+}
+@media (max-width: 650px) {
+  .feature-intro .feature-intro-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .feature-intro .feature-art {
+    display: none;
+  }
+  .feature-intro .feature-label {
+    font-size: 0.78rem;
+    margin-bottom: 17px;
+  }
+  .agenda-card .card-body {
+    padding: 14px;
+  }
+  .agenda-card .card-body h3 {
+    font-size: 1.02rem;
+  }
+  .agenda-date {
+    padding: 16px 4px;
+  }
+  .agenda-date strong {
+    font-size: 1.8rem;
+  }
+  .upcoming-section {
+    padding: 35px 0 25px;
+  }
+  .upcoming-section .section-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .upcoming-section .section-heading h2 {
+    font-size: 1.8rem;
+  }
+  .upcoming-section .section-heading .arrow-link {
+    margin-top: 8px;
+  }
+  .carousel-controls > span {
+    font-size: 0.7rem;
+  }
+  .upcoming-empty {
+    align-items: flex-start;
+    padding: 20px;
+    gap: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .events-track {
+    scroll-behavior: auto;
+  }
+}

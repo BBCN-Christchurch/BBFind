@@ -41,6 +41,7 @@ import {
   CheckCircle2,
   Filter,
   SlidersHorizontal,
+  CalendarDays,
 } from "lucide-react";
 import {
   accountsEnabled,
@@ -71,6 +72,7 @@ import { AuthPage, Dashboard, ResetPassword } from "./Accounts";
 import { Admin } from "./Admin";
 import { ImageGallery } from "./Images";
 import { NeighbourhoodOptions, PriorityNeighbourhoods } from "./Neighbourhood";
+import { UpcomingEvents } from "./UpcomingEvents";
 export const AppContext = createContext<{
   auth: SessionContext;
   refreshAuth: () => Promise<void>;
@@ -327,8 +329,8 @@ export default function App() {
             </NavLink>
             <NavLink to="/find">Find It</NavLink>
             <NavLink to="/events">Events</NavLink>
-            <NavLink to="/get-found">Get Found</NavLink>
             <NavLink to="/venues">Venues for Hire</NavLink>
+            <NavLink to="/get-found">Get Found</NavLink>
             <NavLink to="/about">About</NavLink>
           </nav>
           <AccountLink
@@ -534,7 +536,8 @@ const categoryTiles = [
 ];
 function Home() {
   const { listings, categories } = useApp();
-  const featured = listings.filter((l) => l.featured).slice(0, 3);
+  const regularListings = listings.filter((l) => l.type !== "event");
+  const featured = regularListings.filter((l) => l.featured).slice(0, 3);
   const homeCategories = [
     ...new Set([
       ...categoryTiles
@@ -591,6 +594,7 @@ function Home() {
           </div>
         </div>
       </section>
+      <UpcomingEvents listings={listings} />
       <section className="section categories-section">
         <div className="container">
           <div className="section-heading">
@@ -647,9 +651,11 @@ function Home() {
             </Link>
           </div>
           <div className="listing-grid">
-            {(featured.length ? featured : listings.slice(0, 3)).map((item) => (
-              <ListingCard key={item.id} item={item} />
-            ))}
+            {(featured.length ? featured : regularListings.slice(0, 3)).map(
+              (item) => (
+                <ListingCard key={item.id} item={item} />
+              ),
+            )}
           </div>
           {!listings.length && <Empty />}
         </div>
@@ -737,7 +743,15 @@ function Home() {
     </>
   );
 }
-export function ListingCard({ item }: { item: Listing }) {
+export function ListingCard({
+  item,
+  agenda = false,
+  venueDetails = false,
+}: {
+  item: Listing;
+  agenda?: boolean;
+  venueDetails?: boolean;
+}) {
   const [cover, setCover] = useState("");
   useEffect(() => {
     let live = true;
@@ -756,7 +770,18 @@ export function ListingCard({ item }: { item: Listing }) {
     };
   }, [item.id]);
   return (
-    <article className="listing-card">
+    <article className={`listing-card${agenda ? " agenda-card" : ""}`}>
+      {agenda && (
+        <div className="agenda-date" aria-hidden="true">
+          <span>
+            {new Intl.DateTimeFormat("en-NZ", {
+              month: "short",
+              timeZone: "Pacific/Auckland",
+            }).format(new Date(`${item.eventStartDate}T00:00:00Z`))}
+          </span>
+          <strong>{item.eventStartDate.slice(8)}</strong>
+        </div>
+      )}
       <Link
         to={`/listing/${item.id}`}
         className="card-visual"
@@ -801,6 +826,21 @@ export function ListingCard({ item }: { item: Listing }) {
           </Link>
         </h3>
         <p>{item.summary}</p>
+        {venueDetails && (
+          <div className="venue-facts">
+            <span>
+              <Building2 size={14} />
+              {item.roomType || "Space for hire"}
+            </span>
+            {item.kitchen && <span>Kitchen</span>}
+            {item.accessible && (
+              <span>
+                <Accessibility size={14} />
+                Accessible
+              </span>
+            )}
+          </div>
+        )}
         <div className="card-bottom">
           <span>{item.categories[0]}</span>
           {item.type === "venue" ? (
@@ -923,72 +963,122 @@ function Directory({
     );
   return (
     <>
-      <section className="page-intro">
+      <section
+        className={`page-intro feature-intro ${events ? "intro-events" : venues ? "intro-venues" : "intro-find"}`}
+      >
         <div className="container">
           <div className="breadcrumb">
             <Link to="/">Home</Link>
             <ChevronRight size={12} />
             {events ? "Events" : venues ? "Venues for hire" : "Find It"}
           </div>
-          <span className="eyebrow">
-            {events
-              ? "WHAT’S HAPPENING LOCALLY"
-              : venues
-                ? "A SPACE FOR EVERY OCCASION"
-                : "A WORLD OF LOCAL POSSIBILITIES"}
-          </span>
-          <h1>
-            {events
-              ? "Your community calendar."
-              : venues
-                ? "Bring people together."
-                : "Find your kind of community."}
-          </h1>
-          <p>
-            {events
-              ? "Discover upcoming events in calendar date order, from local gatherings to special occasions."
-              : venues
-                ? "Discover local rooms, halls and spaces for your next gathering."
-                : "People, places and possibilities. There’s something here for you."}
-          </p>
-          <form
-            className="search-box"
-            role="search"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <Search size={21} />
-            <label className="sr-only" htmlFor="directory-search">
-              Search the directory
-            </label>
-            <input
-              id="directory-search"
-              value={q}
-              placeholder={
-                events
-                  ? "Search events, names or interests…"
+          <div className="feature-intro-grid">
+            <div className="feature-intro-copy">
+              <span className="feature-label">
+                {events ? (
+                  <CalendarDays size={19} />
+                ) : venues ? (
+                  <Building2 size={19} />
+                ) : (
+                  <Users size={19} />
+                )}
+                {events ? "Events" : venues ? "Venues for Hire" : "Find It"}
+              </span>
+              <span className="eyebrow">
+                {events
+                  ? "WHAT’S HAPPENING LOCALLY"
                   : venues
-                    ? "Search venues, facilities or activities…"
-                    : "Search names, interests, activities…"
-              }
-              onChange={(e) => set("q", e.target.value)}
-            />
-            {q && (
-              <button
-                type="button"
-                className="icon-button"
-                aria-label="Clear search"
-                onClick={() => set("q", "")}
+                    ? "A SPACE FOR EVERY OCCASION"
+                    : "A WORLD OF LOCAL POSSIBILITIES"}
+              </span>
+              <h1>
+                {events
+                  ? "Your community calendar."
+                  : venues
+                    ? "Bring people together."
+                    : "Find your kind of community."}
+              </h1>
+              <p>
+                {events
+                  ? "Discover upcoming events in calendar date order, from local gatherings to special occasions."
+                  : venues
+                    ? "Discover local rooms, halls and spaces for your next gathering."
+                    : "People, places and possibilities. There’s something here for you."}
+              </p>
+              <form
+                className="search-box"
+                role="search"
+                onSubmit={(e) => e.preventDefault()}
               >
-                <X size={18} />
-              </button>
-            )}
-          </form>
+                <Search size={21} />
+                <label className="sr-only" htmlFor="directory-search">
+                  Search the directory
+                </label>
+                <input
+                  id="directory-search"
+                  value={q}
+                  placeholder={
+                    events
+                      ? "Search events, names or interests…"
+                      : venues
+                        ? "Search venues, facilities or activities…"
+                        : "Search names, interests, activities…"
+                  }
+                  onChange={(e) => set("q", e.target.value)}
+                />
+                {q && (
+                  <button
+                    type="button"
+                    className="icon-button"
+                    aria-label="Clear search"
+                    onClick={() => set("q", "")}
+                  >
+                    <X size={18} />
+                  </button>
+                )}
+              </form>
+            </div>
+            <div className="feature-art" aria-hidden="true">
+              {events ? (
+                <div className="calendar-art">
+                  <span>THE COMMUNITY CALENDAR</span>
+                  <CalendarDays size={112} strokeWidth={1} />
+                  <strong>
+                    Make a date
+                    <br />
+                    with your community.
+                  </strong>
+                </div>
+              ) : venues ? (
+                <>
+                  <Illustration kind="hall" />
+                  <span className="feature-art-note">
+                    ROOMS · HALLS · MEETING SPACES
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Illustration kind="garden" />
+                  <span className="feature-art-note">
+                    PEOPLE · ACTIVITIES · SERVICES
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </section>
-      <section className="container directory-layout">
+      <section
+        className={`container directory-layout ${events ? "directory-events" : venues ? "directory-venues" : "directory-find"}`}
+      >
         <aside className="filters">
           <h2>
-            <SlidersHorizontal size={18} /> Find a good fit
+            <SlidersHorizontal size={18} />{" "}
+            {events
+              ? "Plan your visit"
+              : venues
+                ? "Find your space"
+                : "Find a good fit"}
           </h2>
           <label>
             Category
@@ -1141,8 +1231,18 @@ function Directory({
           <div className="results-toolbar">
             <span>
               <strong>{filtered.length}</strong>{" "}
-              {filtered.length === 1 ? "possibility" : "possibilities"} to
-              explore
+              {events
+                ? filtered.length === 1
+                  ? "event"
+                  : "events"
+                : venues
+                  ? filtered.length === 1
+                    ? "venue"
+                    : "venues"
+                  : filtered.length === 1
+                    ? "possibility"
+                    : "possibilities"}{" "}
+              to explore
             </span>
             {events ? (
               <span className="help">Event date · earliest first</span>
@@ -1160,11 +1260,38 @@ function Directory({
               </label>
             )}
           </div>
-          <div className="listing-grid two">
-            {filtered.map((item) => (
-              <ListingCard item={item} key={item.id} />
-            ))}
-          </div>
+          {events ? (
+            <div className="event-agenda">
+              {filtered.map((item, index) => {
+                const month = item.eventStartDate.slice(0, 7);
+                const firstOfMonth =
+                  index === 0 ||
+                  filtered[index - 1].eventStartDate.slice(0, 7) !== month;
+                return (
+                  <div key={item.id}>
+                    {firstOfMonth && (
+                      <h2 className="agenda-month">
+                        {new Intl.DateTimeFormat("en-NZ", {
+                          month: "long",
+                          year: "numeric",
+                          timeZone: "Pacific/Auckland",
+                        }).format(new Date(`${item.eventStartDate}T00:00:00Z`))}
+                      </h2>
+                    )}
+                    <ListingCard item={item} agenda />
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div
+              className={`listing-grid two${venues ? " venue-results" : ""}`}
+            >
+              {filtered.map((item) => (
+                <ListingCard item={item} key={item.id} venueDetails={venues} />
+              ))}
+            </div>
+          )}
           {!filtered.length && <Empty />}
         </div>
       </section>

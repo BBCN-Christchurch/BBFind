@@ -3,6 +3,7 @@
 import { test, expect, type Page, type Route } from "@playwright/test";
 import { emptyListing } from "../src/domain";
 import { Image } from "imagescript";
+import AxeBuilder from "@axe-core/playwright";
 const owner = "00000000-0000-4000-8000-000000000001",
   org = "00000000-0000-4000-8000-000000000011",
   id = "00000000-0000-4000-8000-000000000021";
@@ -587,4 +588,84 @@ test("admin can add and rename categories with immediate directory filter refres
       .filter((r) => r.name === "manage_taxonomy")
       .map((r) => r.body.record_name),
   ).toEqual(["Learning together", "Community celebrations"]);
+});
+
+test("home event carousel highlights approved upcoming events in date order with keyboard controls", async ({
+  page,
+}) => {
+  await page.clock.setFixedTime(new Date("2028-02-28T23:30:00Z"));
+  const publicRows = Array.from({ length: 7 }, (_, index) => ({
+    id: `event-${index}`,
+    featured: index === 6,
+    verified: false,
+    data: {
+      ...content,
+      name: `Upcoming gathering ${index + 1}`,
+      type: "event",
+      eventStartDate: `2028-03-${String(index + 1).padStart(2, "0")}`,
+      eventEndDate: "",
+    },
+  })).reverse();
+  publicRows.push({
+    id: "past",
+    featured: true,
+    verified: false,
+    data: {
+      ...content,
+      name: "Past gathering",
+      type: "event",
+      eventStartDate: "2028-02-28",
+      eventEndDate: "",
+    },
+  });
+  await fixture(page, { publicOnly: true, publicRows });
+  await page.goto("http://127.0.0.1:5184/");
+  const carousel = page.getByRole("region", {
+    name: "Upcoming community events",
+    exact: true,
+  });
+  await expect(carousel.locator("h3")).toHaveText(
+    Array.from({ length: 6 }, (_, index) => `Upcoming gathering ${index + 1}`),
+  );
+  await expect(
+    page.getByRole("heading", { name: "Past gathering", exact: true }),
+  ).toHaveCount(0);
+  const track = carousel.locator(".events-track");
+  await expect(
+    carousel.getByRole("button", { name: "Previous events" }),
+  ).toBeDisabled();
+  await carousel
+    .getByRole("button", { name: "Next events", exact: true })
+    .click();
+  await expect
+    .poll(() => track.evaluate((element) => element.scrollLeft))
+    .toBeGreaterThan(100);
+  await track.focus();
+  const before = await track.evaluate((element) => element.scrollLeft);
+  await page.keyboard.press("ArrowRight");
+  await expect
+    .poll(() => track.evaluate((element) => element.scrollLeft))
+    .toBeGreaterThan(before + 100);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  const report = await new AxeBuilder({ page })
+    .include(".upcoming-section")
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(
+    report.violations.map((v) => ({
+      id: v.id,
+      targets: v.nodes.map((n) => n.target),
+    })),
+  ).toEqual([]);
+  await carousel
+    .getByRole("link", { name: "Upcoming gathering 1", exact: true })
+    .focus();
+  await page.keyboard.press("Enter");
+  await expect(
+    page.getByRole("heading", { name: "Upcoming gathering 1", exact: true }),
+  ).toBeVisible();
 });
